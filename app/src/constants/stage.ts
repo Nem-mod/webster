@@ -1,0 +1,5 @@
+const SCENE_HEIGHT = 100;
+const SCENE_WIDTH = 100;
+
+export { SCENE_HEIGHT, SCENE_WIDTH };
+
