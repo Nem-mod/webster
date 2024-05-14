@@ -72,20 +72,20 @@ function App() {
 
 			const oldScale = stage.scaleX();
 			const mousePointTo = {
-				x: stage.getPointerPosition()?.x || 0 / oldScale - stage.x() / oldScale,
-				y: stage.getPointerPosition()?.y || 0 / oldScale - stage.y() / oldScale,
+				x: stage.getPointerPosition()?.x / oldScale - stage.x() / oldScale,
+				y: stage.getPointerPosition()?.y / oldScale - stage.y() / oldScale,
 			};
-
+			console.log('(stage.getPointerPosition()', stage.getPointerPosition());
 			const newScale =
-				e.evt.deltaY > 0 ? oldScale * scaleBy : oldScale / scaleBy;
+				e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
 			setStageScale(() => {
 				return {
 					scale: newScale,
 					stageX:
-						-(mousePointTo.x - stage.getPointerPosition().x / newScale) *
+						(stage.getPointerPosition().x / newScale - mousePointTo.x) *
 						newScale,
 					stageY:
-						-(mousePointTo.y - stage.getPointerPosition()?.y / newScale) *
+						(stage.getPointerPosition().y / newScale - mousePointTo.y) *
 						newScale,
 				};
 			});
@@ -100,6 +100,8 @@ function App() {
 					onWheel={handleWheel}
 					scaleX={stageScale.scale}
 					scaleY={stageScale.scale}
+					x={stageScale.stageX}
+					y={stageScale.stageY}
 					width={dimensions.width}
 					height={dimensions.height}
 					draggable
