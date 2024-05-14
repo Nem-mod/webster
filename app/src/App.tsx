@@ -90,6 +90,26 @@ function App() {
 				};
 			});
 			return;
+		} else if (e.evt.shiftKey) {
+			const scrollDist = 20;
+			setStageScale({
+				...stageScale,
+				stageX:
+					e.evt.deltaY > 0
+						? stageScale.stageX - scrollDist
+						: stageScale.stageX + scrollDist,
+			});
+			return;
+		} else {
+			const scrollDist = 20;
+			setStageScale({
+				...stageScale,
+				stageY:
+					e.evt.deltaY > 0
+						? stageScale.stageY - scrollDist
+						: stageScale.stageY + scrollDist,
+			});
+			return;
 		}
 	};
 	console.log('stageScale', stageScale);
