@@ -25,6 +25,7 @@ function App() {
 		stageX: 0,
 		stageY: 0,
 	});
+	const [stageDrag, setStageDrag] = useState(false);
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
 	// find the parent container's w and h and then manually set those !
@@ -37,7 +38,10 @@ function App() {
 		}
 	}, []);
 
-	const handleDragStart = (e) => {
+	// TODO: Find the right type
+	const handleDragStart = (e: Konva.KonvaEventObject<DragEvent>) => {
+		// setStageDrag(false);
+		e.evt.stopPropagination();
 		const id = e.target.id();
 		setStars(
 			stars.map((star) => {
@@ -113,7 +117,17 @@ function App() {
 		}
 	};
 
-	const handleDragMove = (e: Konva.KonvaEventObject<DragEvent>) => {
+	const handleStageDragStart = (e: Konva.KonvaEventObject<DragEvent>) => {
+		setStageDrag(true);
+	};
+
+	const handleStageDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
+		setStageDrag(false);
+	};
+
+	const handleStageDragMove = (e: Konva.KonvaEventObject<DragEvent>) => {
+		if (!stageDrag) return;
+
 		const stage = e.target.getStage();
 
 		setStageScale({
@@ -135,8 +149,9 @@ function App() {
 					width={dimensions.width}
 					height={dimensions.height}
 					draggable
-					// onDragEnd={handleDragStage}
-					onDragMove={handleDragMove}
+					onDragStart={handleStageDragStart}
+					onDragMove={handleStageDragMove}
+					onDragEnd={handleStageDragEnd}
 				>
 					<Layer>
 						<Text text='Try to drag a star' />
