@@ -112,6 +112,16 @@ function App() {
 			return;
 		}
 	};
+
+	const handleDragMove = (e: Konva.KonvaEventObject<DragEvent>) => {
+		const stage = e.target.getStage();
+
+		setStageScale({
+			...stageScale,
+			stageX: stage?.x() + e.evt.movementX,
+			stageY: stage?.y() + e.evt.movementY,
+		});
+	};
 	console.log('stageScale', stageScale);
 	return (
 		<div className={'border-1 border-blue-500'}>
@@ -125,6 +135,8 @@ function App() {
 					width={dimensions.width}
 					height={dimensions.height}
 					draggable
+					// onDragEnd={handleDragStage}
+					onDragMove={handleDragMove}
 				>
 					<Layer>
 						<Text text='Try to drag a star' />
