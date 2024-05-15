@@ -41,7 +41,6 @@ function App() {
 			});
 		}
 
-		// @ts-expect-error Expected 1 arguments, but got 0.ts(2554)
 		dispatch(fetchCanvasById(0));
 	}, []);
 
