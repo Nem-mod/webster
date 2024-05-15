@@ -1,6 +1,8 @@
 import Konva from 'konva';
 import { useEffect, useRef, useState } from 'react';
 import { Layer, Stage, Star, Text } from 'react-konva';
+import { useAppDispatch } from './hooks/redux';
+import { fetchCanvasById } from './redux/slices/canvasSlice/canvas-slice.service';
 function generateShapes() {
 	return [...Array(10)].map((_, i) => ({
 		id: i.toString(),
@@ -14,6 +16,8 @@ function generateShapes() {
 const INITIAL_STATE = generateShapes();
 
 function App() {
+	const dispatch = useAppDispatch();
+
 	const [stars, setStars] = useState(INITIAL_STATE);
 	const divRef = useRef<HTMLInputElement>(null);
 	const [dimensions, setDimensions] = useState({
@@ -36,6 +40,9 @@ function App() {
 				height: divRef.current.offsetHeight,
 			});
 		}
+
+		// @ts-expect-error Expected 1 arguments, but got 0.ts(2554)
+		dispatch(fetchCanvasById(0));
 	}, []);
 
 	// TODO: Find the right type
@@ -93,20 +100,14 @@ function App() {
 			const scrollDist = 20;
 			setStageScale({
 				...stageScale,
-				stageX:
-					e.evt.deltaY > 0
-						? stageScale.stageX - scrollDist
-						: stageScale.stageX + scrollDist,
+				stageX: e.evt.deltaY > 0 ? stageScale.stageX - scrollDist : stageScale.stageX + scrollDist,
 			});
 			return;
 		} else {
 			const scrollDist = 20;
 			setStageScale({
 				...stageScale,
-				stageY:
-					e.evt.deltaY > 0
-						? stageScale.stageY - scrollDist
-						: stageScale.stageY + scrollDist,
+				stageY: e.evt.deltaY > 0 ? stageScale.stageY - scrollDist : stageScale.stageY + scrollDist,
 			});
 			return;
 		}

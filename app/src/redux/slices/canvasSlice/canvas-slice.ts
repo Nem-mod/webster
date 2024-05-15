@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { EStateStatus } from '../../../constants/stateStatus.enum';
-import { ICanvasData } from './canvas.types';
-import { fetchCanvasById } from './thunks';
+import { fetchCanvasById } from './canvas-slice.service';
+import { ICanvasData } from './canvas-slice.types';
 
 export interface ICanvasState {
 	status: EStateStatus;
@@ -19,7 +19,7 @@ const canvasSlice = createSlice({
 	initialState,
 	name: 'canvas',
 	reducers: {
-		createElement() {},
+		addElement(state, action) {},
 		updateElement() {},
 		deleteElement() {},
 	},
@@ -33,4 +33,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasReducer = canvasSlice.reducer;
-export const { createElement, updateElement, deleteElement } = canvasSlice.actions;
+export const { addElement, updateElement, deleteElement } = canvasSlice.actions;

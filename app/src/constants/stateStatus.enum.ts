@@ -1,5 +1,5 @@
 export enum EStateStatus {
-	LOADING = 'loading',
+	PENDING = 'pending',
 	LOADED = 'loaded',
 	REJECTED = 'rejected',
 }
