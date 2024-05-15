@@ -76,17 +76,12 @@ function App() {
 				y: stage.getPointerPosition()?.y / oldScale - stage.y() / oldScale,
 			};
 			console.log('(stage.getPointerPosition()', stage.getPointerPosition());
-			const newScale =
-				e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+			const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
 			setStageScale(() => {
 				return {
 					scale: newScale,
-					stageX:
-						(stage.getPointerPosition().x / newScale - mousePointTo.x) *
-						newScale,
-					stageY:
-						(stage.getPointerPosition().y / newScale - mousePointTo.y) *
-						newScale,
+					stageX: (stage.getPointerPosition().x / newScale - mousePointTo.x) * newScale,
+					stageY: (stage.getPointerPosition().y / newScale - mousePointTo.y) * newScale,
 				};
 			});
 			return;
