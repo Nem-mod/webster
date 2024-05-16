@@ -1,19 +1,25 @@
 import Konva from 'konva';
-import { useRef, useState } from 'react';
-import { Arc, Arrow, Circle, Ellipse, Image, Layer, Line, Rect, Stage, Star, Text } from 'react-konva';
-import { ICanvasData } from '../../redux/slices/canvasSlice/canvas-slice.types';
+import { useEffect, useRef, useState } from 'react';
+import { Arc, Arrow, Circle, Ellipse, Image, Layer, Line, Rect, Ring, Stage, Star, Text } from 'react-konva';
+// import { ICanvasData } from '../../redux/slices/canvasSlice/canvas-slice.types';
+import { ICanvasState } from '../../redux/slices/canvasSlice/canvas-slice';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 
 interface Props {
-	canvas: ICanvasData;
+	canvasState: ICanvasState;
 	dimensions: {
 		width: number;
 		height: number;
 	};
 }
 
-export const CanvasStage = ({ canvas, dimensions }: Props) => {
-	const [shapes, setShapes] = useState(canvas.elements);
+export const CanvasStage = ({ canvasState, dimensions }: Props) => {
+	const canvas = canvasState.data;
+	console.log('CanvasStage canvas', canvas);
+	const [shapes, setShapes] = useState(canvas?.elements);
+	useEffect(() => {
+		setShapes(canvas?.elements);
+	}, [canvas]);
 	const divRef = useRef<HTMLInputElement>(null);
 	const [stageScale, setStageScale] = useState({
 		scale: 1,
@@ -126,6 +132,7 @@ export const CanvasStage = ({ canvas, dimensions }: Props) => {
 				onDragEnd={handleStageDragEnd}
 			>
 				<Layer>
+					{/* <Arc/> */}
 					{/* TODO: REFACTOR */}
 					{shapes?.map((shape, index) => {
 						console.log('shape', shape);

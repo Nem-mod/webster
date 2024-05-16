@@ -18,14 +18,76 @@ abstract class CanvasElementFactory {
 }
 
 CanvasElementFactory.register(CanvasElementType.IMAGE, () => ({ type: CanvasElementType.IMAGE }));
-CanvasElementFactory.register(CanvasElementType.TEXT, () => ({ type: CanvasElementType.TEXT }));
-CanvasElementFactory.register(CanvasElementType.CIRCLE, () => ({ type: CanvasElementType.CIRCLE }));
-CanvasElementFactory.register(CanvasElementType.RECT, () => ({ type: CanvasElementType.RECT }));
-CanvasElementFactory.register(CanvasElementType.ELLIPSE, () => ({ type: CanvasElementType.ELLIPSE }));
-CanvasElementFactory.register(CanvasElementType.STAR, () => ({ type: CanvasElementType.STAR }));
-CanvasElementFactory.register(CanvasElementType.RING, () => ({ type: CanvasElementType.RING }));
-CanvasElementFactory.register(CanvasElementType.LINE, () => ({ type: CanvasElementType.LINE }));
-CanvasElementFactory.register(CanvasElementType.ARROW, () => ({ type: CanvasElementType.ARROW }));
-CanvasElementFactory.register(CanvasElementType.ARC, () => ({ type: CanvasElementType.ARC }));
+CanvasElementFactory.register(CanvasElementType.TEXT, () => ({
+	type: CanvasElementType.TEXT,
+	text: 'Hello, world!',
+	fill: 'white',
+	x: 300,
+	y: 400,
+	width: 600,
+	height: 100,
+}));
+CanvasElementFactory.register(CanvasElementType.CIRCLE, () => ({
+	type: CanvasElementType.CIRCLE,
+	x: 100,
+	y: 100,
+	radius: 100,
+	fill: 'white',
+}));
+CanvasElementFactory.register(CanvasElementType.RECT, () => ({
+	type: CanvasElementType.RECT,
+	x: 100,
+	y: 100,
+	width: 100,
+	height: 100,
+	fill: 'white',
+}));
+CanvasElementFactory.register(CanvasElementType.ELLIPSE, () => ({
+	type: CanvasElementType.ELLIPSE,
+	x: 100,
+	y: 100,
+	fill: 'white',
+	radiusX: 50,
+	radiusY: 50,
+}));
+CanvasElementFactory.register(CanvasElementType.STAR, () => ({
+	type: CanvasElementType.STAR,
+	x: 100,
+	y: 100,
+	numPoints: 5,
+	innerRadius: 20,
+	outerRadius: 50,
+	fill: 'white',
+}));
+CanvasElementFactory.register(CanvasElementType.RING, () => ({
+	type: CanvasElementType.RING,
+	x: 100,
+	y: 100,
+	innerRadius: 40,
+	outerRadius: 50,
+	fill: 'white',
+}));
+CanvasElementFactory.register(CanvasElementType.LINE, () => ({
+	type: CanvasElementType.LINE,
+	x: 100,
+	y: 100,
+	fill: 'white',
+}));
+CanvasElementFactory.register(CanvasElementType.ARROW, () => ({
+	type: CanvasElementType.ARROW,
+	x: 100,
+	y: 100,
+	fill: 'white',
+	points: [100, 100, 200, 200],
+}));
+CanvasElementFactory.register(CanvasElementType.ARC, () => ({
+	type: CanvasElementType.ARC,
+	x: 100,
+	y: 100,
+	innerRadius: 50,
+	outerRadius: 50,
+	angle: 30,
+	fill: 'white',
+}));
 
 export default CanvasElementFactory;

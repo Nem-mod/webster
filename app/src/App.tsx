@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import CanvasMenu from './components/canvas-actions/CanvasMenu/CanvasMenu';
+import { CanvasStage } from './components/CanvasStage/CanvasStage';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { fetchCanvasById } from './redux/slices/canvasSlice/canvas-slice.service';
 import { RootState } from './redux/store';
-import { CanvasStage } from './components/CanvasStage/CanvasStage';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -27,12 +27,17 @@ function App() {
 		dispatch(fetchCanvasById(0));
 	}, []);
 
-	const canvas = useAppSelector((state: RootState) => state.canvas.data);
+	const canvas = useAppSelector((state: RootState) => state.canvas);
+
+	console.log('canvas', canvas);
+	// useEffect(() => {
+	// 	// dispatch(fetchCanvasById(0));
+	// }, [canvas]);
 
 	return (
 		<div className={'flex border-1 border-blue-500'}>
 			<div className={'w-3/4 h-screen border-1 bg-black'} ref={divRef}>
-				{canvas && <CanvasStage canvas={canvas} dimensions={dimensions} />}
+				{canvas.data && <CanvasStage canvasState={canvas} dimensions={dimensions} />}
 			</div>
 			<div className={'pl-20'}>
 				<CanvasMenu />
