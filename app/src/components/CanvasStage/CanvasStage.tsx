@@ -13,7 +13,6 @@ interface Props {
 }
 
 export const CanvasStage = ({ canvas, dimensions }: Props) => {
-	console.log(canvas);
 	const [shapes, setShapes] = useState(canvas.elements);
 	const divRef = useRef<HTMLInputElement>(null);
 	const [stageScale, setStageScale] = useState({
@@ -127,7 +126,7 @@ export const CanvasStage = ({ canvas, dimensions }: Props) => {
 				onDragEnd={handleStageDragEnd}
 			>
 				<Layer>
-					// TODO: REFACTOR
+					{/* TODO: REFACTOR */}
 					{shapes?.map((shape, index) => {
 						console.log('shape', shape);
 						shape = { ...shape, onDragStart: handleDragStart, onDragEnd: handleDragEnd, draggable: true };

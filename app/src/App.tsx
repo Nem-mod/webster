@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import CanvasMenu from './components/canvas-actions/CanvasMenu/CanvasMenu';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
-import { CanvasStage } from './components/CanvasStage/CanvasStage';
 import { fetchCanvasById } from './redux/slices/canvasSlice/canvas-slice.service';
 import { RootState } from './redux/store';
-import CanvasMenu from './components/canvas-actions/CanvasMenu/CanvasMenu';
-
+import { CanvasStage } from './components/CanvasStage/CanvasStage';
 
 function App() {
 	const dispatch = useAppDispatch();

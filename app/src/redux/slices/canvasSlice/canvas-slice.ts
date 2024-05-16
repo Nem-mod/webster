@@ -12,11 +12,7 @@ export interface ICanvasState {
 
 const initialState: ICanvasState = {
 	status: EStateStatus.PENDING,
-	data: {
-		id: 0,
-		title: 'aaa',
-		elements: [],
-	},
+	data: null,
 	error: null,
 };
 
@@ -32,6 +28,10 @@ const canvasSlice = createSlice({
 	},
 	extraReducers(builder) {
 		builder.addCase(fetchCanvasById.fulfilled, (state, action) => {
+			if (!action.payload) {
+				return;
+			}
+			//@ts-expect-error
 			state.data = action.payload;
 			state.status = EStateStatus.LOADED;
 			state.error = null;
