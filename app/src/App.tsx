@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import CanvasMenu from './components/canvas-actions/CanvasMenu/CanvasMenu';
+import CanvasMenu from './components/CanvasMenuGroup/CanvasMenu/CanvasMenu';
 import { CanvasStage } from './components/CanvasStage/CanvasStage';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { fetchCanvasById } from './redux/slices/canvasSlice/canvas-slice.service';
@@ -29,7 +29,6 @@ function App() {
 
 	const canvas = useAppSelector((state: RootState) => state.canvas);
 
-	console.log('canvas', canvas);
 	// useEffect(() => {
 	// 	// dispatch(fetchCanvasById(0));
 	// }, [canvas]);

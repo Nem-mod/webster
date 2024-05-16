@@ -6,3 +6,8 @@ export interface ICanvasData {
 	// stageSettings: {};
 	elements: ICanvasElement[];
 }
+
+export interface IUpdateElement {
+	index: number;
+	element: Partial<ICanvasElement>;
+}

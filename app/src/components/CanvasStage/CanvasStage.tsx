@@ -1,9 +1,10 @@
 import Konva from 'konva';
 import { useEffect, useRef, useState } from 'react';
-import { Arc, Arrow, Circle, Ellipse, Image, Layer, Line, Rect, Ring, Stage, Star, Text } from 'react-konva';
-// import { ICanvasData } from '../../redux/slices/canvasSlice/canvas-slice.types';
-import { ICanvasState } from '../../redux/slices/canvasSlice/canvas-slice';
-import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
+import { Layer, Stage } from 'react-konva';
+import { useAppDispatch } from '../../hooks/redux';
+import { ICanvasState, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import { ICanvasElement } from '../../services/canvas/canvas.types';
+import CanvasElement from './CanvasElement';
 
 interface Props {
 	canvasState: ICanvasState;
@@ -15,11 +16,22 @@ interface Props {
 
 export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	const canvas = canvasState.data;
-	console.log('CanvasStage canvas', canvas);
+	const dispatch = useAppDispatch();
 	const [shapes, setShapes] = useState(canvas?.elements);
+	const [selectedId, selectShape] = useState<string | null>(null);
+
+	const checkDeselect = (e) => {
+		// deselect when clicked on empty area
+		const clickedOnEmpty = e.target === e.target.getStage();
+		if (clickedOnEmpty) {
+			selectShape(null);
+		}
+	};
+
 	useEffect(() => {
 		setShapes(canvas?.elements);
 	}, [canvas]);
+
 	const divRef = useRef<HTMLInputElement>(null);
 	const [stageScale, setStageScale] = useState({
 		scale: 1,
@@ -31,7 +43,8 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	// TODO: Find the right type
 	const handleDragStart = (e: Konva.KonvaEventObject<DragEvent>) => {
 		// setStageDrag(false);
-		e.evt.stopPropagination();
+		//@ts-expect-error
+		e.target.stopPropagination();
 		const id = e.target.id();
 		setShapes(
 			shapes.map((shape) => {
@@ -42,6 +55,7 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 			})
 		);
 	};
+
 	const handleDragEnd = (e) => {
 		setShapes(
 			shapes.map((shape) => {
@@ -116,6 +130,15 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 		});
 	};
 
+	const handleChangeElement = (index: number, element: Partial<ICanvasElement>) => {
+		dispatch(
+			updateElement({
+				index,
+				element,
+			})
+		);
+	};
+
 	return (
 		<div ref={divRef}>
 			<Stage
@@ -130,59 +153,33 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 				onDragStart={handleStageDragStart}
 				onDragMove={handleStageDragMove}
 				onDragEnd={handleStageDragEnd}
+				onMouseDown={checkDeselect}
+				onTouchStart={checkDeselect}
 			>
 				<Layer>
 					{/* <Arc/> */}
 					{/* TODO: REFACTOR */}
 					{shapes?.map((shape, index) => {
-						console.log('shape', shape);
-						shape = { ...shape, onDragStart: handleDragStart, onDragEnd: handleDragEnd, draggable: true };
-						// return (
-						// 	<Star
-						// 	key={shape.id}
-						// 	id={shape.id}
-						// 	x={shape.x}
-						// 	y={shape.y}
-						// 	numPoints={5}
-						// 	innerRadius={20}
-						// 	outerRadius={40}
-						// 	fill='#89b717'
-						// 	opacity={0.8}
-						// 	draggable
-						// 	rotation={shape.rotation}
-						// 	shadowColor='black'
-						// 	shadowBlur={10}
-						// 	shadowOpacity={0.6}
-						// 	shadowOffsetX={shape.isDragging ? 10 : 5}
-						// 	shadowOffsetY={shape.isDragging ? 10 : 5}
-						// 	scaleX={shape.isDragging ? 1.2 : 1}
-						// 	scaleY={shape.isDragging ? 1.2 : 1}
-						// 	onDragStart={handleDragStart}
-						// 	onDragEnd={handleDragEnd}
-						// />
-						// )
-						switch (shape.type) {
-							case CanvasElementType.ARC:
-								return <Arc {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.ARROW:
-								return <Arrow {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.CIRCLE:
-								return <Circle {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.ELLIPSE:
-								return <Ellipse {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.IMAGE:
-								return <Image {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.LINE:
-								return <Line {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.RECT:
-								return <Rect {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.RING:
-								return <Ring {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.STAR:
-								return <Star {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-							case CanvasElementType.TEXT:
-								return <Text {...{ ...shape, id: `${shape.type}-${index}` }} key={index} />;
-						}
+						shape = {
+							...shape,
+							id: `${shape.type}-${index}`,
+							onDragStart: handleDragStart,
+							onDragEnd: handleDragEnd,
+							draggable: true,
+						};
+
+						return (
+							<CanvasElement
+								key={index}
+								shape={shape}
+								index={index}
+								isSelected={shape.id === selectedId}
+								onSelect={() => {
+									if (shape.id) selectShape(shape?.id);
+								}}
+								onChange={handleChangeElement}
+							/>
+						);
 					})}
 				</Layer>
 			</Stage>
