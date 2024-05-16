@@ -6,7 +6,7 @@ abstract class CanvasElementFactory {
 		this.creators[type] = creator;
 	}
 
-	static createElement(type: CanvasElementType): (...args: unknown[]) => ICanvasElement {
+	static getCreator(type: CanvasElementType): (...args: unknown[]) => ICanvasElement {
 		const creator = this.creators[type];
 		if (!creator) {
 			throw new Error(`Unknown element type: ${type}`);

@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EStateStatus } from '../../../constants/stateStatus.enum';
+import { ICanvasElement } from '../../../services/canvas/canvas.types';
 import { fetchCanvasById } from './canvas-slice.service';
 import { ICanvasData } from './canvas-slice.types';
 
@@ -10,8 +11,12 @@ export interface ICanvasState {
 }
 
 const initialState: ICanvasState = {
-	status: EStateStatus.LOADING,
-	data: null,
+	status: EStateStatus.PENDING,
+	data: {
+		id: 0,
+		title: 'aaa',
+		elements: [],
+	},
 	error: null,
 };
 
@@ -19,7 +24,9 @@ const canvasSlice = createSlice({
 	initialState,
 	name: 'canvas',
 	reducers: {
-		addElement(state, action) {},
+		addElement(state, { payload: element }: PayloadAction<ICanvasElement>) {
+			state.data?.elements.push(element);
+		},
 		updateElement() {},
 		deleteElement() {},
 	},

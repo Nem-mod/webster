@@ -1,6 +1,7 @@
 import Konva from 'konva';
 import { useEffect, useRef, useState } from 'react';
 import { Layer, Stage, Star, Text } from 'react-konva';
+import CanvasMenu from './components/canvas-actions/CanvasMenu/CanvasMenu';
 import { useAppDispatch } from './hooks/redux';
 import { fetchCanvasById } from './redux/slices/canvasSlice/canvas-slice.service';
 function generateShapes() {
@@ -133,7 +134,7 @@ function App() {
 	};
 	console.log('stageScale', stageScale);
 	return (
-		<div className={'border-1 border-blue-500'}>
+		<div className={'flex border-1 border-blue-500'}>
 			<div className={'w-3/4 h-screen border-1 bg-black'} ref={divRef}>
 				<Stage
 					onWheel={handleWheel}
@@ -176,6 +177,9 @@ function App() {
 						))}
 					</Layer>
 				</Stage>
+			</div>
+			<div className={'pl-20'}>
+				<CanvasMenu />
 			</div>
 		</div>
 	);
