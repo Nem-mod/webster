@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { Arc, Arrow, Circle, Ellipse, Image, Line, Rect, Ring, Star, Text, Transformer } from 'react-konva';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
-// import { ICanvasData } from '../../redux/slices/canvasSlice/canvas-slice.types';
+
 interface IProps {
 	shape: ICanvasElement;
 	index: number;
@@ -11,6 +11,14 @@ interface IProps {
 	onSelect: () => void;
 	onChange: (index: number, element: Partial<ICanvasElement>) => void;
 }
+
+const transformerStyles = {
+	anchorStroke: 'blue',
+	anchorFill: 'white',
+	anchorSize: 8,
+	borderStroke: 'blue',
+	borderDash: [3, 3],
+};
 
 export default function CanvasElement({ shape, index, isSelected, onSelect, onChange }: IProps) {
 	const shapeRef = useRef<any>(null);
@@ -24,23 +32,27 @@ export default function CanvasElement({ shape, index, isSelected, onSelect, onCh
 	}, [isSelected]);
 
 	const handleTransform = () => {
-		const node = shapeRef.current;
+		const node: Konva.Node = shapeRef.current;
+		console.log('	', shape);
 		if (!node) return;
-		console.log('node', node);
 		const scaleX = node.scaleX();
 		const scaleY = node.scaleY();
 
-		// we will reset it back
 		node.scaleX(1);
 		node.scaleY(1);
-
-		onChange(index, {
+		console.log('node', node);
+		const element = {
+			...node.attrs,
 			x: node.x(),
 			y: node.y(),
-			// set minimal value
+			radius: node.attrs.radius,
+
 			width: Math.max(5, node.width() * scaleX),
 			height: Math.max(node.height() * scaleY),
-		});
+		};
+
+		onChange(index, element);
+		node.width(Math.max(5, node.width() * scaleX));
 	};
 
 	const handleDrag = (e: Konva.KonvaEventObject<DragEvent>) => {
@@ -55,8 +67,8 @@ export default function CanvasElement({ shape, index, isSelected, onSelect, onCh
 		ref: shapeRef,
 		onClick: onSelect,
 		onTap: onSelect,
-		onTransform: handleTransform,
-		onDragMove: handleDrag,
+		onTransformEnd: handleTransform,
+		onDragEnd: handleDrag,
 	};
 	return (
 		<>
@@ -88,6 +100,7 @@ export default function CanvasElement({ shape, index, isSelected, onSelect, onCh
 				<Transformer
 					ref={trRef}
 					flipEnabled={false}
+					className={'bg-red-800'}
 					boundBoxFunc={(oldBox, newBox) => {
 						// limit resize
 						if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
@@ -95,6 +108,7 @@ export default function CanvasElement({ shape, index, isSelected, onSelect, onCh
 						}
 						return newBox;
 					}}
+					{...transformerStyles}
 				/>
 			)}
 		</>

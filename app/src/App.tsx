@@ -7,11 +7,11 @@ import { RootState } from './redux/store';
 
 function App() {
 	const dispatch = useAppDispatch();
-
+	
 	const divRef = useRef<HTMLInputElement>(null);
 	const [dimensions, setDimensions] = useState({
-		width: 0,
-		height: 0,
+		width: 1000,
+		height: 1000,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to

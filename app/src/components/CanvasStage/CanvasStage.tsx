@@ -14,6 +14,29 @@ interface Props {
 	};
 }
 
+/**
+ * 	const handleStageDragStart = (e: Konva.KonvaEventObject<DragEvent>) => {
+		setStageDrag(true);
+	};
+
+	const handleStageDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
+		setStageDrag(false);
+	};
+
+	const handleStageDragMove = (e: Konva.KonvaEventObject<DragEvent>) => {
+		if (!stageDrag) return;
+
+		const stage = e.target.getStage();
+
+		setStageScale({
+			...stageScale,
+			stageX: stage?.x() + e.evt.movementX,
+			stageY: stage?.y() + e.evt.movementY,
+		});
+	};
+
+ */
+
 export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	const canvas = canvasState.data;
 	const dispatch = useAppDispatch();
@@ -38,13 +61,10 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 		stageX: 0,
 		stageY: 0,
 	});
-	const [stageDrag, setStageDrag] = useState(false);
 
-	// TODO: Find the right type
 	const handleDragStart = (e: Konva.KonvaEventObject<DragEvent>) => {
 		// setStageDrag(false);
-		//@ts-expect-error
-		e.target.stopPropagination();
+		if (!shapes) return;
 		const id = e.target.id();
 		setShapes(
 			shapes.map((shape) => {
@@ -56,7 +76,8 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 		);
 	};
 
-	const handleDragEnd = (e) => {
+	const handleDragEnd = () => {
+		if (!shapes) return;
 		setShapes(
 			shapes.map((shape) => {
 				return {
@@ -74,22 +95,26 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 
 		if (e.evt.ctrlKey) {
 			const scaleBy = 1.1;
-			const stage = e.target.getStage();
+			const stage: Konva.Stage | null = e.target.getStage();
 
 			if (!stage) return;
 
+			const pointerPosition = stage.getPointerPosition();
+
+			if (!pointerPosition) return;
+
 			const oldScale = stage.scaleX();
 			const mousePointTo = {
-				x: stage.getPointerPosition()?.x / oldScale - stage.x() / oldScale,
-				y: stage.getPointerPosition()?.y / oldScale - stage.y() / oldScale,
+				x: pointerPosition?.x / oldScale - stage.x() / oldScale,
+				y: pointerPosition?.y / oldScale - stage.y() / oldScale,
 			};
-			console.log('(stage.getPointerPosition()', stage.getPointerPosition());
+
 			const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
 			setStageScale(() => {
 				return {
 					scale: newScale,
-					stageX: (stage.getPointerPosition().x / newScale - mousePointTo.x) * newScale,
-					stageY: (stage.getPointerPosition().y / newScale - mousePointTo.y) * newScale,
+					stageX: (pointerPosition.x / newScale - mousePointTo.x) * newScale,
+					stageY: (pointerPosition.y / newScale - mousePointTo.y) * newScale,
 				};
 			});
 			return;
@@ -108,26 +133,6 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 			});
 			return;
 		}
-	};
-
-	const handleStageDragStart = (e: Konva.KonvaEventObject<DragEvent>) => {
-		setStageDrag(true);
-	};
-
-	const handleStageDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
-		setStageDrag(false);
-	};
-
-	const handleStageDragMove = (e: Konva.KonvaEventObject<DragEvent>) => {
-		if (!stageDrag) return;
-
-		const stage = e.target.getStage();
-
-		setStageScale({
-			...stageScale,
-			stageX: stage?.x() + e.evt.movementX,
-			stageY: stage?.y() + e.evt.movementY,
-		});
 	};
 
 	const handleChangeElement = (index: number, element: Partial<ICanvasElement>) => {
@@ -149,10 +154,10 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 				y={stageScale.stageY}
 				width={dimensions.width}
 				height={dimensions.height}
-				draggable
-				onDragStart={handleStageDragStart}
-				onDragMove={handleStageDragMove}
-				onDragEnd={handleStageDragEnd}
+				// draggable
+				// onDragStart={handleStageDragStart}
+				// onDragMove={handleStageDragMove}
+				// onDragEnd={handleStageDragEnd}
 				onMouseDown={checkDeselect}
 				onTouchStart={checkDeselect}
 			>
