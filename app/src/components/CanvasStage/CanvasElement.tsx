@@ -1,8 +1,9 @@
 import Konva from 'konva';
 import { useRef } from 'react';
-import { Arc, Arrow, Circle, Ellipse, Image, Line, Rect, Ring, Star, Text } from 'react-konva';
+import { Arc, Arrow, Circle, Ellipse, Image, Line, Rect, Ring, Star } from 'react-konva';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
+import EditableText from './EditableText';
 
 interface IProps {
 	shape: ICanvasElement;
@@ -13,13 +14,13 @@ interface IProps {
 	getKey: number;
 }
 
-const transformerStyles = {
-	anchorStroke: 'blue',
-	anchorFill: 'white',
-	anchorSize: 8,
-	borderStroke: 'blue',
-	borderDash: [3, 3],
-};
+// const transformerStyles = {
+// 	anchorStroke: 'blue',
+// 	anchorFill: 'white',
+// 	anchorSize: 8,
+// 	borderStroke: 'blue',
+// 	borderDash: [3, 3],
+// };
 
 export default function CanvasElement({ shape, index, onChange }: IProps) {
 	const shapeRef = useRef<any>(null);
@@ -61,6 +62,7 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 		onTransformEnd: handleTransform,
 		onDragEnd: handleDrag,
 	};
+	// console.log('shapeRef', shapeRef);
 
 	return (
 		<>
@@ -85,7 +87,7 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 					case CanvasElementType.STAR:
 						return <Star {...shapeDecorator} />;
 					case CanvasElementType.TEXT:
-						return <Text {...shapeDecorator} />;
+						return <EditableText index={index} onChange={onChange} shape={shapeDecorator} />;
 				}
 			})()}
 		</>

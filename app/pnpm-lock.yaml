@@ -26,6 +26,9 @@ importers:
       react-konva:
         specifier: ^18.2.10
         version: 18.2.10(konva@9.3.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-konva-utils:
+        specifier: ^1.0.6
+        version: 1.0.6(konva@9.3.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-redux:
         specifier: ^9.1.2
         version: 9.1.2(@types/react@18.3.2)(react@18.3.1)(redux@5.0.1)
@@ -1132,6 +1135,13 @@ packages:
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
+  react-konva-utils@1.0.6:
+    resolution: {integrity: sha512-011+jyXwadFDkbIUdlTarKwbqME0ljX1vPeW5oyLQx4rtHdcsDr43tdOdSsMT3XpZyl8clgM9I/eK0lBuBuFHg==}
+    peerDependencies:
+      konva: ^8.3.5 || ^9.0.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+
   react-konva@18.2.10:
     resolution: {integrity: sha512-ohcX1BJINL43m4ynjZ24MxFI1syjBdrXhqVxYVDw2rKgr3yuS0x/6m1Y2Z4sl4T/gKhfreBx8KHisd0XC6OT1g==}
     peerDependencies:
@@ -1319,6 +1329,12 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
+
+  use-image@1.1.1:
+    resolution: {integrity: sha512-n4YO2k8AJG/BcDtxmBx8Aa+47kxY5m335dJiCQA5tTeVU4XdhrhqR6wT0WISRXwdMEOv5CSjqekDZkEMiiWaYQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   use-sync-external-store@1.2.2:
     resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
@@ -2349,6 +2365,14 @@ snapshots:
 
   react-is@16.13.1: {}
 
+  react-konva-utils@1.0.6(konva@9.3.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      konva: 9.3.6
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-konva: 18.2.10(konva@9.3.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      use-image: 1.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
   react-konva@18.2.10(konva@9.3.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@types/react-reconciler': 0.28.8
@@ -2560,6 +2584,11 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  use-image@1.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   use-sync-external-store@1.2.2(react@18.3.1):
     dependencies:
