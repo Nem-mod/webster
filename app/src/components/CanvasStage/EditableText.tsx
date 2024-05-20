@@ -42,13 +42,12 @@ const ESCAPE_KEY = 27;
 function EditableTextInput({ x, y, width, height, value, setIsEditing, onChange }: IEditableTextInput) {
 	const editTextRef = useRef<any>();
 
-	const handleClickOutside = (event) => {
-		if (editTextRef.current && !editTextRef.current.contains(event.target)) {
+	const handleClickOutside = (e) => {
+		if (editTextRef.current && !editTextRef.current.contains(e.target)) {
 			setIsEditing(false);
 		}
 	};
 	const handleEscapeKeys = (e) => {
-		console.log('handleEscapeKeys', 'esc', e);
 		if ((e.keyCode === RETURN_KEY && !e.shiftKey) || e.keyCode === ESCAPE_KEY) {
 			setIsEditing(false);
 		}
