@@ -78,7 +78,6 @@ interface IProps {
 export default function EditableText({ shape: { ref, ...shapeProps }, index, onChange }: IProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const handleDoubleClick = () => {
-		console.log('Shape Ref', ref);
 		setIsEditing(true);
 	};
 
