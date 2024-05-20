@@ -23,5 +23,6 @@ export const CANVASES: ICanvasData[] = [
 				fill: 'green',
 			},
 		],
+		selected: [],
 	},
 ];

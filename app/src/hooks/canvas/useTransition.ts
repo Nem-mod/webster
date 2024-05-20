@@ -144,7 +144,6 @@ export default function useCanvasTransition(): IUseTransitionRes {
 		// do we pressed shift or ctrl?
 		const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
 		const isSelected = tr.nodes().indexOf(e.target) >= 0;
-		console.log('e.target', e.target);
 		if (!metaPressed && !isSelected) {
 			// if no key pressed and the node is not selected
 			// select just one
