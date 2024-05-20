@@ -5,9 +5,15 @@ export interface ICanvasData {
 	title: string;
 	// stageSettings: {};
 	elements: ICanvasElement[];
+	selected: ICanvasElement[];
 }
 
 export interface IUpdateElement {
 	index: number;
 	element: Partial<ICanvasElement>;
+}
+
+
+export interface ISelectedElements {
+	elementIndexes: number[]
 }

@@ -26,14 +26,12 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 
 	const handleTransform = () => {
 		const node: Konva.Node = shapeRef.current;
-		console.log('	', shape);
 		if (!node) return;
 		const scaleX = node.scaleX();
 		const scaleY = node.scaleY();
 
 		node.scaleX(1);
 		node.scaleY(1);
-		console.log('node', node);
 		const element = {
 			...node.attrs,
 			x: node.x(),

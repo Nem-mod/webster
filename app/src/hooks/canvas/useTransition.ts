@@ -1,6 +1,8 @@
 import Konva from 'konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useEffect, useRef, useState } from 'react';
+import { setSelectedElements } from '../../redux/slices/canvasSlice/canvas-slice';
+import { useAppDispatch } from '../redux';
 
 interface IUseTransitionRes {
 	trRef: any; // MutableRefObject<Konva.Transformer | undefined>;
@@ -15,11 +17,15 @@ interface IUseTransitionRes {
 }
 
 export default function useCanvasTransition(): IUseTransitionRes {
+	const dispatch = useAppDispatch();
 	const trRef = useRef<any>();
 	const layerRef = useRef<any>();
 	const [selectedIds, selectShapes] = useState([]);
 	useEffect(() => {
-		console.log('selectedIds', selectedIds);
+		const selectedIndexes = selectedIds.map((e: string) => {
+			return +e.split('-')[1];
+		});
+		dispatch(setSelectedElements({ elementIndexes: selectedIndexes }));
 	}, [selectedIds]);
 
 	useEffect(() => {
@@ -30,7 +36,7 @@ export default function useCanvasTransition(): IUseTransitionRes {
 		}
 	}, [selectedIds]);
 
-	const checkDeselect = (e: any) => {
+	const checkDeselect = (e: Konva.KonvaEventObject<TouchEvent>) => {
 		// deselect when clicked on empty area
 		const clickedOnEmpty = e.target === e.target.getStage();
 		if (clickedOnEmpty) {
@@ -109,7 +115,7 @@ export default function useCanvasTransition(): IUseTransitionRes {
 				elements.push(elementNode);
 			}
 		});
-
+		console.log('elements	', elements);
 		selectShapes(elements.map((el) => el.id()));
 		updateSelectionRect();
 	};
@@ -138,7 +144,7 @@ export default function useCanvasTransition(): IUseTransitionRes {
 		// do we pressed shift or ctrl?
 		const metaPressed = e.evt.shiftKey || e.evt.ctrlKey || e.evt.metaKey;
 		const isSelected = tr.nodes().indexOf(e.target) >= 0;
-
+		console.log('e.target', e.target);
 		if (!metaPressed && !isSelected) {
 			// if no key pressed and the node is not selected
 			// select just one

@@ -7,7 +7,7 @@ import { RootState } from './redux/store';
 
 function App() {
 	const dispatch = useAppDispatch();
-	
+	const selectedElements = useAppSelector((state) => state.canvas.data?.selected);
 	const divRef = useRef<HTMLInputElement>(null);
 	const [dimensions, setDimensions] = useState({
 		width: 1000,
@@ -41,6 +41,7 @@ function App() {
 			<div className={'pl-20'}>
 				<CanvasMenu />
 			</div>
+			{JSON.stringify(selectedElements)}
 		</div>
 	);
 }

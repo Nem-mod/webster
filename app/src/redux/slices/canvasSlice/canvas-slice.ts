@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EStateStatus } from '../../../constants/stateStatus.enum';
 import { ICanvasElement } from '../../../services/canvas/canvas.types';
 import { fetchCanvasById } from './canvas-slice.service';
-import { ICanvasData, IUpdateElement } from './canvas-slice.types';
+import { ICanvasData, ISelectedElements, IUpdateElement } from './canvas-slice.types';
 
 export interface ICanvasState {
 	status: EStateStatus;
@@ -32,6 +32,12 @@ const canvasSlice = createSlice({
 			state.data.elements = temp;
 		},
 		deleteElement() {},
+		setSelectedElements(state, { payload }: PayloadAction<ISelectedElements>) {
+			//@ts-expect-error
+			state.data.selected = state.data?.elements.filter((element, index) => {
+				if (payload.elementIndexes.includes(index)) return element;
+			});
+		},
 	},
 	extraReducers(builder) {
 		builder.addCase(fetchCanvasById.fulfilled, (state, action) => {
@@ -47,4 +53,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasReducer = canvasSlice.reducer;
-export const { addElement, updateElement, deleteElement } = canvasSlice.actions;
+export const { addElement, updateElement, deleteElement, setSelectedElements } = canvasSlice.actions;
