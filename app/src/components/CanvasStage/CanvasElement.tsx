@@ -21,7 +21,7 @@ const transformerStyles = {
 	borderDash: [3, 3],
 };
 
-export default function CanvasElement({ shape, index, isSelected, onSelect, onChange }: IProps) {
+export default function CanvasElement({ shape, index, onChange }: IProps) {
 	const shapeRef = useRef<any>(null);
 
 	const handleTransform = () => {
