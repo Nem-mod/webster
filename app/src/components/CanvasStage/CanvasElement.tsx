@@ -1,15 +1,16 @@
 import Konva from 'konva';
-import { useEffect, useRef } from 'react';
-import { Arc, Arrow, Circle, Ellipse, Image, Line, Rect, Ring, Star, Text, Transformer } from 'react-konva';
+import { useRef } from 'react';
+import { Arc, Arrow, Circle, Ellipse, Image, Line, Rect, Ring, Star, Text } from 'react-konva';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 
 interface IProps {
 	shape: ICanvasElement;
 	index: number;
-	isSelected: boolean;
-	onSelect: () => void;
+	isSelected?: boolean;
+	onSelect?: () => void;
 	onChange: (index: number, element: Partial<ICanvasElement>) => void;
+	getKey: number;
 }
 
 const transformerStyles = {
@@ -22,14 +23,6 @@ const transformerStyles = {
 
 export default function CanvasElement({ shape, index, isSelected, onSelect, onChange }: IProps) {
 	const shapeRef = useRef<any>(null);
-	const trRef = useRef<any>(null);
-
-	useEffect(() => {
-		if (isSelected && trRef.current) {
-			trRef.current.nodes([shapeRef.current]);
-			trRef.current.getLayer().batchDraw();
-		}
-	}, [isSelected]);
 
 	const handleTransform = () => {
 		const node: Konva.Node = shapeRef.current;
@@ -65,11 +58,12 @@ export default function CanvasElement({ shape, index, isSelected, onSelect, onCh
 	const shapeDecorator = {
 		...shape,
 		ref: shapeRef,
-		onClick: onSelect,
-		onTap: onSelect,
+		id: `${shape.type}-${index}`,
+		name: 'canvas-element',
 		onTransformEnd: handleTransform,
 		onDragEnd: handleDrag,
 	};
+
 	return (
 		<>
 			{(() => {
@@ -96,21 +90,6 @@ export default function CanvasElement({ shape, index, isSelected, onSelect, onCh
 						return <Text {...shapeDecorator} />;
 				}
 			})()}
-			{isSelected && (
-				<Transformer
-					ref={trRef}
-					flipEnabled={false}
-					className={'bg-red-800'}
-					boundBoxFunc={(oldBox, newBox) => {
-						// limit resize
-						if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
-							return oldBox;
-						}
-						return newBox;
-					}}
-					{...transformerStyles}
-				/>
-			)}
 		</>
 	);
 }
