@@ -1,9 +1,9 @@
 import Konva from 'konva';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Layer, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
-import { ICanvasState, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import { ICanvasState, reviewHistory, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import CanvasElement from './CanvasElement';
 
@@ -104,6 +104,25 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 			})
 		);
 	};
+
+	useEffect(() => {
+		const callback = (event: KeyboardEvent) => {
+			const handleMoveHistory = (type: boolean) => {
+				dispatch(reviewHistory({ type }));
+			};
+
+			if ((event.metaKey || event.ctrlKey) && event.code === 'KeyZ') {
+				handleMoveHistory(true);
+			}
+			if ((event.metaKey || event.ctrlKey) && event.code === 'KeyY') {
+				handleMoveHistory(false);
+			}
+		};
+		document.addEventListener('keydown', callback);
+		return () => {
+			document.removeEventListener('keydown', callback);
+		};
+	}, []);
 
 	return (
 		<div ref={divRef}>
