@@ -6,6 +6,11 @@ export interface ICanvasData {
 	// stageSettings: {};
 	elements: ICanvasElement[];
 	selected: ICanvasElement[];
+	history?: {
+		stack: ICanvasElement[][];
+		size: number;
+		currentPos: number;
+	} | null;
 }
 
 export interface IUpdateElement {
@@ -13,7 +18,6 @@ export interface IUpdateElement {
 	element: Partial<ICanvasElement>;
 }
 
-
 export interface ISelectedElements {
-	elementIndexes: number[]
+	elementIndexes: number[];
 }
