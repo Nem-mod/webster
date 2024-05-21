@@ -115,7 +115,6 @@ export default function useCanvasTransition(): IUseTransitionRes {
 				elements.push(elementNode);
 			}
 		});
-		console.log('elements	', elements);
 		selectShapes(elements.map((el) => el.id()));
 		updateSelectionRect();
 	};

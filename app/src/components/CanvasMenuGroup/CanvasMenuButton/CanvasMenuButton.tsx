@@ -12,9 +12,7 @@ export default function CanvasMenuButton({ type }: IProps) {
 
 	const handleClick = () => {
 		const creator = CanvasElementFactory.getCreator(type);
-		console.log('creator', creator);
 		const element = creator();
-		console.log('element', element);
 		dispatch(addElement(element));
 	};
 	return (
