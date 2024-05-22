@@ -161,7 +161,7 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 							return newBox;
 						}}
 					/>
-					<Rect fill='rgba(0,0,255,0.5)' x={0} y={0} width={100} height={100} ref={selectionRectRef} />
+					<Rect fill='rgba(0,0,255,0.5)' x={0} y={0} width={100} opacity={0} height={100} ref={selectionRectRef} />
 				</Layer>
 			</Stage>
 		</div>
