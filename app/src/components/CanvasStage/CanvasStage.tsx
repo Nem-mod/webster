@@ -42,7 +42,10 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	const shapes = canvasState.data?.elements;
 	const dispatch = useAppDispatch();
 	const divRef = useRef<HTMLInputElement>(null);
-	const { trRef, layerRef, selectionRectRef, checkDeselect, onMouseDown, onMouseUp, onMouseMove, onClickTap } = useCanvasTransition();
+
+	const { trRef, layerRef, selectionRectRef, checkDeselect, onMouseDown, onMouseUp, onMouseMove, onClickTap } = useCanvasTransition(
+		canvasState.data?.selected || []
+	);
 	const [stageScale, setStageScale] = useState({
 		scale: 1,
 		stageX: 0,

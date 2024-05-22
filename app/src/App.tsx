@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import CanvasEditBar from './components/CanvasEditBar/CanvasEditBar';
 import CanvasMenu from './components/CanvasMenuGroup/CanvasMenu/CanvasMenu';
 import { CanvasStage } from './components/CanvasStage/CanvasStage';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
@@ -7,7 +8,6 @@ import { RootState } from './redux/store';
 
 function App() {
 	const dispatch = useAppDispatch();
-	const selectedElements = useAppSelector((state) => state.canvas.data?.selected);
 	const divRef = useRef<HTMLInputElement>(null);
 	const [dimensions, setDimensions] = useState({
 		width: 1000,
@@ -34,14 +34,16 @@ function App() {
 	// }, [canvas]);
 
 	return (
-		<div className={'flex border-1 border-blue-500'}>
-			<div className={'w-3/4 h-screen border-1 bg-black'} ref={divRef}>
-				{canvas.data && <CanvasStage canvasState={canvas} dimensions={dimensions} />}
+		<div>
+			<CanvasEditBar />
+			<div className={'flex border-1 border-blue-500'}>
+				<div className={'w-3/4 h-screen border-1 bg-black'} ref={divRef}>
+					{canvas.data && <CanvasStage canvasState={canvas} dimensions={dimensions} />}
+				</div>
+				<div className={'pl-20'}>
+					<CanvasMenu />
+				</div>
 			</div>
-			<div className={'pl-20'}>
-				<CanvasMenu />
-			</div>
-			{JSON.stringify(selectedElements)}
 		</div>
 	);
 }

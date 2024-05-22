@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EStateStatus } from '../../../constants/stateStatus.enum';
 import { ICanvasElement } from '../../../services/canvas/canvas.types';
 import { fetchCanvasById } from './canvas-slice.service';
-import { ICanvasData, ISelectedElements, IUpdateElement } from './canvas-slice.types';
+import { ICanvasData, ICanvasSelectedElement, ISelectedElements, IUpdateElement } from './canvas-slice.types';
 
 export interface ICanvasState {
 	status: EStateStatus;
@@ -20,7 +20,6 @@ const MAX_HISTORY_SIZE = 10;
 
 const addHistory = (state: ICanvasState) => {
 	if (!state.data) return;
-	state.data.selected = [];
 	const history = state.data.history;
 	if (history) {
 		if (history.size === MAX_HISTORY_SIZE) {
@@ -54,12 +53,44 @@ const canvasSlice = createSlice({
 			addHistory(state);
 		},
 		deleteElement() {},
+
+		moveElements(state: ICanvasState, { payload }: PayloadAction<{ to: boolean }>) {
+			if (!state.data) return;
+
+			const selectedIds = state.data.selected.map((e) => e.index);
+			const elements = state.data.elements;
+			if (!selectedIds?.length || !elements?.length) return;
+
+			for (let i = 0; i <= selectedIds.length - 1; i++) {
+				const index = selectedIds[i];
+				const removedElement = elements.splice(index, 1)[0];
+				if (!payload.to) {
+					elements.unshift(removedElement);
+					state.data.selected[i] = {
+						index: 0,
+						...removedElement,
+					};
+				} // Insert at the beginning
+				else if (payload.to) {
+					const length = elements.push(removedElement);
+					state.data.selected[i] = {
+						index: length - 1,
+						...removedElement,
+					};
+				} // Insert at the beginning
+			}
+		},
+
 		setSelectedElements(state: ICanvasState, { payload }: PayloadAction<ISelectedElements>) {
 			if (!state.data) return;
-			state.data.selected =
-				state.data?.elements.filter((element, index) => {
-					if (payload.elementIndexes.includes(index)) return element;
-				}) || [];
+			const selected: ICanvasSelectedElement[] = [];
+			for (const k of payload.elementIndexes) {
+				selected.push({
+					index: k,
+					...state.data.elements[k],
+				});
+			}
+			state.data.selected = selected;
 		},
 
 		reviewHistory(state: ICanvasState, { payload }: PayloadAction<{ type: boolean }>) {
@@ -90,4 +121,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasReducer = canvasSlice.reducer;
-export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory } = canvasSlice.actions;
+export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory, moveElements } = canvasSlice.actions;

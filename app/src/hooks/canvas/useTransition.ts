@@ -1,7 +1,8 @@
 import Konva from 'konva';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { setSelectedElements } from '../../redux/slices/canvasSlice/canvas-slice';
+import { ICanvasSelectedElement } from '../../redux/slices/canvasSlice/canvas-slice.types';
 import { useAppDispatch } from '../redux';
 
 interface IUseTransitionRes {
@@ -16,32 +17,27 @@ interface IUseTransitionRes {
 	onClickTap: (e: KonvaEventObject<MouseEvent>) => void;
 }
 
-export default function useCanvasTransition(): IUseTransitionRes {
+export default function useCanvasTransition(selected: ICanvasSelectedElement[]): IUseTransitionRes {
 	const dispatch = useAppDispatch();
 	const trRef = useRef<any>();
 	const layerRef = useRef<any>();
-	const [selectedIds, selectShapes] = useState([]);
-	useEffect(() => {
-		const selectedIndexes = selectedIds.map((e: string) => {
-			return +e.split('-')[1];
-		});
-		dispatch(setSelectedElements({ elementIndexes: selectedIndexes }));
-	}, [selectedIds]);
+
+	const handleSelect = (selectedIndexes: number[]) => dispatch(setSelectedElements({ elementIndexes: selectedIndexes }));
 
 	useEffect(() => {
 		if (layerRef.current) {
-			const nodes = selectedIds.map((id) => layerRef.current?.findOne('#' + id));
+			const nodes = selected.map((e) => layerRef.current?.findOne('#' + `${e.type}-${e.index}`));
 			//@ts-expect-error
 			if (trRef.current) trRef?.current.nodes(nodes);
 		}
-	}, [selectedIds]);
+	}, [selected]);
 
 	const checkDeselect = (e: Konva.KonvaEventObject<TouchEvent>) => {
 		// deselect when clicked on empty area
 		const clickedOnEmpty = e.target === e.target.getStage();
 		if (clickedOnEmpty) {
 			// selectShape(null);
-			selectShapes([]);
+			handleSelect([]);
 		}
 	};
 
@@ -115,7 +111,7 @@ export default function useCanvasTransition(): IUseTransitionRes {
 				elements.push(elementNode);
 			}
 		});
-		selectShapes(elements.map((el) => el.id()));
+		// handleSelect(elements.map((el) => el.id().split('-')[1]));
 		updateSelectionRect();
 	};
 
@@ -131,7 +127,7 @@ export default function useCanvasTransition(): IUseTransitionRes {
 		let tr = trRef.current;
 		// if click on empty area - remove all selections
 		if (e.target === stage) {
-			selectShapes([]);
+			handleSelect([]);
 			return;
 		}
 
@@ -146,18 +142,14 @@ export default function useCanvasTransition(): IUseTransitionRes {
 		if (!metaPressed && !isSelected) {
 			// if no key pressed and the node is not selected
 			// select just one
-			selectShapes([e.target.id()]);
+			handleSelect([e.target.id().split('-')[1]]);
 		} else if (metaPressed && isSelected) {
 			// if we pressed keys and node was selected
 			// we need to remove it from selection:
-			selectShapes((oldShapes) => {
-				return oldShapes.filter((oldId) => oldId !== e.target.id());
-			});
+			handleSelect(selected.filter((sel) => sel.index !== e.target.id().split('-')[1]));
 		} else if (metaPressed && !isSelected) {
 			// add the node into selection
-			selectShapes((oldShapes) => {
-				return [...oldShapes, e.target.id()];
-			});
+			handleSelect([...selected.map((e) => e.index), e.target.id().split('-')[1]]);
 		}
 		layer.draw();
 	};
