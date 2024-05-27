@@ -44,6 +44,7 @@ const canvasSlice = createSlice({
 			state.data?.elements.push(element);
 			addHistory(state);
 		},
+
 		updateElement(state, { payload }: PayloadAction<IUpdateElement>) {
 			if (!state.data?.elements) return;
 
@@ -52,6 +53,7 @@ const canvasSlice = createSlice({
 			state.data.elements = temp;
 			addHistory(state);
 		},
+
 		deleteElement() {},
 
 		moveElements(state: ICanvasState, { payload }: PayloadAction<{ to: boolean }>) {
@@ -78,6 +80,36 @@ const canvasSlice = createSlice({
 						...removedElement,
 					};
 				} // Insert at the beginning
+			}
+		},
+
+		moveElementsOneStep(state: ICanvasState, { payload }: PayloadAction<{ to: boolean }>) {
+			if (!state.data) return;
+
+			const selectedIds = state.data.selected.map((e) => +e.index);
+			const elements = state.data.elements;
+
+			if (!selectedIds?.length || !elements?.length) return;
+
+			for (let i = 0; i <= selectedIds.length - 1; i++) {
+				const index = selectedIds[i];
+				let step = 0;
+
+				if (payload.to) {
+					const tempStep = index + 1;
+					step = tempStep < elements.length ? tempStep : index;
+				} else if (!payload.to) {
+					const tempStep = index - 1;
+					step = tempStep >= 0 ? tempStep : index;
+				}
+
+				const tempElement = elements[index];
+				elements[index] = elements[step];
+				elements[step] = tempElement;
+				state.data.selected[i] = {
+					index: step,
+					...tempElement,
+				};
 			}
 		},
 
@@ -121,4 +153,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasReducer = canvasSlice.reducer;
-export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory, moveElements } = canvasSlice.actions;
+export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory, moveElements, moveElementsOneStep } = canvasSlice.actions;

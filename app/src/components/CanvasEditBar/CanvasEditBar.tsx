@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { moveElements, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import { moveElements, moveElementsOneStep, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
 export default function CanvasEditBar() {
 	const dispatch = useAppDispatch();
 	const selectedElements = useAppSelector((state) => state.canvas.data?.selected);
@@ -24,6 +24,10 @@ export default function CanvasEditBar() {
 		});
 	};
 
+	const handleMoveOneStep = (to: boolean) => {
+		dispatch(moveElementsOneStep({ to }));
+	};
+
 	return (
 		<div>
 			<p>{JSON.stringify(elementsTypes)}</p>
@@ -42,6 +46,22 @@ export default function CanvasEditBar() {
 				}}
 			>
 				Move Bot Max
+			</button>
+			<br />
+			<button
+				onClick={() => {
+					handleMoveOneStep(true);
+				}}
+			>
+				Move top
+			</button>
+			<br />
+			<button
+				onClick={() => {
+					handleMoveOneStep(false);
+				}}
+			>
+				Move bot
 			</button>
 		</div>
 	);
