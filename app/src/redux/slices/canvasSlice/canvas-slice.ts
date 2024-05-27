@@ -16,7 +16,7 @@ const initialState: ICanvasState = {
 	error: null,
 };
 
-const MAX_HISTORY_SIZE = 10;
+const MAX_HISTORY_SIZE = 20;
 
 const addHistory = (state: ICanvasState) => {
 	if (!state.data) return;
@@ -54,7 +54,20 @@ const canvasSlice = createSlice({
 			addHistory(state);
 		},
 
-		deleteElement() {},
+		deleteElement(state: ICanvasState) {
+			if (!state.data) return;
+
+			const selectedIds = state.data.selected.map((e) => +e.index);
+			const elements = state.data.elements;
+			if (!selectedIds?.length || !elements?.length) return;
+
+			for (let i = 0; i <= selectedIds.length - 1; i++) {
+				const index = selectedIds[i];
+				elements.splice(index - i, 1);
+			}
+			state.data.selected = [];
+			addHistory(state);
+		},
 
 		moveElements(state: ICanvasState, { payload }: PayloadAction<{ to: boolean }>) {
 			if (!state.data) return;
@@ -81,6 +94,7 @@ const canvasSlice = createSlice({
 					};
 				} // Insert at the beginning
 			}
+			addHistory(state);
 		},
 
 		moveElementsOneStep(state: ICanvasState, { payload }: PayloadAction<{ to: boolean }>) {
@@ -111,6 +125,7 @@ const canvasSlice = createSlice({
 					...tempElement,
 				};
 			}
+			addHistory(state);
 		},
 
 		setSelectedElements(state: ICanvasState, { payload }: PayloadAction<ISelectedElements>) {

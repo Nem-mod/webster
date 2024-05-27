@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Layer, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
-import { ICanvasState, reviewHistory, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import { deleteElement, ICanvasState, reviewHistory, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import CanvasElement from './CanvasElement';
 
@@ -119,6 +119,9 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 			}
 			if ((event.metaKey || event.ctrlKey) && event.code === 'KeyY') {
 				handleMoveHistory(false);
+			}
+			if (event.key === 'Delete') {
+				dispatch(deleteElement());
 			}
 		};
 		document.addEventListener('keydown', callback);
