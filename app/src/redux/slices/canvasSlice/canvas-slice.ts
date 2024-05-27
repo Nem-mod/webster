@@ -22,17 +22,18 @@ const addHistory = (state: ICanvasState) => {
 	if (!state.data) return;
 	const history = state.data.history;
 	if (history) {
-		if (history.size === MAX_HISTORY_SIZE) {
+		if (history.stack.length === MAX_HISTORY_SIZE) {
 			history.stack.shift();
 		}
 		if (history.currentPos !== history.size - 1) {
 			const slicedHistory = history.stack.slice(0, history.currentPos + 1);
 			history.stack = slicedHistory;
 			history.size = history.currentPos + 1;
+			return;
 		}
 		history.stack.push(state.data.elements);
-		history.size += 1;
-		history.currentPos += 1;
+		history.size = history.stack.length;
+		history.currentPos = history.stack.length - 1;
 	}
 };
 
