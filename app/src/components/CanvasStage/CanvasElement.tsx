@@ -4,6 +4,7 @@ import { Arc, Arrow, Circle, Ellipse, Image, Line, Rect, Ring, Star } from 'reac
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import EditableText from './EditableText';
+import ImageElement from './ImageElement';
 
 interface IProps {
 	shape: ICanvasElement;
@@ -77,7 +78,7 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 					case CanvasElementType.ELLIPSE:
 						return <Ellipse {...shapeDecorator} />;
 					case CanvasElementType.IMAGE:
-						return <Image {...shapeDecorator} />;
+						return <ImageElement shape={shapeDecorator} />;
 					case CanvasElementType.LINE:
 						return <Line {...shapeDecorator} />;
 					case CanvasElementType.RECT:

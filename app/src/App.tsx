@@ -5,6 +5,7 @@ import { CanvasStage } from './components/CanvasStage/CanvasStage';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { fetchCanvasById } from './redux/slices/canvasSlice/canvas-slice.service';
 import { RootState } from './redux/store';
+import InputImageFile from './components/InputImageFile/InputImageFile';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ function App() {
 					<CanvasMenu />
 				</div>
 			</div>
+			<InputImageFile/>
 		</div>
 	);
 }

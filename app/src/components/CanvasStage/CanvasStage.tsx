@@ -1,11 +1,14 @@
 import Konva from 'konva';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Layer, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
-import { deleteElement, ICanvasState, reviewHistory, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import { addElement, deleteElement, ICanvasState, reviewHistory, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import CanvasElement from './CanvasElement';
+import { useDropzone } from 'react-dropzone';
+import { FileUploaderService } from '../../services/file-uploader/file-uploader.service';
+import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 
 interface Props {
 	canvasState: ICanvasState;
@@ -38,6 +41,7 @@ interface Props {
 
  */
 
+	// TODO: Refactor code, use custom hooks to short code 
 export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	const shapes = canvasState.data?.elements;
 	const dispatch = useAppDispatch();
@@ -130,46 +134,68 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 		};
 	}, []);
 
+	// File Drop Zone
+	const onDrop = useCallback((acceptedFiles: File[]) => {
+		acceptedFiles.forEach((file: File) => {
+			if(file.type.includes('image')) {
+				FileUploaderService.uploadImage(file).then((res: string) => {
+					dispatch(addElement({
+						type: CanvasElementType.IMAGE,
+						src: res,
+						// TODO: Create Image element on point of drop if it possible
+						x: 100,
+						y: 100,
+					}))
+				});
+			}
+		} )
+	}, []);
+	
+	const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true});
+
 	return (
 		<div ref={divRef}>
-			<Stage
-				onWheel={handleWheel}
-				scaleX={stageScale.scale}
-				scaleY={stageScale.scale}
-				x={stageScale.stageX}
-				y={stageScale.stageY}
-				width={dimensions.width}
-				height={dimensions.height}
-				onMouseDown={onMouseDown}
-				onMouseUp={onMouseUp}
-				onMouseMove={onMouseMove}
-				onTouchStart={checkDeselect}
-				onClick={onClickTap}
-				onTap={onClickTap}
-			>
-				<Layer ref={layerRef}>
-					{shapes?.map((shape, index) => {
-						shape = {
-							...shape,
-							id: `${shape.type}-${index}`,
-							draggable: true,
-						};
+			<div  {...getRootProps()}>
+				<Stage
+					onWheel={handleWheel}
+					scaleX={stageScale.scale}
+					scaleY={stageScale.scale}
+					x={stageScale.stageX}
+					y={stageScale.stageY}
+					width={dimensions.width}
+					height={dimensions.height}
+					onMouseDown={onMouseDown}
+					onMouseUp={onMouseUp}
+					onMouseMove={onMouseMove}
+					onTouchStart={checkDeselect}
+					onClick={onClickTap}
+					onTap={onClickTap}
+				>
+					<Layer ref={layerRef}>
+						{shapes?.map((shape, index) => {
+							shape = {
+								...shape,
+								id: `${shape.type}-${index}`,
+								draggable: true,
+							};
 
-						return <CanvasElement key={index} getKey={index} shape={shape} index={index} onChange={handleChangeElement} />;
-					})}
-					<Transformer
-						// ref={trRef.current[getKey]}
-						ref={trRef}
-						boundBoxFunc={(oldBox, newBox) => {
-							if (newBox.width < 5 || newBox.height < 5) {
-								return oldBox;
-							}
-							return newBox;
-						}}
-					/>
-					<Rect fill='rgba(0,0,255,0.5)' x={0} y={0} width={100} opacity={0} height={100} ref={selectionRectRef} />
-				</Layer>
-			</Stage>
+							return <CanvasElement key={index} getKey={index} shape={shape} index={index} onChange={handleChangeElement} />;
+						})}
+						<Transformer
+							// ref={trRef.current[getKey]}
+							ref={trRef}
+							boundBoxFunc={(oldBox, newBox) => {
+								if (newBox.width < 5 || newBox.height < 5) {
+									return oldBox;
+								}
+								return newBox;
+							}}
+						/>
+						<Rect fill='rgba(0,0,255,0.5)' x={0} y={0} width={100} opacity={0} height={100} ref={selectionRectRef} />
+					</Layer>
+				</Stage>
+				<input {...getInputProps()} type={'file'} className={'hidden'} accept={'image/*'}/>
+			</div>
 		</div>
 	);
 };
