@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { moveElements, moveElementsOneStep, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
+import { ICanvasElement } from '../../services/canvas/canvas.types';
+import EditFontColor from './EditText/EditFontColor';
+import EditFontSizeInput from './EditText/EditFontSizeInput';
 
 export default function CanvasEditBar() {
 	const dispatch = useAppDispatch();
@@ -13,6 +17,18 @@ export default function CanvasEditBar() {
 	if (!selectedElements?.length) return <></>;
 
 	const elementsTypes = selectedElements?.map((e) => e.type);
+	const handleUpdate = (value: Partial<ICanvasElement>) => {
+		selectedElements.forEach((e) => {
+			dispatch(
+				updateElement({
+					index: e.index,
+					element: {
+						...value,
+					},
+				})
+			);
+		});
+	};
 
 	const handleChangeColor = (value: string) => {
 		if (colorTimeout) {
@@ -20,30 +36,16 @@ export default function CanvasEditBar() {
 		}
 
 		const timeoutId = setTimeout(() => {
-			selectedElements.forEach((e) => {
-				dispatch(
-					updateElement({
-						index: e.index,
-						element: {
-							fill: value,
-						},
-					})
-				);
+			handleUpdate({
+				fill: value,
 			});
 		}, 500);
 		setColorTimeout(timeoutId);
 	};
 
 	const handleChangeOpacity = () => {
-		selectedElements.forEach((e) => {
-			dispatch(
-				updateElement({
-					index: e.index,
-					element: {
-						opacity: opacity as number,
-					},
-				})
-			);
+		handleUpdate({
+			opacity: opacity as number,
 		});
 	};
 
@@ -99,6 +101,12 @@ export default function CanvasEditBar() {
 				onChangeEnd={handleChangeOpacity}
 				className='max-w-sm'
 			/>
+			{elementsTypes.includes(CanvasElementType.TEXT) && (
+				<>
+					<EditFontSizeInput onChange={handleUpdate} />
+					<EditFontColor onChange={handleUpdate} />
+				</>
+			)}
 		</div>
 	);
 }
