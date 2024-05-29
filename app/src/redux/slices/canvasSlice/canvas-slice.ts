@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { EStateStatus } from '../../../constants/stateStatus.enum';
 import { ICanvasElement } from '../../../services/canvas/canvas.types';
 import { fetchCanvasById } from './canvas-slice.service';
-import { ICanvasData, ICanvasSelectedElement, ISelectedElements, IUpdateElement } from './canvas-slice.types';
+import { ICanvasData, ICanvasSelectedElement, ISelectedElements, IUpdateElement, ToolOperationType } from './canvas-slice.types';
 
 export interface ICanvasState {
 	status: EStateStatus;
@@ -153,6 +153,11 @@ const canvasSlice = createSlice({
 				state.data.elements = history.stack[history.currentPos];
 			}
 		},
+
+		setTool(state: ICanvasState, { payload }: PayloadAction<{ tool: ToolOperationType }>) {
+			if(!state.data) return;
+			state.data.activeTool = payload.tool;
+		}
 	},
 
 	extraReducers(builder) {
@@ -169,4 +174,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasReducer = canvasSlice.reducer;
-export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory, moveElements, moveElementsOneStep } = canvasSlice.actions;
+export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory, moveElements, moveElementsOneStep, setTool } = canvasSlice.actions;

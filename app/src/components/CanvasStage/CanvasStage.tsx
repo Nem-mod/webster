@@ -1,6 +1,6 @@
 import Konva from 'konva';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Layer, Rect, Stage, Transformer } from 'react-konva';
+import { Layer, Line, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
 import { addElement, deleteElement, ICanvasState, reviewHistory, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
@@ -9,6 +9,7 @@ import CanvasElement from './CanvasElement';
 import { useDropzone } from 'react-dropzone';
 import { FileUploaderService } from '../../services/file-uploader/file-uploader.service';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
+import { useDraw } from '../../hooks/canvas/useDraw';
 
 interface Props {
 	canvasState: ICanvasState;
@@ -50,6 +51,7 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	const { trRef, layerRef, selectionRectRef, checkDeselect, onMouseDown, onMouseUp, onMouseMove, onClickTap } = useCanvasTransition(
 		canvasState.data?.selected || []
 	);
+	
 	const [stageScale, setStageScale] = useState({
 		scale: 1,
 		stageX: 0,
@@ -152,7 +154,7 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	}, []);
 	
 	const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true});
-
+	const {line, tool, drawingHandleMouseDown, drawingHandleMouseMove, drawingHandleMouseUp} = useDraw();
 	return (
 		<div ref={divRef}>
 			<div  {...getRootProps()}>
@@ -164,9 +166,9 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 					y={stageScale.stageY}
 					width={dimensions.width}
 					height={dimensions.height}
-					onMouseDown={onMouseDown}
-					onMouseUp={onMouseUp}
-					onMouseMove={onMouseMove}
+					onMouseDown={tool ? drawingHandleMouseDown : onMouseDown}
+					onMouseUp={tool ? drawingHandleMouseUp : onMouseUp}
+					onMouseMove={tool ? drawingHandleMouseMove : onMouseMove}
 					onTouchStart={checkDeselect}
 					onClick={onClickTap}
 					onTap={onClickTap}
@@ -181,6 +183,16 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 
 							return <CanvasElement key={index} getKey={index} shape={shape} index={index} onChange={handleChangeElement} />;
 						})}
+						{line && (
+							<Line
+							points={line.points}
+							stroke='#df4b26'
+							strokeWidth={5}
+							tension={0.5}
+							lineCap='round'
+							lineJoin='round'
+						/>
+						)}
 						<Transformer
 							// ref={trRef.current[getKey]}
 							ref={trRef}

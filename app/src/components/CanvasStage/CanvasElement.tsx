@@ -79,8 +79,19 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 						return <Ellipse {...shapeDecorator} />;
 					case CanvasElementType.IMAGE:
 						return <ImageElement shape={shapeDecorator} />;
+					// TODO: create settings of drawing. color - strW - tension
 					case CanvasElementType.LINE:
-						return <Line {...shapeDecorator} />;
+						return (
+							<Line
+								{...shapeDecorator}
+								stroke='#df4b26'
+								strokeWidth={5}
+								tension={0.5}
+								lineCap='round'
+								lineJoin='round'
+								globalCompositeOperation={shape.tool === 'eraser' ? 'destination-out' : 'source-over'}
+							/>
+						);
 					case CanvasElementType.RECT:
 						return <Rect {...shapeDecorator} />;
 					case CanvasElementType.RING:
