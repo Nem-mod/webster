@@ -1,4 +1,3 @@
-import { Button, Slider } from '@nextui-org/react';
 import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -7,6 +6,9 @@ import { CanvasElementType } from '../../services/canvas/canvas-element-types.en
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import EditFontColor from './EditText/EditFontColor';
 import EditFontSizeInput from './EditText/EditFontSizeInput';
+
+import { Button, Slider } from '@nextui-org/react';
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 
 function downloadURI(uri, name) {
   const link = document.createElement('a');
@@ -56,10 +58,11 @@ export default function CanvasEditBar({stageRef}: IProps) {
 	};
 
 	const handleChangeColor = (value: string) => {
+		setColor(value)
 		if (colorTimeout) {
 			clearTimeout(colorTimeout);
 		}
-
+		
 		const timeoutId = setTimeout(() => {
 			handleUpdate({
 				fill: value,
@@ -82,61 +85,96 @@ export default function CanvasEditBar({stageRef}: IProps) {
 	};
 
 	return (
-		<div>
+		<>
 			{selectedElements?.length && (
-				<>
-					<p>{JSON.stringify(elementsTypes)}</p>
-					<HexColorPicker color={color} onChange={handleChangeColor} />
-					<button
-						onClick={() => {
-							handleMoveMax(true);
-						}}
-					>
-						Move Top Max
-					</button>
-					<br />
-					<button
-						onClick={() => {
-							handleMoveMax(false);
-						}}
-					>
-						Move Bot Max
-					</button>
-					<br />
-					<button
-						onClick={() => {
-							handleMoveOneStep(true);
-						}}
-					>
-						Move top
-					</button>
-					<br />
-					<button
-						onClick={() => {
-							handleMoveOneStep(false);
-						}}
-					>
-						Move bot
-					</button>
-					<Slider
-						label='Opacity'
-						step={0.01}
-						maxValue={1}
-						minValue={0}
-						value={opacity}
-						onChange={setOpacity}
-						onChangeEnd={handleChangeOpacity}
-						className='max-w-sm'
-					/>
+				<div className={'flex flex-row gap-4 mt-8 border border-black rounded-md'}>
+					{/* <p>{JSON.stringify(elementsTypes)}</p> */}
+					
+					<Popover className={`bg-[${color}]`}>
+						<PopoverTrigger className={`bg-[${color}]`}>
+							<Button 
+								className={`bg-[${color}]`}
+								onClick={(e) => console.log(color)}
+							>
+								Color
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent>
+							<HexColorPicker color={color} onChange={handleChangeColor} />
+						</PopoverContent>
+					</Popover>
+					<Popover>
+						<PopoverTrigger>
+							<Button>
+								Layers
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent className={'p-4 flex flex-col items-stretch'}>
+							<Button
+								onClick={() => {
+									handleMoveMax(true);
+								}}
+							>
+								Top Layer
+							</Button>
+							<br />
+							<Button
+								onClick={() => {
+									handleMoveMax(false);
+								}}
+							>
+								Bottom Layer
+							</Button>
+							<br />
+							<Button
+								onClick={() => {
+									handleMoveOneStep(true);
+								}}
+							>
+								Layer Up
+							</Button>
+							<br />
+							<Button
+								onClick={() => {
+									handleMoveOneStep(false);
+								}}
+							>
+								Layer Down
+							</Button>
+						</PopoverContent>
+					</Popover>
+					
+					<Popover>
+						<PopoverTrigger>
+							<Button>
+								Opacity
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent className='w-[240px] py-2'>
+							<div className={''}>
+								<Slider
+									label='Opacity'
+									step={0.01}
+									maxValue={1}
+									minValue={0}
+									value={opacity}
+									onChange={setOpacity}
+									onChangeEnd={handleChangeOpacity}
+									className='w-[200px]'
+								/>
+							</div>
+						</PopoverContent>
+					</Popover>
+					
 					{elementsTypes && elementsTypes.includes(CanvasElementType.TEXT) && (
 						<>
 							<EditFontSizeInput onChange={handleUpdate} />
 							<EditFontColor onChange={handleUpdate} />
 						</>
 					)}
-				</>
+				</div>
 			)}
 			<Button onClick={handleExport}>Save as image (Работает только если в канвасе нет картинки)</Button>
-		</div>
+		</>
 	);
 }
