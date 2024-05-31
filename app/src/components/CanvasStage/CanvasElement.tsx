@@ -34,6 +34,15 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 
 		node.scaleX(1);
 		node.scaleY(1);
+
+		if(shape.type === CanvasElementType.LINE) {
+			const nodeAsLine: Konva.Line = node as Konva.Line;
+			const oldPoints: number[] = nodeAsLine.points();
+			const newPoints = oldPoints.map((point, index) => {
+				return index % 2 ? point * scaleY : point * scaleX
+			})
+			nodeAsLine.points(newPoints);
+		}
 		const element = {
 			...node.attrs,
 			x: node.x(),
@@ -63,7 +72,6 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 		onTransformEnd: handleTransform,
 		onDragEnd: handleDrag,
 	};
-	// console.log('shapeRef', shapeRef);
 
 	return (
 		<>
