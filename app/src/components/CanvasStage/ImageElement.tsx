@@ -8,6 +8,7 @@ interface IProps {
 	onChange?: (index: number, element: Partial<ICanvasElement>) => void;
 }
 export default function ImageElement({ shape: { src, ...shapeProps }, index, onChange }: IProps) {
-	const [image, status] = useImage(src);
+	// FIXME: Image do not loads with anonymous flag
+	const [image, status] = useImage(src); // 'anonymous'
 	return <Image image={image} {...shapeProps} />;
 }

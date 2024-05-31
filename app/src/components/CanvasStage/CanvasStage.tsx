@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Layer, Line, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
@@ -50,6 +50,7 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	const shapes = canvasState.data?.elements;
 	const dispatch = useAppDispatch();
 	const divRef = useRef<HTMLInputElement>(null);
+	const stageRef = useRef<any>();
 	useCanvasKeyboard();
 	const [stageScale, setStageScale] = useState({
 		scale: 1,
@@ -95,11 +96,12 @@ export const CanvasStage = ({ canvasState, dimensions }: Props) => {
 	const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true});
 	return (
 		<div>
-			<CanvasEditBar />
+			<CanvasEditBar stageRef={stageRef} />
 			<div className={'w-3/4 h-screen border-1 bg-black'}>
 				<div ref={divRef}>
 					<div {...getRootProps()}>
 						<Stage
+							ref={stageRef}
 							onWheel={handleWheel}
 							scaleX={stageScale.scale}
 							scaleY={stageScale.scale}
