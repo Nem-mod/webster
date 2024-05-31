@@ -9,6 +9,6 @@ interface IProps {
 }
 export default function ImageElement({ shape: { src, ...shapeProps }, index, onChange }: IProps) {
 	// FIXME: Image do not loads with anonymous flag
-	const [image, status] = useImage(src); // 'anonymous'
+	const [image, status] = useImage(src, "anonymous"); // 'anonymous'
 	return <Image image={image} {...shapeProps} />;
 }
