@@ -14,7 +14,6 @@ export function useDraw() {
     points: []
   });
 	const isDrawing = useRef(false);
-  console.log('line',line)
 
 	const drawingHandleMouseDown = (e) => {
     if (!tool) return;

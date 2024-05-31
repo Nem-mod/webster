@@ -36,9 +36,8 @@ function App() {
 
 	return (
 		<div>
-			<CanvasEditBar />
 			<div className={'flex border-1 border-blue-500'}>
-				<div className={'w-3/4 h-screen border-1 bg-black'} ref={divRef}>
+				<div className={'grow'}>
 					{canvas.data && <CanvasStage canvasState={canvas} dimensions={dimensions} />}
 				</div>
 				<div className={'pl-20'}>
