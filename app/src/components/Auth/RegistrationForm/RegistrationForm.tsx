@@ -2,7 +2,7 @@ import { z, ZodType } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@nextui-org/button';
-import { Checkbox, Link } from '@nextui-org/react';
+import { Link } from '@nextui-org/react';
 import InputFormText from '../InputFormText/InputFormText';
 import { IUserRegisterForm } from '../../../redux/slices/auth/auth-slice.types';
 import { useAppDispatch } from '../../../hooks/redux';
@@ -11,6 +11,7 @@ import {
 	sendVerificationLink,
 } from '../../../redux/slices/auth/auth-slice.service';
 import { redirect, useNavigate } from 'react-router-dom';
+import CustomCheckbox from "./CustomCheckbox.tsx";
 
 const schema: ZodType<IUserRegisterForm> = z
 	.object({
@@ -92,7 +93,7 @@ function RegistrationForm() {
 				<h1 className={'text-red-600'}>{errors.root.message}</h1>
 			)}
 			<div className={'flex gap-4 mr-auto'}>
-				<Checkbox required={true} />
+				<CustomCheckbox/>
 				<Link href={'https://www.rule34.xxx'}>I accept company policy</Link>
 			</div>
             
@@ -102,8 +103,8 @@ function RegistrationForm() {
 			<Button
 				type={'submit'}
 				className={
-					'mt-4 h-12 border border-primary bg-accent text-white hover:bg-accent ' +
-					'w-3/5 text-lg font-semibold hover:border-accent hover:text-white'
+					'mt-4 h-12 border border-secondary bg-secondary text-white hover:bg-primary-light ' +
+					'w-2/5 text-lg font-semibold hover:border-primary-light hover:text-white'
 				}
 			>
 				Sign Up

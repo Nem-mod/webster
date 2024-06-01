@@ -38,7 +38,8 @@ function LoginForm() {
 		<form
 			onSubmit={action}
 			className={
-				'w-fill flex flex-col items-center justify-center gap-4 bg-transparent p-4 [&>*]:shadow-sm'
+				' w-fill flex flex-col items-center justify-center gap-4 bg-transparent p-4 [&>*]:shadow-sm;'
+				// 'grid gap-4  bg-transparent p-4 [&>*]:shadow-sm;'
 			}
 		>
 			<h1 className={'text-3xl font-bold text-black'}> Sign in </h1>
@@ -71,8 +72,8 @@ function LoginForm() {
 			<Button
 				type={'submit'}
 				className={
-					'mt-4 h-12 border border-primary bg-accent text-white hover:bg-accent ' +
-					'w-2/5 text-lg font-semibold hover:border-accent hover:text-white'
+					'mt-4 h-12 border border-secondary bg-secondary text-white hover:bg-primary-light ' +
+					'w-2/5 text-lg font-semibold hover:border-primary-light hover:text-white'
 				}
 			>
 				Submit
