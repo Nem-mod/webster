@@ -9,10 +9,7 @@ interface IProps {
 export default function CanvasCard({ canvasName, to }: IProps) {
 	return (
 		<Link to={to}>
-			<Card className='py-4 bg-secondary/30 hover:bg-light'>
-				<CardHeader className='pb-0 pt-2 px-10 flex-col items-start'>
-					<p className='text-tiny uppercase font-bold'>{canvasName}</p>
-				</CardHeader>
+			<Card className='py-4 bg-secondary/30 hover:bg-light shadow-xl'>
 				<CardBody className='overflow-visible py-2'>
 					<Image
 						alt='Card background'
@@ -21,6 +18,10 @@ export default function CanvasCard({ canvasName, to }: IProps) {
 						width={270}
 					/>
 				</CardBody>
+				<CardHeader className='pb-0 pt-2 px-10 flex-col items-start'>
+					<p className='text-tiny uppercase font-bold'>{canvasName}</p>
+					{/*<p className='text-tiny'>01.06.2024</p>*/}
+				</CardHeader>
 			</Card>
 		</Link>
 	);
