@@ -54,18 +54,18 @@ export const fetchVerifyRegistration = createAsyncThunk<boolean, { token: string
 	},
 );
 
-// export const fetchAuthMe = createAsyncThunk(
-//     'auth/me',
-//     async (params: any, thunkAPI) => {
-//         try {
-//             await axios.post('/auth/refresh', params);
-//             const response = await axios.get('/auth/profile', params);
-//             return response.data;
-//         } catch (error: any) {
-//             return thunkAPI.rejectWithValue(error.message);
-//         }
-//     },
-// );
+export const fetchAuthMe = createAsyncThunk<IUserRegisterAndAuthRes, null, { rejectValue: string; }>(
+    'auth/me',
+    async (_, {rejectWithValue}) => {
+        try {
+            await axios.post('/auth/refresh');
+            const response = await axios.get('/auth/profile');
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
 // export const fetchUpdateProfile = createAsyncThunk<Client, Client, { rejectValue: string }>(
 //     'auth/update',
