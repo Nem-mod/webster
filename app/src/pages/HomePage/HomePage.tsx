@@ -34,7 +34,7 @@ export default function HomePage() {
 				<div className={'flex mt-10 gap-10'}>
 					{canvases &&
 						canvases.map((canvas) => (
-							<CanvasCard canvasName={canvas.canvasName} />
+							<CanvasCard canvasName={canvas.canvasName} to={`/workspace/${canvas.canvasName}`} />
 						))}
 				</div>
 			</div>

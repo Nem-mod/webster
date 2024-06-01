@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 
 interface IProps {
 	canvasName: string;
+	to: string;
 }
 
-export default function CanvasCard({ canvasName }: IProps) {
+export default function CanvasCard({ canvasName, to }: IProps) {
 	return (
-		<Link to={'#'}>
+		<Link to={to}>
 			<Card className='py-4'>
 				<CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
 					<p className='text-tiny uppercase font-bold'>{canvasName}</p>
