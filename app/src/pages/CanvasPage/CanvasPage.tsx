@@ -6,6 +6,7 @@ import { fetchCanvasById } from '../../redux/slices/canvasSlice/canvas-slice.ser
 import { RootState } from '../../redux/store';
 import InputImageFile from '../../components/InputImageFile/InputImageFile';
 import { useParams } from 'react-router-dom';
+import axios from '../../axios/instance';
 
 export default function CanvasPage() {
 	const dispatch = useAppDispatch();
@@ -31,9 +32,16 @@ export default function CanvasPage() {
 
 	const canvas = useAppSelector((state: RootState) => state.canvas);
 
-	// useEffect(() => {
-	// 	// dispatch(fetchCanvasById(0));
-	// }, [canvas]);
+	// TODO: Refactor
+	useEffect(() => {
+		if (!canvas.data) return;
+		axios
+			.patch(`/canvas/${canvasId}`, {
+				canvas: {
+					elements: canvas.data.elements,
+				},
+			})
+	}, [canvas.data?.elements]);
 
 	return (
 		<div>

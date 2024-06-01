@@ -7,13 +7,13 @@ export interface ICanvasData {
 	title: string;
 	// stageSettings: {};
 	elements: ICanvasElement[];
-	selected: ICanvasSelectedElement[];
+	selected?: ICanvasSelectedElement[];
 	history?: {
 		stack: ICanvasElement[][];
 		size: number;
 		currentPos: number;
 	} | null;
-	activeTool: ToolOperationType 
+	activeTool?: ToolOperationType 
 }
 
 export interface IUpdateElement {
