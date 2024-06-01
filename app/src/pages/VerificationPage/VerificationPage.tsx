@@ -1,5 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import ResendVerificationLink from '../../components/Auth/ResendVerificationLink/ResendVerificationLink';
+import ClippingMask from "../../components/Auth/ClippingMask.tsx";
 
 export default function VerificationPage() {
 	const [searchParams] = useSearchParams();
@@ -10,9 +11,11 @@ export default function VerificationPage() {
 	}
 	
 	return (
-		<div className={'m-auto mt-12 max-w-screen-xl px-2 text-black'}>
-			<div className='flex flex-col gap-8 justify-center items-center'>
-				<h1 className='text-4xl font-bold'>Confirm registration</h1>
+		<div className={'flex justify-center items-center h-screen w-screen bg-gradient-to-bl from-accent/50 to-light/50'}>
+			<div className={'max-w-screen-xl p-20 text-black flex flex-col gap-8 justify-center items-center'}>
+				{/*<ClippingMask>*/}
+					<h1 className='text-6xl font-bold'>Confirm registration</h1>
+				{/*</ClippingMask>*/}
 				<p>
 					We have send you an email to verify account. Follow the link in the
 					mail to continue

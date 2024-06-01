@@ -2,7 +2,7 @@ import LoginForm from "../../components/Auth/LoginForm/LoginForm";
 
 export default function SignInPage() {
     return (
-      <div className={'flex justify-center items-center h-screen w-screen bg-gradient-to-bl from-accent/60 to-light/60'}>
+      <div className={'flex justify-center items-center h-screen w-screen bg-gradient-to-bl from-accent/50 to-light/50'}>
         <div className={'flex gap-10 max-w-screen-xl'}>
             <div className={'flex flex-col flex-grow basis-1/2 justify-center bg-secondary/30 rounded-s-xl max-h'}>
                 <LoginForm />

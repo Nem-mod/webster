@@ -9,7 +9,7 @@ function ResendVerificationLink({ email }: Props) {
 		if (!email) return;
 		sendVerificationLink(email);
 	};
-	return <Link onClick={handleClick}>Click to resend.</Link>;
+	return <Link className={'text-secondary underline'} onClick={handleClick}>Click to resend</Link>;
 }
 
 export default ResendVerificationLink;
