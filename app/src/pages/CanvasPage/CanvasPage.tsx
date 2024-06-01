@@ -5,10 +5,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCanvasById } from '../../redux/slices/canvasSlice/canvas-slice.service';
 import { RootState } from '../../redux/store';
 import InputImageFile from '../../components/InputImageFile/InputImageFile';
-
+import { useParams } from 'react-router-dom';
+import axios from '../../axios/instance';
 
 export default function CanvasPage() {
 	const dispatch = useAppDispatch();
+	const { id: canvasId } = useParams();
 	const divRef = useRef<HTMLInputElement>(null);
 	const [dimensions, setDimensions] = useState({
 		width: 1000,
@@ -24,27 +26,36 @@ export default function CanvasPage() {
 				height: divRef.current.offsetHeight,
 			});
 		}
-
-		dispatch(fetchCanvasById(0));
+		if (!canvasId) dispatch(fetchCanvasById('0'));
+		if (canvasId) dispatch(fetchCanvasById(canvasId));
 	}, []);
 
 	const canvas = useAppSelector((state: RootState) => state.canvas);
 
-	// useEffect(() => {
-	// 	// dispatch(fetchCanvasById(0));
-	// }, [canvas]);
+	// TODO: Refactor
+	useEffect(() => {
+		if (!canvas.data) return;
+		axios
+			.patch(`/canvas/${canvasId}`, {
+				canvas: {
+					elements: canvas.data.elements,
+				},
+			})
+	}, [canvas.data?.elements]);
 
 	return (
 		<div>
 			<div className={'flex border-1 border-blue-500'}>
 				<div className={'grow'}>
-					{canvas.data && <CanvasStage canvasState={canvas} dimensions={dimensions} />}
+					{canvas.data && (
+						<CanvasStage canvasState={canvas} dimensions={dimensions} />
+					)}
 				</div>
 				<div className={'pl-20'}>
 					<CanvasMenu />
 				</div>
 			</div>
-			<InputImageFile/>
+			<InputImageFile />
 		</div>
 	);
 }

@@ -1,17 +1,18 @@
-import { Button, Input, Spacer } from '@nextui-org/react';
+import { Button, Input } from '@nextui-org/react';
 import { SearchIcon } from '../../components/Icons/SearchIcon';
 import CanvasCard from '../../components/CanvasCard/CanvasCard';
-
-const canvases = [
-	{
-		canvasName: 'title1',
-	},
-	{
-		canvasName: 'title2',
-	},
-];
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { useEffect } from 'react';
+import { fetchCanvases } from '../../redux/slices/canvases/canvases-slice.service';
+import CreateCanvasModal from '../../components/CreateCanvasModal/CreateCanvasModal';
 
 export default function HomePage() {
+	const dispatch = useAppDispatch();
+	const canvases = useAppSelector((state) => state.canvases.data?.canvases);
+	useEffect(() => {
+		dispatch(fetchCanvases(null));
+	}, []);
+
 	return (
 		<div className='pt-20 max-w-6xl m-auto'>
 			<div>
@@ -29,12 +30,16 @@ export default function HomePage() {
 						startContent={<SearchIcon size={18} />}
 						type='search'
 					/>
-					<Button className={'text-xl'} size={'lg'} color={'primary'}>Create new canvas</Button>
+					<CreateCanvasModal />
 				</div>
 				<div className={'flex mt-10 gap-10'}>
 					{canvases &&
 						canvases.map((canvas) => (
-							<CanvasCard canvasName={canvas.canvasName} to={`/workspace/${canvas.canvasName}`} />
+							<CanvasCard
+								key={canvas._id}
+								canvasName={canvas.canvasName}
+								to={`/workspace/${canvas._id}`}
+							/>
 						))}
 				</div>
 			</div>
