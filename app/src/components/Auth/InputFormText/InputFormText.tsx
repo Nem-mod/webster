@@ -33,13 +33,17 @@ function InputFormText({
             variant={'flat'}
             {...props}
             classNames={{
+              base: ['mb-2'],
                 input: [
                     'text-black',
                 ],
-                label: ['text-accent'],
+                label: ['text-secondary-dark'],
                 mainWrapper: [
-                    'hover:bg-primary/40',
-                ]
+                    'hover:bg-primary/40 mb-20'
+                ],
+              helperWrapper: [
+                'absolute pt-16'
+              ]
             }}
         />
     );
