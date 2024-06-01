@@ -5,6 +5,7 @@ import SignInPage from "../pages/SignInPage/SignInPage";
 import SignUpPage from "../pages/SigUpPage/SignUpPage";
 import VerificationPage from "../pages/VerificationPage/VerificationPage";
 import SubmitVerificationPage from "../pages/SubmitVerificationPage/SubmitVerificationPage";
+import HomePage from "../pages/HomePage/HomePage";
 
 export const router = createBrowserRouter([
 	{
@@ -29,4 +30,8 @@ export const router = createBrowserRouter([
 		path: '/verify',
 		element: <SubmitVerificationPage />,
 	},
+	{
+		path: '/home',
+		element: <HomePage/>
+	}
 ]);
