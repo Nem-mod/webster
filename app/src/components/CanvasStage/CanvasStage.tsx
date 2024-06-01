@@ -1,9 +1,9 @@
 import Konva from 'konva';
-import { LegacyRef, useCallback, useEffect, useRef, useState } from 'react';
+import {useCallback, useRef, useState } from 'react';
 import { Layer, Line, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
-import { addElement, deleteElement, ICanvasState, reviewHistory, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import { addElement, ICanvasState, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import CanvasElement from './CanvasElement';
 import { useDropzone } from 'react-dropzone';
