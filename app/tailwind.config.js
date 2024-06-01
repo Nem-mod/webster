@@ -67,57 +67,57 @@ export default {
             //     dark: '#c4e0df',
             // },
 
-            // primary: {
-            //     DEFAULT: '#151515',
-            //     light: '#2E2E2E',
-            //     dark: '#0A0A0A',
-            // },
-            // secondary: {
-            //     DEFAULT: '#A91D3A',
-            //     light: '#BF3F5A',
-            //     dark: '#7F1429',
-            // },
-            // accent: {
-            //     DEFAULT: '#C73659',
-            //     light: '#DB577A',
-            //     dark: '#931F41',
-            // },
-            // accentSecond: {
-            //     DEFAULT: '#EEEEEE',
-            //     light: '#F4F4F4',
-            //     dark: '#CCCCCC',
-            // },
-            // light: {
-            //     DEFAULT: '#EEEEEE', // Using the very light gray for light
-            //     light: '#F4F4F4',
-            //     dark: '#CCCCCC',
-            // },
-
             primary: {
-                DEFAULT: '#141E46',
-                light: '#2B3465',
-                dark: '#0F1532',
+                DEFAULT: '#151515',
+                light: '#2E2E2E',
+                dark: '#0A0A0A',
             },
             secondary: {
-                DEFAULT: '#41B06E',
-                light: '#63C28B',
-                dark: '#318856',
+                DEFAULT: '#A91D3A',
+                light: '#BF3F5A',
+                dark: '#7F1429',
             },
             accent: {
-                DEFAULT: '#8DECB4',
-                light: '#A3F0C5',
-                dark: '#6CD49B',
+                DEFAULT: '#C73659',
+                light: '#DB577A',
+                dark: '#931F41',
             },
             accentSecond: {
-                DEFAULT: '#FFF5E0',
-                light: '#FFF9EB',
-                dark: '#E6DBC8',
+                DEFAULT: '#EEEEEE',
+                light: '#F4F4F4',
+                dark: '#CCCCCC',
             },
             light: {
-                DEFAULT: '#FFF5E0', // Using the light cream color for light
-                light: '#FFF9EB',
-                dark: '#E6DBC8',
+                DEFAULT: '#EEEEEE', // Using the very light gray for light
+                light: '#F4F4F4',
+                dark: '#CCCCCC',
             },
+
+            // primary: {
+            //     DEFAULT: '#141E46',
+            //     light: '#2B3465',
+            //     dark: '#0F1532',
+            // },
+            // secondary: {
+            //     DEFAULT: '#41B06E',
+            //     light: '#63C28B',
+            //     dark: '#318856',
+            // },
+            // accent: {
+            //     DEFAULT: '#8DECB4',
+            //     light: '#A3F0C5',
+            //     dark: '#6CD49B',
+            // },
+            // accentSecond: {
+            //     DEFAULT: '#FFF5E0',
+            //     light: '#FFF9EB',
+            //     dark: '#E6DBC8',
+            // },
+            // light: {
+            //     DEFAULT: '#FFF5E0', // Using the light cream color for light
+            //     light: '#FFF9EB',
+            //     dark: '#E6DBC8',
+            // },
         },
     },
 },

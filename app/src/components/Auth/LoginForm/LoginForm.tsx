@@ -59,25 +59,26 @@ function LoginForm() {
 				errorMessage={errors.password?.message}
 			/>
 
-			<Link href={'/recovery'} underline={'hover'} className={'ml-auto'}>
+			<Link href={'/recovery'} underline={'hover'} className={'mr-auto ml-2'}>
 				Forgot password?
 			</Link>
 
-			<Link href={'/signup'} underline={'hover'} className={'ml-auto'}>
-				Create new account
-			</Link>
 			{errors.root?.message && (
 				<h1 className={'text-red-600'}>{errors.root.message}</h1>
 			)}
 			<Button
 				type={'submit'}
 				className={
-					'mt-4 h-12 border border-secondary bg-secondary text-white hover:bg-primary-light ' +
+					'mt-5 h-12 border border-secondary bg-secondary text-white hover:bg-primary-light ' +
 					'w-2/5 text-lg font-semibold hover:border-primary-light hover:text-white'
 				}
 			>
 				Submit
 			</Button>
+
+			<Link href={'/signup'} underline={'hover'}>
+				Create new account
+			</Link>
 		</form>
 	);
 }

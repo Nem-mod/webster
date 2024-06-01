@@ -14,34 +14,34 @@ export default function HomePage() {
 	}, []);
 
 	return (
-		<div className='pt-20 max-w-6xl m-auto'>
-			<div>
-				<div className={'flex gap-10'}>
-					<Input
-						classNames={{
-							base: 'w-full h-10',
-							mainWrapper: 'h-full',
-							input: 'text-large',
-							inputWrapper:
-								'h-full font-normal text-default-500 bg-default-400/20 dark:bg-default-500/20',
-						}}
-						placeholder='Type to search...'
-						size='lg'
-						startContent={<SearchIcon size={18} />}
-						type='search'
-					/>
-					<CreateCanvasModal />
-				</div>
-				<div className={'flex mt-10 gap-10'}>
-					{canvases &&
-						canvases.map((canvas) => (
-							<CanvasCard
-								key={canvas._id}
-								canvasName={canvas.canvasName}
-								to={`/workspace/${canvas._id}`}
-							/>
-						))}
-				</div>
+		<div className={'flex justify-center h-screen w-screen bg-gradient-to-bl from-accent/20 to-light/20'}>
+			<div className='pt-20 max-w-6xl'>
+					<div className={'flex gap-10'}>
+						<Input
+							classNames={{
+								base: 'w-full h-10',
+								mainWrapper: 'h-full',
+								input: 'text-large',
+								inputWrapper:
+									'h-full font-normal text-default-500 bg-accent/50 dark:bg-accent/20'
+							}}
+							placeholder='Type to search...'
+							size='lg'
+							startContent={<SearchIcon size={18} />}
+							type='search'
+						/>
+						<CreateCanvasModal />
+					</div>
+					<div className={'flex mt-10 gap-10'}>
+						{canvases &&
+							canvases.map((canvas) => (
+								<CanvasCard
+									key={canvas._id}
+									canvasName={canvas.canvasName}
+									to={`/workspace/${canvas._id}`}
+								/>
+							))}
+					</div>
 			</div>
 		</div>
 	);

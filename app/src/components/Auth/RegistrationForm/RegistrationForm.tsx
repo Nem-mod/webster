@@ -96,19 +96,20 @@ function RegistrationForm() {
 				<CustomCheckbox/>
 				<Link href={'https://www.rule34.xxx'}>I accept company policy</Link>
 			</div>
-            
-			<Link href={'/signin'} underline={'hover'} className={'ml-auto'}>
-				Already have an account?
-			</Link>
+
 			<Button
 				type={'submit'}
 				className={
-					'mt-4 h-12 border border-secondary bg-secondary text-white hover:bg-primary-light ' +
+					'mt-5 h-12 border border-secondary bg-secondary text-white hover:bg-primary-light ' +
 					'w-2/5 text-lg font-semibold hover:border-primary-light hover:text-white'
 				}
 			>
 				Sign Up
 			</Button>
+
+			<Link href={'/signin'} underline={'hover'}>
+				Already have an account?
+			</Link>
 		</form>
 	);
 }

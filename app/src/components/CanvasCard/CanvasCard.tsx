@@ -9,8 +9,8 @@ interface IProps {
 export default function CanvasCard({ canvasName, to }: IProps) {
 	return (
 		<Link to={to}>
-			<Card className='py-4'>
-				<CardHeader className='pb-0 pt-2 px-4 flex-col items-start'>
+			<Card className='py-4 bg-secondary/30 hover:bg-light'>
+				<CardHeader className='pb-0 pt-2 px-10 flex-col items-start'>
 					<p className='text-tiny uppercase font-bold'>{canvasName}</p>
 				</CardHeader>
 				<CardBody className='overflow-visible py-2'>

@@ -33,12 +33,12 @@ export default function CreateCanvasModal() {
 	return (
 		<>
 			<Button
-				className={'text-xl'}
+				className={'text-xl bg-primary/90'}
 				size={'lg'}
 				color={'primary'}
 				onPress={onOpen}
 			>
-				New Label{' '}
+				Create new
 			</Button>
 			<Modal isOpen={isOpen} onOpenChange={onOpenChange}>
 				<ModalContent>
