@@ -30,14 +30,15 @@ export default function HomePage() {
 						startContent={<SearchIcon size={18} />}
 						type='search'
 					/>
-					<CreateCanvasModal/>
+					<CreateCanvasModal />
 				</div>
 				<div className={'flex mt-10 gap-10'}>
 					{canvases &&
 						canvases.map((canvas) => (
 							<CanvasCard
+								key={canvas._id}
 								canvasName={canvas.canvasName}
-								to={`/workspace/${canvas.canvasName}`}
+								to={`/workspace/${canvas._id}`}
 							/>
 						))}
 				</div>
