@@ -31,7 +31,7 @@ export default function CanvasEditBar({stageRef}: IProps) {
 	const [opacity, setOpacity] = useState<number | number[]>(1);
 	// Save
 	const handleExport = () => {
-		if (!stageRef?.current) return;
+		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
 		console.log('stageRef.curret',stageRef.current)
 		const uri = stageRef.current.getStage().toDataURL();
 		console.log(uri);
@@ -87,7 +87,7 @@ export default function CanvasEditBar({stageRef}: IProps) {
 	return (
 		<>
 			{selectedElements?.length && (
-				<div className={'flex flex-row gap-4 mt-8 border border-black rounded-md'}>
+				<div className={'flex flex-col gap-4 mt-8 border border-black rounded-md'}>
 					{/* <p>{JSON.stringify(elementsTypes)}</p> */}
 					
 					<Popover className={`bg-[${color}]`}>
@@ -174,7 +174,7 @@ export default function CanvasEditBar({stageRef}: IProps) {
 					)}
 				</div>
 			)}
-			<Button onClick={handleExport}>Save as image (Работает только если в канвасе нет картинки)</Button>
+			{/*<Button onClick={handleExport}>Save as image (Работает только если в канвасе нет картинки)</Button>*/}
 		</>
 	);
 }
