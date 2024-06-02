@@ -2,7 +2,7 @@ import { Button, Input } from '@nextui-org/react';
 import { SearchIcon } from '../../components/Icons/SearchIcon';
 import CanvasCard from '../../components/CanvasCard/CanvasCard';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { useEffect } from 'react';
+import {useEffect, useState} from 'react';
 import { fetchCanvases } from '../../redux/slices/canvases/canvases-slice.service';
 import CreateCanvasModal from '../../components/CreateCanvasModal/CreateCanvasModal';
 
@@ -14,7 +14,7 @@ export default function HomePage() {
 	}, []);
 
 	return (
-		<div className={'flex justify-center h-screen w-screen bg-gradient-to-bl from-accent/20 to-light/20'}>
+		<div className={`flex justify-center h-screen w-screen bg-gradient-to-bl from-accent/20 to-light/20`}>
 			<div className='pt-20 max-w-6xl'>
 					<div className={'flex gap-10'}>
 						<Input
@@ -30,7 +30,7 @@ export default function HomePage() {
 							startContent={<SearchIcon size={18} />}
 							type='search'
 						/>
-						<CreateCanvasModal />
+						<CreateCanvasModal/>
 					</div>
 					<div className={'flex mt-10 gap-10'}>
 						{canvases &&
