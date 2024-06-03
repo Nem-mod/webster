@@ -57,6 +57,8 @@ const authSlice = createSlice({
 
 		builder.addCase(fetchAuthMe.pending, (state) => {
 			state.loading = true;
+			state.data = null,
+			state.success = false;
 		});
 
 		builder.addCase(fetchAuthMe.fulfilled, (state, action) => {
@@ -64,6 +66,7 @@ const authSlice = createSlice({
 			state.data = action.payload;
 			state.success = true;
 		});
+
 
 		builder.addCase(fetchAuthMe.rejected, (state, action) => {
 			state.loading = false;

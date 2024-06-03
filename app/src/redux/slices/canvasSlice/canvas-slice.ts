@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, current } from '@reduxjs/toolkit';
 import { EStateStatus } from '../../../constants/stateStatus.enum';
 import { ICanvasElement } from '../../../services/canvas/canvas.types';
 import { fetchCanvasById } from './canvas-slice.service';
@@ -52,6 +52,16 @@ const canvasSlice = createSlice({
 			const temp = [...state.data.elements];
 			temp[payload.index] = { ...temp[payload.index], ...payload.element };
 			state.data.elements = temp;
+			if (state.data.selected) {
+				const selectedData =  current(state.data.selected);
+				const selectedIndex = selectedData.findIndex(element => {
+					return +element.index === +payload.index;
+				});
+
+				if (selectedIndex !== -1) {
+					state.data.selected[selectedIndex] = { ...selectedData[selectedIndex], ...payload.element };
+				}
+			}
 			addHistory(state);
 		},
 
@@ -70,7 +80,7 @@ const canvasSlice = createSlice({
 			addHistory(state);
 		},
 
-		moveElements(state: ICanvasState, { payload }: PayloadAction<{ to: boolean }>) {
+		moveElements(state: ICanvasState, { payload }: PayloadAction<{ to: boolean; }>) {
 			if (!state.data) return;
 
 			const selectedIds = state.data.selected.map((e) => e.index);
@@ -98,7 +108,7 @@ const canvasSlice = createSlice({
 			addHistory(state);
 		},
 
-		moveElementsOneStep(state: ICanvasState, { payload }: PayloadAction<{ to: boolean }>) {
+		moveElementsOneStep(state: ICanvasState, { payload }: PayloadAction<{ to: boolean; }>) {
 			if (!state.data) return;
 
 			const selectedIds = state.data.selected.map((e) => +e.index);
@@ -141,7 +151,7 @@ const canvasSlice = createSlice({
 			state.data.selected = selected;
 		},
 
-		reviewHistory(state: ICanvasState, { payload }: PayloadAction<{ type: boolean }>) {
+		reviewHistory(state: ICanvasState, { payload }: PayloadAction<{ type: boolean; }>) {
 			if (!state.data || !state.data.history) return;
 			const history = state.data.history;
 			const { type } = payload;
@@ -154,8 +164,8 @@ const canvasSlice = createSlice({
 			}
 		},
 
-		setTool(state: ICanvasState, { payload }: PayloadAction<{ tool: ToolOperationType }>) {
-			if(!state.data) return;
+		setTool(state: ICanvasState, { payload }: PayloadAction<{ tool: ToolOperationType; }>) {
+			if (!state.data) return;
 			state.data.activeTool = payload.tool;
 		}
 	},
