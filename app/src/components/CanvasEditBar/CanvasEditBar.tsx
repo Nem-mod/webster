@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { moveElements, moveElementsOneStep, updateElement } from '../../redux/slices/canvasSlice/canvas-slice';
+import {
+	moveElements,
+	moveElementsOneStep,
+	updateElement,
+} from '../../redux/slices/canvasSlice/canvas-slice';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import EditFontColor from './EditText/EditFontColor';
@@ -11,28 +15,30 @@ import { Button, Slider } from '@nextui-org/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 
 function downloadURI(uri, name) {
-  const link = document.createElement('a');
-  link.download = name;
-  link.href = uri;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+	const link = document.createElement('a');
+	link.download = name;
+	link.href = uri;
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
 }
 
 interface IProps {
-	stageRef: any  // LegacyRef<Konva.Stage>
+	stageRef: any; // LegacyRef<Konva.Stage>
 }
 
-export default function CanvasEditBar({stageRef}: IProps) {
+export default function CanvasEditBar({ stageRef }: IProps) {
 	const dispatch = useAppDispatch();
-	const selectedElements = useAppSelector((state) => state.canvas.data?.selected);
+	const selectedElements = useAppSelector(
+		(state) => state.canvas.data?.selected
+	);
 	const [color, setColor] = useState<string>('#aabbcc');
 	const [colorTimeout, setColorTimeout] = useState<number>();
 	const [opacity, setOpacity] = useState<number | number[]>(1);
 	// Save
 	const handleExport = () => {
 		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
-		console.log('stageRef.curret',stageRef.current)
+		console.log('stageRef.curret', stageRef.current);
 		const uri = stageRef.current.getStage().toDataURL();
 		console.log(uri);
 		// we also can save uri as file
@@ -58,11 +64,11 @@ export default function CanvasEditBar({stageRef}: IProps) {
 	};
 
 	const handleChangeColor = (value: string) => {
-		setColor(value)
+		setColor(value);
 		if (colorTimeout) {
 			clearTimeout(colorTimeout);
 		}
-		
+
 		const timeoutId = setTimeout(() => {
 			handleUpdate({
 				fill: value,
@@ -87,17 +93,30 @@ export default function CanvasEditBar({stageRef}: IProps) {
 	return (
 		<>
 			{selectedElements?.length && (
-				<div className={'flex flex-col gap-4 mt-8 border border-black rounded-md'}>
+				<div
+					className={'flex flex-col gap-4 mt-8 border border-black rounded-md'}
+				>
 					{/* <p>{JSON.stringify(elementsTypes)}</p> */}
-					
-					<Popover className={`bg-[${color}]`}>
-						<PopoverTrigger className={`bg-[${color}]`}>
-							<Button 
-								className={`bg-[${color}]`}
-								onClick={(e) => console.log(color)}
-							>
-								Color
-							</Button>
+					<Popover>
+						<PopoverTrigger>
+							<div className={'w-full mt-5'}>
+								<div className={'m-auto rounded h-8 w-8  flex'}>
+									{selectedElements
+										.filter((element) => element.fill)
+										.map((element, index, array) => {
+											const flexBasis = 100 / array.length;
+											return (
+												<div
+													key={element.index}
+													style={{
+														backgroundColor: `${element.fill}`,
+														flexBasis: `${flexBasis}%`,
+													}}
+												></div>
+											);
+										})}
+								</div>
+							</div>
 						</PopoverTrigger>
 						<PopoverContent>
 							<HexColorPicker color={color} onChange={handleChangeColor} />
@@ -105,9 +124,7 @@ export default function CanvasEditBar({stageRef}: IProps) {
 					</Popover>
 					<Popover>
 						<PopoverTrigger>
-							<Button>
-								Layers
-							</Button>
+							<Button>Layers</Button>
 						</PopoverTrigger>
 						<PopoverContent className={'p-4 flex flex-col items-stretch'}>
 							<Button
@@ -143,12 +160,10 @@ export default function CanvasEditBar({stageRef}: IProps) {
 							</Button>
 						</PopoverContent>
 					</Popover>
-					
+
 					<Popover>
 						<PopoverTrigger>
-							<Button>
-								Opacity
-							</Button>
+							<Button>Opacity</Button>
 						</PopoverTrigger>
 						<PopoverContent className='w-[240px] py-2'>
 							<div className={''}>
@@ -165,7 +180,7 @@ export default function CanvasEditBar({stageRef}: IProps) {
 							</div>
 						</PopoverContent>
 					</Popover>
-					
+
 					{elementsTypes && elementsTypes.includes(CanvasElementType.TEXT) && (
 						<>
 							<EditFontSizeInput onChange={handleUpdate} />
