@@ -10,15 +10,16 @@ import axios from '../../axios/instance';
 import CanvasEditBar from "../../components/CanvasEditBar/CanvasEditBar.tsx";
 
 export default function CanvasPage() {
-	const border = true
+	const border = false
 
 	const dispatch = useAppDispatch();
 	const { id: canvasId } = useParams();
 	const divRef = useRef<HTMLInputElement>(null);
 	const stageRef = useRef<any>();
+	const stageWrapperRef = useRef<any>(null)
 	const [dimensions, setDimensions] = useState({
-		width: 1000,
-		height: 1000,
+		width: 100,
+		height: 100,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
@@ -60,13 +61,13 @@ export default function CanvasPage() {
 					<CanvasMenu />
 				</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center`}>
+				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden max-h-screen pl-[100px]`} ref={stageWrapperRef}>
 					{canvas.data && (
-						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} />
+						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
 					)}
 				</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''} min-w-32 max-w-20`}>
+				<div className={`${border ? 'border-accent-dark border-2' : ''} min-w-32 max-w-20 overflow-hidden`}>
 					<p>settings</p>
 					<CanvasEditBar stageRef={stageRef} />
 				</div>

@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import {useCallback, useRef, useState } from 'react';
+import {EventHandler, useCallback, useEffect, useRef, useState} from 'react';
 import { Layer, Line, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
@@ -21,6 +21,7 @@ interface Props {
 		height: number;
 	};
 	stageRef: any;
+	stageWrapperRef: any;
 }
 
 /**
@@ -47,25 +48,33 @@ interface Props {
  */
 
 	// TODO: Refactor code, use custom hooks to short code 
-export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
-	const shapes = canvasState.data?.elements;
-	const dispatch = useAppDispatch();
-	const divRef = useRef<HTMLInputElement>(null);
+export const CanvasStage = ({ canvasState, dimensions, stageRef, stageWrapperRef }: Props) => {
+	const defaultScale = Math.min(624.9857 * Math.pow(Math.max(dimensions.height, dimensions.width), -0.993), 0.9);
 
-	useCanvasKeyboard();
+	console.log(defaultScale)
+
+	const divRef = useRef<HTMLInputElement>(null);
 	const [stageScale, setStageScale] = useState({
 		scale: 1,
 		stageX: 0,
 		stageY: 0,
 	});
-	const handleWheel = useWheel(stageScale, setStageScale);
+	const [containerScale, setContainerScale] = useState({
+		scale: defaultScale,
+		marginX: 0,
+		marginY: 0,
+		cursorPosX: dimensions.width / 2,
+		cursorPosY: dimensions.height / 2
+	});
 	const {line, tool, drawingHandleMouseDown, drawingHandleMouseMove, drawingHandleMouseUp} = useDraw();
-
-	
 	const { trRef, layerRef, selectionRectRef, checkDeselect, onMouseDown, onMouseUp, onMouseMove, onClickTap } = useCanvasTransition(
 		canvasState.data?.selected || []
 	);
-	
+
+	const shapes = canvasState.data?.elements;
+	const dispatch = useAppDispatch();
+
+	useCanvasKeyboard();
 
 	const handleChangeElement = (index: number, element: Partial<ICanvasElement>) => {
 		dispatch(
@@ -76,7 +85,69 @@ export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
 		);
 	};
 
-	
+	useEffect(() => {
+		const scrollHandler = (event: WheelEvent) => {
+			const scaleBy = 1.1;
+			const scrollDist = 20;
+
+			const minScale = defaultScale;
+			const maxScale = 5;
+
+			const canvasBounds = divRef.current?.getBoundingClientRect() as DOMRect;
+
+			event.preventDefault()
+			if (event.ctrlKey) {
+				let newScale = 1;
+
+				if (event.deltaY > 0)
+					newScale = containerScale.scale / scaleBy
+				if (event.deltaY <= 0)
+					newScale = containerScale.scale * scaleBy
+
+				if (newScale > maxScale || newScale < minScale)
+					return
+
+				const mouseRelativeCanvasCoords = {
+					x: Math.min(Math.max((event.x - canvasBounds.left) / containerScale.scale, 0), dimensions.width),
+					y: Math.min(Math.max((event.y - canvasBounds.top) / containerScale.scale, 0), dimensions.height),
+				};
+
+				console.log(newScale)
+
+				setContainerScale({
+					...containerScale,
+					cursorPosX: mouseRelativeCanvasCoords.x,
+					cursorPosY: mouseRelativeCanvasCoords.y,
+					scale: newScale
+				})
+			} else if (event.shiftKey) {
+				const scaledScrollDist = scrollDist * containerScale.scale
+				const newMarginX = Math.round((event.deltaY > 0 ? containerScale.marginX - scaledScrollDist : containerScale.marginX + scaledScrollDist) * 10) / 10
+
+				setContainerScale({
+					...containerScale,
+					marginX: newMarginX
+				})
+			} else {
+				const scaledScrollDist = scrollDist * containerScale.scale
+				const newStageY = event.deltaY > 0 ? containerScale.marginY - scaledScrollDist : containerScale.marginY + scaledScrollDist
+
+				setContainerScale({
+					...containerScale,
+					marginY: newStageY
+				})
+			}
+		}
+
+		if (stageWrapperRef)
+			stageWrapperRef.current?.addEventListener('wheel', scrollHandler)
+
+		return () => {
+			if (stageWrapperRef)
+				stageWrapperRef.current?.removeEventListener('wheel', scrollHandler);
+		}
+	}, [containerScale]);
+
 	// File Drop Zone
 	const onDrop = useCallback((acceptedFiles: File[]) => {
 		acceptedFiles.forEach((file: File) => {
@@ -93,20 +164,26 @@ export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
 			}
 		} )
 	}, []);
-	
 	const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true});
-	return (
-		<div ref={divRef} className={'border-2 border-accent-dark'}>
-			<div {...getRootProps()}>
+
+	return ( // TODO: calc default scale for wrapper. change it on wheel + ctrl. use margin for scrolling. don't scale/scroll canvas
+			<div {...getRootProps()} ref={divRef} className={`border-2 border-accent-dark`}
+					 style={{transform: `scale(${containerScale.scale})`,
+						 marginLeft: `${containerScale.marginX}px`,
+						 marginTop: `${containerScale.marginY}px`,
+					 transformOrigin: `${containerScale.cursorPosX}px ${containerScale.cursorPosY}px`}}>
 				<Stage
 					ref={stageRef}
-					onWheel={handleWheel}
+					// onMouseOver={(e: Konva.KonvaEventObject<MouseEvent>) => { console.log(e.evt) }}
+					// onWheel={handleWheel}
 					scaleX={stageScale.scale}
 					scaleY={stageScale.scale}
 					x={stageScale.stageX}
 					y={stageScale.stageY}
 					width={dimensions.width}
 					height={dimensions.height}
+					// container={'container'}
+					// pixelRatio={2}
 					onMouseDown={tool ? drawingHandleMouseDown : onMouseDown}
 					onMouseUp={tool ? drawingHandleMouseUp : onMouseUp}
 					onMouseMove={tool ? drawingHandleMouseMove : onMouseMove}
@@ -140,6 +217,5 @@ export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
 				</Stage>
 				<input {...getInputProps()} type={'file'} className={'hidden'} accept={'image/*'} />
 			</div>
-		</div>
 	);
 };

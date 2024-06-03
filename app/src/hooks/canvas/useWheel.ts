@@ -25,7 +25,7 @@ export default function useWheel(stageScale: TStageScale, setStageScale: TSetSta
 		e.evt.preventDefault();
 
 		if (!e.target) return;
-
+		console.log(e.evt)
 		if (e.evt.ctrlKey) {
 			const scaleBy = 1.1;
 			const stage: Konva.Stage | null = e.target.getStage();
@@ -42,15 +42,19 @@ export default function useWheel(stageScale: TStageScale, setStageScale: TSetSta
 				y: pointerPosition?.y / oldScale - stage.y() / oldScale,
 			};
 
-			const newScale = Math.round((e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy) * 10) / 10;
+			// const newScale = Math.round((e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy) * 10) / 10;
+			const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy
 			let newStageX = (pointerPosition.x / newScale - mousePointTo.x) * newScale;
 			let newStageY = (pointerPosition.y / newScale - mousePointTo.y) * newScale;
 
-			if (newScale < 1 || newScale > 5)
-				return
+			// if (newScale < 1 || newScale > 5)
+			// 	return
 
 			newStageX = borderCollision(newStageX, newScale);
 			newStageY = borderCollision(newStageY, newScale);
+
+
+			// newScale = 500 / 1000;
 
 			console.log(newScale);
 

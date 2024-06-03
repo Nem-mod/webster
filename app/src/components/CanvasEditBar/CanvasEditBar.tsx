@@ -174,7 +174,7 @@ export default function CanvasEditBar({stageRef}: IProps) {
 					)}
 				</div>
 			)}
-			{/*<Button onClick={handleExport}>Save as image (Работает только если в канвасе нет картинки)</Button>*/}
+			<Button onClick={handleExport}>Save as image (Работает только если в канвасе нет картинки)</Button>
 		</>
 	);
 }
