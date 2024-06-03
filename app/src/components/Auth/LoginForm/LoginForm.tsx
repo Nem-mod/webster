@@ -30,7 +30,7 @@ function LoginForm() {
 			setError('root', { type: 'custom', message: error.message });
 			return;
 		}
-        navigate('/')
+        navigate('/home')
 
 	});
 

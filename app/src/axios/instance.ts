@@ -6,14 +6,19 @@ const instance = axios.create({
     withCredentials: true,
 });
 
-instance.interceptors.request.use(
+instance.interceptors.response.use(
     (response) => {
         return response;
     },
     
     async (error) => {
-        if (error.response.status === 401) {
-            await axios.get('/auth/refresh');
+        const originalRequest = error.config;
+
+        console.log('error',error)
+        if ((error.response.status === 400 || error.response.status === 401) && !originalRequest?.send) {
+            originalRequest.sent = true;
+            const response = await instance.post('/auth/refresh');
+            return instance(originalRequest);
         }
     },
 );
