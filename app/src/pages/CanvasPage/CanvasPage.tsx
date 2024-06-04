@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import axios from '../../axios/instance';
 import CanvasEditBar from "../../components/CanvasEditBar/CanvasEditBar.tsx";
 import { CanvasSidebar } from '../../components/CanvasSidebar/CanvasSidebar.tsx';
+import {CustomNavBar} from "../../components/NavBar/CustomNavBar.tsx";
 
 export default function CanvasPage() {
 	const border = false
@@ -50,44 +51,47 @@ export default function CanvasPage() {
 	}, [canvas.data?.elements]);
 
 	return (
-		<div className={'h-screen w-screen max-w-full max-h-screen'}>
-			<div className={'flex flex-row min-h-screen'}>
-				{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-					<p>tools</p>
-					<p>images</p>
-					<p>history</p>
-				</div>
+		<div className={'flex flex-col h-screen'}>
+			<CustomNavBar/>
+			<div className={'grow w-screen max-w-full'}>
+				<div className={'flex flex-row'}>
+					{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
+						<p>tools</p>
+						<p>images</p>
+						<p>history</p>
+					</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-					<CanvasMenu />
-				</div> */}
-				<div className='h-1/2'>
-					<CanvasSidebar/>
-				</div>
+					<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
+						<CanvasMenu />
+					</div> */}
+					<div className='h-1/2'>
+						<CanvasSidebar/>
+					</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden max-h-screen pl-[100px]`} ref={stageWrapperRef}>
-					{canvas.data && (
-						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
-					)}
-				</div>
+					<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden`} ref={stageWrapperRef}>
+						{canvas.data && (
+							<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
+						)}
+					</div>
 
-				{/* min-w-32 max-w-20 */}
-				<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden`}>
-					<p>settings</p>
-					<CanvasEditBar stageRef={stageRef} />
+					{/* min-w-32 max-w-20 */}
+					<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden`}>
+						<p>settings</p>
+						<CanvasEditBar stageRef={stageRef} />
+					</div>
 				</div>
 			</div>
+				{/*<div className={'flex border-1 border-blue-500'}>*/}
+				{/*	<div className={'grow'}>*/}
+				{/*		{canvas.data && (*/}
+				{/*			<CanvasStage canvasState={canvas} dimensions={dimensions} />*/}
+				{/*		)}*/}
+				{/*	</div>*/}
+				{/*	<div className={'pl-20'}>*/}
+				{/*		<CanvasMenu />*/}
+				{/*	</div>*/}
+				{/*</div>*/}
+				{/*<InputImageFile />*/}
 		</div>
-			// {/*<div className={'flex border-1 border-blue-500'}>*/}
-			// {/*	<div className={'grow'}>*/}
-			// {/*		{canvas.data && (*/}
-			// {/*			<CanvasStage canvasState={canvas} dimensions={dimensions} />*/}
-			// {/*		)}*/}
-			// {/*	</div>*/}
-			// {/*	<div className={'pl-20'}>*/}
-			// {/*		<CanvasMenu />*/}
-			// {/*	</div>*/}
-			// {/*</div>*/}
-			// {/*<InputImageFile />*/}
 	);
 }
