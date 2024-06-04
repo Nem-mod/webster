@@ -45,6 +45,7 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 		}
 		const element = {
 			...node.attrs,
+			...shape,
 			x: node.x(),
 			y: node.y(),
 			radius: node.attrs.radius,
