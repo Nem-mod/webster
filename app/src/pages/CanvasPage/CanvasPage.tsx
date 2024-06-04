@@ -20,8 +20,8 @@ export default function CanvasPage() {
 	const stageRef = useRef<any>();
 	const stageWrapperRef = useRef<any>(null)
 	const [dimensions, setDimensions] = useState({
-		width: 900,
-		height: 900,
+		width: 500,
+		height: 500,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
