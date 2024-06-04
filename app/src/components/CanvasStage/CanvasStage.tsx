@@ -104,8 +104,8 @@ export const CanvasStage = ({ canvasState, dimensions, stageRef, stageWrapperRef
 				if (event.deltaY <= 0)
 					newScale = containerScale.scale * scaleBy
 
-				if (newScale > maxScale || newScale < minScale)
-					return
+				// if (newScale > maxScale || newScale < minScale)
+				// 	return
 
 				const mouseRelativeCanvasCoords = {
 					x: Math.min(Math.max((event.x - canvasBounds.left) / containerScale.scale, 0), dimensions.width),

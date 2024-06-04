@@ -20,8 +20,8 @@ export default function CanvasPage() {
 	const stageRef = useRef<any>();
 	const stageWrapperRef = useRef<any>(null)
 	const [dimensions, setDimensions] = useState({
-		width: 100,
-		height: 100,
+		width: 900,
+		height: 900,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
@@ -51,34 +51,32 @@ export default function CanvasPage() {
 	}, [canvas.data?.elements]);
 
 	return (
-		<div className={'flex flex-col h-screen'}>
+		<div className={'flex flex-col h-screen max-h-screen min-h-screen overflow-hidden'}>
 			<CustomNavBar/>
-			<div className={'grow w-screen max-w-full'}>
-				<div className={'flex flex-row'}>
-					{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-						<p>tools</p>
-						<p>images</p>
-						<p>history</p>
-					</div>
+			<div className={'grow w-screen max-w-full flex flex-row max-h-full'}>
+				{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
+					<p>tools</p>
+					<p>images</p>
+					<p>history</p>
+				</div>
 
-					<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-						<CanvasMenu />
-					</div> */}
-					<div className='h-1/2'>
-						<CanvasSidebar/>
-					</div>
+				<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
+					<CanvasMenu />
+				</div> */}
+				<div className='h-1/2'>
+					<CanvasSidebar/>
+				</div>
 
-					<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden`} ref={stageWrapperRef}>
-						{canvas.data && (
-							<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
-						)}
-					</div>
+				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden max-h-full`} ref={stageWrapperRef}>
+					{canvas.data && (
+						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
+					)}
+				</div>
 
-					{/* min-w-32 max-w-20 */}
-					<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden`}>
-						<p>settings</p>
-						<CanvasEditBar stageRef={stageRef} />
-					</div>
+				{/* min-w-32 max-w-20 */}
+				<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden`}>
+					<p>settings</p>
+					<CanvasEditBar stageRef={stageRef} />
 				</div>
 			</div>
 				{/*<div className={'flex border-1 border-blue-500'}>*/}
