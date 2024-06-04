@@ -8,6 +8,7 @@ import InputImageFile from '../../components/InputImageFile/InputImageFile';
 import { useParams } from 'react-router-dom';
 import axios from '../../axios/instance';
 import CanvasEditBar from "../../components/CanvasEditBar/CanvasEditBar.tsx";
+import { CanvasSidebar } from '../../components/CanvasSidebar/CanvasSidebar.tsx';
 
 export default function CanvasPage() {
 	const border = false
@@ -50,8 +51,8 @@ export default function CanvasPage() {
 
 	return (
 		<div className={'h-screen w-screen max-w-full max-h-screen'}>
-			<div className={'flex flex-row'}>
-				<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
+			<div className={'flex flex-row min-h-screen'}>
+				{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
 					<p>tools</p>
 					<p>images</p>
 					<p>history</p>
@@ -59,6 +60,9 @@ export default function CanvasPage() {
 
 				<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
 					<CanvasMenu />
+				</div> */}
+				<div className='h-1/2'>
+					<CanvasSidebar/>
 				</div>
 
 				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden max-h-screen pl-[100px]`} ref={stageWrapperRef}>
