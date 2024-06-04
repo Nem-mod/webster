@@ -71,7 +71,8 @@ export default function CanvasPage() {
 					)}
 				</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''} min-w-32 max-w-20 overflow-hidden`}>
+				{/* min-w-32 max-w-20 */}
+				<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden`}>
 					<p>settings</p>
 					<CanvasEditBar stageRef={stageRef} />
 				</div>
