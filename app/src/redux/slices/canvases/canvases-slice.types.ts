@@ -2,7 +2,9 @@ export interface ICanvas {
 	_id: string,
 	canvasName: string;
 	resolution: [number, number];
-	canvas: [];
+	canvas: {
+		elements: []
+	};
 }
 
 export interface ICanvasesData {
@@ -12,5 +14,7 @@ export interface ICanvasesData {
 export interface ICreateCanvas {
 	canvasName: string;
 	resolution: [number, number];
-	canvas: [];
+	canvas: {
+		elements: []
+	};
 }
