@@ -10,16 +10,25 @@ instance.interceptors.response.use(
     (response) => {
         return response;
     },
-    
+
     async (error) => {
         const originalRequest = error.config;
 
-        console.log('error',error)
-        if ((error.response.status === 400 || error.response.status === 401) && !originalRequest?.send) {
-            originalRequest.sent = true;
-            const response = await instance.post('/auth/refresh');
-            return instance(originalRequest);
+        if ((error.response.status === 400 || error.response.status === 401) && !originalRequest._retry) {
+            originalRequest.retry = true;
+            try {
+                const response = await axios.post('http://localhost:5000/v1/auth/refresh', null, {
+                    withCredentials: true
+                });
+                return instance(originalRequest);
+
+            } catch {
+                return Promise.reject(error);
+            }
         }
+
+
+        return Promise.reject(error.response.data);
     },
 );
 
