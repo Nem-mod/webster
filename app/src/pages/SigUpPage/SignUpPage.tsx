@@ -1,8 +1,11 @@
 import RegistrationForm from "../../components/Auth/RegistrationForm/RegistrationForm";
+import {CustomNavBar} from "../../components/NavBar/CustomNavBar.tsx";
 
 export default function SignUpPage() {
     return (
-        <div className={'flex justify-center items-center h-screen w-screen bg-gradient-to-bl from-accent/50 to-light/50'}>
+      <div className={'flex flex-col h-screen'}>
+        <CustomNavBar/>
+        <div className={'flex justify-center items-center grow w-screen bg-gradient-to-bl from-accent/50 to-light/50'}>
             <div className={'flex gap-10 max-w-screen-xl'}>
                 <div className={'pt-6 pl-4 flex-grow flex flex-col gap-6 basis-1/2 border-2 border-r-0 border-primary/30 rounded-s-xl text-justify'}>
                     <h1 className={'text-4xl font-semibold text-black'}>You should join the Multiverse now!</h1>
@@ -17,5 +20,6 @@ export default function SignUpPage() {
                 </div>
             </div>
         </div>
+      </div>
     );
 }
