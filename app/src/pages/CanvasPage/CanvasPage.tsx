@@ -4,7 +4,6 @@ import { CanvasStage } from '../../components/CanvasStage/CanvasStage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCanvasById } from '../../redux/slices/canvasSlice/canvas-slice.service';
 import { RootState } from '../../redux/store';
-import InputImageFile from '../../components/InputImageFile/InputImageFile';
 import { useParams } from 'react-router-dom';
 import axios from '../../axios/instance';
 import CanvasEditBar from "../../components/CanvasEditBar/CanvasEditBar.tsx";
@@ -18,8 +17,8 @@ export default function CanvasPage() {
 	const stageRef = useRef<any>();
 	const stageWrapperRef = useRef<any>(null)
 	const [dimensions, setDimensions] = useState({
-		width: 100,
-		height: 100,
+		width: 1000,
+		height: 1000,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to

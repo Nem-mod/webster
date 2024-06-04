@@ -13,6 +13,7 @@ import EditFontSizeInput from './EditText/EditFontSizeInput';
 
 import { Button, Slider } from '@nextui-org/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
+import ImageEditFilter from './ImageFilter/ImageEditFilter';
 
 function downloadURI(uri, name) {
 	const link = document.createElement('a');
@@ -185,6 +186,11 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 						<>
 							<EditFontSizeInput onChange={handleUpdate} />
 							<EditFontColor onChange={handleUpdate} />
+						</>
+					)}
+					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && (
+						<>
+							<ImageEditFilter elements={selectedElements.filter(e => e.type === CanvasElementType.IMAGE)}/>
 						</>
 					)}
 				</div>

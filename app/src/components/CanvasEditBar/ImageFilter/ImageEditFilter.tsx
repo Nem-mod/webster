@@ -1,6 +1,28 @@
+import {
+	Select,
+	SelectItem,
+} from '@nextui-org/react';
+import { ICanvasElement } from '../../../services/canvas/canvas.types';
+import Konva from 'konva';
 
-export default function ImageEditFilter() {
+interface IProps {
+	elements: ICanvasElement[];
+}
+
+const filters = Object.entries(Konva.Filters);
+
+export default function ImageEditFilter({ elements }: IProps) {
 	return (
-		<div>ImageEditFilter</div>
-	)
+		<Select
+		label="Filters"
+		selectionMode="multiple"
+		className="max-w-xs"
+	>
+		{filters.map((filter) => (
+			<SelectItem key={filter[0]}>
+				{filter[0]}
+			</SelectItem>
+		))}
+	</Select>
+	);
 }

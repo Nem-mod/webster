@@ -1,7 +1,7 @@
 import { Image } from "react-konva";
 import { useImage } from "react-konva-utils";
 import { ICanvasElement } from "../../services/canvas/canvas.types";
-
+import Konva from 'konva';
 interface IProps {
 	shape: ICanvasElement;
 	index?: number;
@@ -10,5 +10,5 @@ interface IProps {
 export default function ImageElement({ shape: { src, ...shapeProps }, index, onChange }: IProps) {
 	// FIXME: Image do not loads with anonymous flag
 	const [image, status] = useImage(src, "anonymous"); // 'anonymous'
-	return <Image image={image} {...shapeProps} />;
+	return <Image image={image} filters={[Konva.Filters.Blur]} {...shapeProps} />;
 }

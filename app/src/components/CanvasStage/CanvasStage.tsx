@@ -155,7 +155,7 @@ export const CanvasStage = ({ canvasState, dimensions, stageRef, stageWrapperRef
 				FileUploaderService.uploadImage(file).then((res: string) => {
 					dispatch(addElement({
 						type: CanvasElementType.IMAGE,
-						src: res,
+						src: res?.url,
 						// TODO: Create Image element on point of drop if it possible
 						x: 100,
 						y: 100,
