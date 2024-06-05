@@ -53,18 +53,18 @@ export default function CanvasPage() {
 		<div className={'flex flex-col h-screen max-h-screen min-h-screen'}>
 			<CustomNavBar/>
 			<div className={'w-screen max-w-full flex flex-row max-h-[839px] h-[839px]'}>
-				<div className='h-1/2'>
+				<div className='h-full flex justify-center items-center bg-secondary/30'>
 					<CanvasSidebar/>
 				</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden`} ref={stageWrapperRef}>
+				<div className={`grow flex justify-center items-center overflow-hidden bg-gray-400/20`} ref={stageWrapperRef}>
 					{canvas.data && (
 						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
 					)}
 				</div>
 
 				{/* min-w-32 max-w-20 */}
-				<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden flex-none`}>
+				<div className={`w-64 overflow-hidden flex-none bg-secondary/30`}>
 					<p>settings</p>
 					<CanvasEditBar stageRef={stageRef} />
 				</div>
