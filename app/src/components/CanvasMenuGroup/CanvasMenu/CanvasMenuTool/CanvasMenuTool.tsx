@@ -1,10 +1,19 @@
 import { useAppDispatch, useAppSelector } from "../../../../hooks/redux";
 import { setTool } from "../../../../redux/slices/canvasSlice/canvas-slice";
 import { ToolOperationType } from "../../../../redux/slices/canvasSlice/canvas-slice.types";
+import { Button } from "@nextui-org/react"
+import { Image } from "@nextui-org/react"
+
 
 interface IProps {
 	tool: ToolOperationType;
 }
+
+const toolsIcons = {
+	pen: '"../../../../../public/pen_icon.png'
+}
+
+
 
 export default function CanvasMenuTool({ tool }: IProps) {
 	const dispatch = useAppDispatch();
@@ -18,10 +27,10 @@ export default function CanvasMenuTool({ tool }: IProps) {
 		dispatch(setTool({ tool }));
 	};
 	return (
-		<div>
-			<button onClick={handleClick} className={`p-2 w-32 ${activeTool === tool ? 'bg-red-500' : 'bg-green-500'}`}>
-				{tool}
-			</button>
-		</div>
+		<Button isIconOnly size="sm" onClick={handleClick} className={`p-2 ${activeTool === tool ? 'bg-red-500' : 'bg-green-500'}`}>
+			{/* {tool}
+			<image href={icons[tool]}/> */}
+			<Image src={toolsIcons[tool]} width={20} height={20} radius="none"/>
+		</Button>
 	);
 }

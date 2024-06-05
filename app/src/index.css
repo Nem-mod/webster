@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    outline: green 1px solid
-}
+/** {*/
+/*    outline: green 1px solid*/
+/*}*/
 
 /*#container {*/
 /*    width: 500px; !* Desired display width *!*/

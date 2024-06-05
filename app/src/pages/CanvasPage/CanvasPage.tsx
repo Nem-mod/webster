@@ -19,8 +19,8 @@ export default function CanvasPage() {
 	const stageRef = useRef<any>();
 	const stageWrapperRef = useRef<any>(null)
 	const [dimensions, setDimensions] = useState({
-		width: 500,
-		height: 500,
+		width: 1000,
+		height: 1000,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
@@ -50,45 +50,37 @@ export default function CanvasPage() {
 	}, [canvas.data?.elements]);
 
 	return (
-		<div className={'flex flex-col h-screen max-h-screen min-h-screen overflow-hidden'}>
+		<div className={'flex flex-col h-screen max-h-screen min-h-screen'}>
 			<CustomNavBar/>
-			<div className={'grow w-screen max-w-full flex flex-row max-h-full'}>
-				{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-					<p>tools</p>
-					<p>images</p>
-					<p>history</p>
-				</div>
-
-				<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-					<CanvasMenu />
-				</div> */}
-				<div className='h-1/2'>
+			<div className={'w-screen max-w-full flex flex-row max-h-[839px] h-[839px]'}>
+				<div className='h-full flex justify-center items-center bg-secondary/30'>
 					<CanvasSidebar/>
 				</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden max-h-full`} ref={stageWrapperRef}>
-					{canvas.data && (
-						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
-					)}
-				</div>
+				<div className={'flex flex-col grow'}>
+					{/* min-w-32 max-w-20 */}
+					<div className={`overflow-hidden flex-none bg-secondary/30 `}> {/* TODO: if set absolute, then width problem. fix canvas dragging */}
+						<CanvasEditBar stageRef={stageRef} />
+					</div>
 
-				{/* min-w-32 max-w-20 */}
-				<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden`}>
-					<p>settings</p>
-					<CanvasEditBar stageRef={stageRef} />
+					<div className={`grow flex justify-center items-center overflow-hidden bg-gray-400/20 pt-10`} ref={stageWrapperRef}>
+						{canvas.data && (
+							<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
+						)}
+					</div>
 				</div>
 			</div>
-				{/*<div className={'flex border-1 border-blue-500'}>*/}
-				{/*	<div className={'grow'}>*/}
-				{/*		{canvas.data && (*/}
-				{/*			<CanvasStage canvasState={canvas} dimensions={dimensions} />*/}
-				{/*		)}*/}
-				{/*	</div>*/}
-				{/*	<div className={'pl-20'}>*/}
-				{/*		<CanvasMenu />*/}
-				{/*	</div>*/}
-				{/*</div>*/}
-				{/*<InputImageFile />*/}
+			{/*<div className={'flex border-1 border-blue-500'}>*/}
+			{/*	<div className={'grow'}>*/}
+			{/*		{canvas.data && (*/}
+			{/*			<CanvasStage canvasState={canvas} dimensions={dimensions} />*/}
+			{/*		)}*/}
+			{/*	</div>*/}
+			{/*	<div className={'pl-20'}>*/}
+			{/*		<CanvasMenu />*/}
+			{/*	</div>*/}
+			{/*</div>*/}
+			{/*<InputImageFile />*/}
 		</div>
 	);
 }

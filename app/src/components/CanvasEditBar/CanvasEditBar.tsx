@@ -95,13 +95,13 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 		<>
 			{selectedElements?.length && (
 				<div
-					className={'flex flex-col gap-4 mt-8 border border-black rounded-md'}
+					className={'flex flex-row px-4 gap-4 border border-black rounded-md'}
 				>
 					{/* <p>{JSON.stringify(elementsTypes)}</p> */}
 					<Popover>
 						<PopoverTrigger>
-							<div className={'w-full mt-5'}>
-								<div className={'m-auto rounded h-8 w-8  flex'}>
+							<div className={'flex'}>
+								<div className={'m-auto rounded h-8 w-8 flex'}>
 									{selectedElements
 										.filter((element) => element.fill)
 										.map((element, index, array) => {
