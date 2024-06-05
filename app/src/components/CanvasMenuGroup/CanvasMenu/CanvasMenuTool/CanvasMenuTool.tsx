@@ -27,10 +27,10 @@ export default function CanvasMenuTool({ tool }: IProps) {
 		dispatch(setTool({ tool }));
 	};
 	return (
-		<Button isIconOnly onClick={handleClick} className={`p-2 ${activeTool === tool ? 'bg-red-500' : 'bg-green-500'}`}>
+		<Button isIconOnly size="sm" onClick={handleClick} className={`p-2 ${activeTool === tool ? 'bg-red-500' : 'bg-green-500'}`}>
 			{/* {tool}
 			<image href={icons[tool]}/> */}
-			<Image src={toolsIcons[tool]} width={20} height={20}/>
+			<Image src={toolsIcons[tool]} width={20} height={20} radius="none"/>
 		</Button>
 	);
 }
