@@ -4,7 +4,6 @@ import { CanvasStage } from '../../components/CanvasStage/CanvasStage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCanvasById } from '../../redux/slices/canvasSlice/canvas-slice.service';
 import { RootState } from '../../redux/store';
-import InputImageFile from '../../components/InputImageFile/InputImageFile';
 import { useParams } from 'react-router-dom';
 import axios from '../../axios/instance';
 import CanvasEditBar from "../../components/CanvasEditBar/CanvasEditBar.tsx";

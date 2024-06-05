@@ -13,8 +13,7 @@ instance.interceptors.response.use(
 
     async (error) => {
         const originalRequest = error.config;
-
-        if ((error.response.status === 400 || error.response.status === 401) && !originalRequest._retry) {
+        if ((error.response.status === 401 || error.response.data.message === 'Invalid token') && !originalRequest._retry) {
             originalRequest.retry = true;
             try {
                 const response = await axios.post('http://localhost:5000/v1/auth/refresh', null, {

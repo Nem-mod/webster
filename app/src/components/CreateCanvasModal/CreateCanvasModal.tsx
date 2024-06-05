@@ -27,7 +27,7 @@ export default function CreateCanvasModal() {
 			fetchCreateCanvas({
 				canvasName: canvasName,
 				resolution: [1000, 1000],
-				canvas: []
+				canvas: {}
 			})
 		);
 		if (!error) {
