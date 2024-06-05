@@ -19,8 +19,8 @@ export default function CanvasPage() {
 	const stageRef = useRef<any>();
 	const stageWrapperRef = useRef<any>(null)
 	const [dimensions, setDimensions] = useState({
-		width: 2000,
-		height: 2000,
+		width: 1000,
+		height: 1000,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
@@ -50,18 +50,9 @@ export default function CanvasPage() {
 	}, [canvas.data?.elements]);
 
 	return (
-		<div className={'flex flex-col h-screen max-h-screen min-h-screen overflow-hidden border-accent-dark border-2'}>
+		<div className={'flex flex-col h-screen max-h-screen min-h-screen'}>
 			<CustomNavBar/>
-			<div className={'w-screen max-w-full flex flex-row h-full border-accent-dark border-2'}>
-				{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-					<p>tools</p>
-					<p>images</p>
-					<p>history</p>
-				</div>
-
-				<div className={`${border ? 'border-accent-dark border-2' : ''}`}>
-					<CanvasMenu />
-				</div> */}
+			<div className={'w-screen max-w-full flex flex-row max-h-[839px] h-[839px]'}>
 				<div className='h-1/2'>
 					<CanvasSidebar/>
 				</div>
@@ -73,22 +64,22 @@ export default function CanvasPage() {
 				</div>
 
 				{/* min-w-32 max-w-20 */}
-				<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden`}>
+				<div className={`${border ? 'border-accent-dark border-2' : ''} w-64 overflow-hidden flex-none`}>
 					<p>settings</p>
 					<CanvasEditBar stageRef={stageRef} />
 				</div>
 			</div>
-				{/*<div className={'flex border-1 border-blue-500'}>*/}
-				{/*	<div className={'grow'}>*/}
-				{/*		{canvas.data && (*/}
-				{/*			<CanvasStage canvasState={canvas} dimensions={dimensions} />*/}
-				{/*		)}*/}
-				{/*	</div>*/}
-				{/*	<div className={'pl-20'}>*/}
-				{/*		<CanvasMenu />*/}
-				{/*	</div>*/}
-				{/*</div>*/}
-				{/*<InputImageFile />*/}
+			{/*<div className={'flex border-1 border-blue-500'}>*/}
+			{/*	<div className={'grow'}>*/}
+			{/*		{canvas.data && (*/}
+			{/*			<CanvasStage canvasState={canvas} dimensions={dimensions} />*/}
+			{/*		)}*/}
+			{/*	</div>*/}
+			{/*	<div className={'pl-20'}>*/}
+			{/*		<CanvasMenu />*/}
+			{/*	</div>*/}
+			{/*</div>*/}
+			{/*<InputImageFile />*/}
 		</div>
 	);
 }

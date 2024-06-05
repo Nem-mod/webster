@@ -101,7 +101,7 @@ export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
 		const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true});
 		return (
 			<div ref={divRef} className={'border-2 border-accent-dark'}
-					 style={{transform: `scale(0.1)`}}>
+					 style={{transform: `scale(${defaultScale})`}}>
 				<div {...getRootProps()}>
 					<Stage
 						ref={stageRef}
