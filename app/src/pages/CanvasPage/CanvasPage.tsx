@@ -20,8 +20,8 @@ export default function CanvasPage() {
 	const stageRef = useRef<any>();
 	const stageWrapperRef = useRef<any>(null)
 	const [dimensions, setDimensions] = useState({
-		width: 500,
-		height: 500,
+		width: 2000,
+		height: 2000,
 	});
 
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
@@ -51,9 +51,9 @@ export default function CanvasPage() {
 	}, [canvas.data?.elements]);
 
 	return (
-		<div className={'flex flex-col h-screen max-h-screen min-h-screen overflow-hidden'}>
+		<div className={'flex flex-col h-screen max-h-screen min-h-screen overflow-hidden border-accent-dark border-2'}>
 			<CustomNavBar/>
-			<div className={'grow w-screen max-w-full flex flex-row max-h-full'}>
+			<div className={'w-screen max-w-full flex flex-row h-full border-accent-dark border-2'}>
 				{/* <div className={`${border ? 'border-accent-dark border-2' : ''}`}>
 					<p>tools</p>
 					<p>images</p>
@@ -67,7 +67,7 @@ export default function CanvasPage() {
 					<CanvasSidebar/>
 				</div>
 
-				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden max-h-full`} ref={stageWrapperRef}>
+				<div className={`${border ? 'border-accent-dark border-2' : ''} grow flex justify-center items-center overflow-hidden`} ref={stageWrapperRef}>
 					{canvas.data && (
 						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
 					)}

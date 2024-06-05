@@ -48,6 +48,10 @@ interface Props {
 
 	// TODO: Refactor code, use custom hooks to short code
 export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
+		const defaultScale = Math.min(624.9857 * Math.pow(Math.max(dimensions.height, dimensions.width), -0.993), 0.9);
+
+		console.log(defaultScale)
+
 		const shapes = canvasState.data?.elements;
 		const dispatch = useAppDispatch();
 		const divRef = useRef<HTMLInputElement>(null);
@@ -96,7 +100,8 @@ export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
 
 		const { getRootProps, getInputProps } = useDropzone({ onDrop, noClick: true});
 		return (
-			<div ref={divRef} className={'border-2 border-accent-dark'}>
+			<div ref={divRef} className={'border-2 border-accent-dark'}
+					 style={{transform: `scale(0.1)`}}>
 				<div {...getRootProps()}>
 					<Stage
 						ref={stageRef}
