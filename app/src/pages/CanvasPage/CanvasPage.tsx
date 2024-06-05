@@ -57,16 +57,17 @@ export default function CanvasPage() {
 					<CanvasSidebar/>
 				</div>
 
-				<div className={`grow flex justify-center items-center overflow-hidden bg-gray-400/20`} ref={stageWrapperRef}>
-					{canvas.data && (
-						<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
-					)}
-				</div>
+				<div className={'flex flex-col grow'}>
+					{/* min-w-32 max-w-20 */}
+					<div className={`overflow-hidden flex-none bg-secondary/30 `}> {/* TODO: if set absolute, then width problem. fix canvas dragging */}
+						<CanvasEditBar stageRef={stageRef} />
+					</div>
 
-				{/* min-w-32 max-w-20 */}
-				<div className={`w-64 overflow-hidden flex-none bg-secondary/30`}>
-					<p>settings</p>
-					<CanvasEditBar stageRef={stageRef} />
+					<div className={`grow flex justify-center items-center overflow-hidden bg-gray-400/20 pt-10`} ref={stageWrapperRef}>
+						{canvas.data && (
+							<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
+						)}
+					</div>
 				</div>
 			</div>
 			{/*<div className={'flex border-1 border-blue-500'}>*/}
