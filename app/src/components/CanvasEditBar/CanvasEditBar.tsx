@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
 	moveElements,
 	moveElementsOneStep,
+	setSelectedElements,
 	updateElement,
 } from '../../redux/slices/canvasSlice/canvas-slice';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
@@ -37,16 +38,16 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	const [colorTimeout, setColorTimeout] = useState<number>();
 	const [opacity, setOpacity] = useState<number | number[]>(1);
 	// Save
-	const handleExport = () => {
+	const handleExport = async () => {
 		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
+		await dispatch(setSelectedElements({ elementIndexes: [] }))
 		console.log('stageRef.curret', stageRef.current);
 		const uri = stageRef.current.getStage().toDataURL();
-		console.log(uri);
 		// we also can save uri as file
 		// but in the demo on Konva website it will not work
 		// because of iframe restrictions
 		// but feel free to use it in your apps:
-		downloadURI(uri, 'stage.jpg');
+		downloadURI(uri, 'stage.png');
 	};
 	// EDIT
 	const elementsTypes = selectedElements?.map((e) => e.type);
