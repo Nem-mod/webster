@@ -7,11 +7,11 @@ export const CanvasSidebar = () => {
     const [selected, setSelected] = useState("tools");
 
     return (
-        <div className={'w-64 flex flex-col items-stretch'}>
+        <div className={'w-64 flex flex-col'}>
             <Tabs
                 selectedKey={selected}
                 onSelectionChange={setSelected}
-                // isVertical
+                isVertical
             >
                 <Tab key={'tools'} title={'Tools'}>
                     <CanvasMenu/>

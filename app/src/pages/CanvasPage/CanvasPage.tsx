@@ -53,7 +53,7 @@ export default function CanvasPage() {
 		<div className={'flex flex-col h-screen max-h-screen min-h-screen'}>
 			<CustomNavBar/>
 			<div className={'w-screen max-w-full flex flex-row max-h-[839px] h-[839px]'}>
-				<div className='h-1/2'>
+				<div className='h-4/5'>
 					<CanvasSidebar/>
 				</div>
 
