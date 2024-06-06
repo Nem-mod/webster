@@ -8,15 +8,9 @@ interface IProps {
 	index: number;
 }
 
-// const transformerStyles = {
-// 	anchorStroke: 'blue',
-// 	anchorFill: 'white',
-// 	anchorSize: 8,
-// 	borderStroke: 'blue',
-// 	borderDash: [3, 3],
-// };
 
-export default function HistoryCanvasElement({ shape, index }: IProps) {
+
+export default function PreviewCanvasElement({ shape, index }: IProps) {
 	
 	const shapeDecorator = {
 		...shape,
