@@ -38,7 +38,6 @@ const authSlice = createSlice({
 
 		builder.addCase(fetchAuth.fulfilled, (state, action) => {
 			state.loading = false;
-			console.log('action', action);
 			state.data = action.payload;
 			state.success = true;
 		});

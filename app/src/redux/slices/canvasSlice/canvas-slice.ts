@@ -21,7 +21,14 @@ const MAX_HISTORY_SIZE = 20;
 
 const addHistory = (state: ICanvasState) => {
 	if (!state.data) return;
+
 	const history = state.data.history;
+	const currentHistory = current(state.data.history)?.stack.at(-1);
+	const currentElements = current(state.data).elements;
+	if (JSON.stringify(currentHistory) == JSON.stringify(currentElements)) {
+		return;
+	}
+
 	if (history) {
 		if (history.stack.length === MAX_HISTORY_SIZE) {
 			history.stack.shift();
@@ -44,12 +51,12 @@ const patchCanvas = (state: ICanvasState) => {
 			elements: state.data?.elements,
 		},
 	});
-}
+};
 
 const updateOperations = (state: ICanvasState) => {
 	addHistory(state),
-	patchCanvas(state)
-}
+		patchCanvas(state);
+};
 
 
 const canvasSlice = createSlice({

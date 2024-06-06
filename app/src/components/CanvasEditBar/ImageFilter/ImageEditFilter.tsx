@@ -43,7 +43,7 @@ const filterHasAttrs = {
 		maxValue: 4,
 		minValue: 0,
 		step: 0.1,
-	}
+	},
 };
 
 interface IFilterObject {
@@ -57,17 +57,27 @@ interface IFilterObject {
 	} | null;
 }
 
-const filters = Object.keys(Konva.Filters).filter(e => {
-	return !["HSL", "HSV", "RGB", "RGBA", "Mask", "Posterize", "Threshold"].includes(e)
-}).map((filterName) => {
-	// if (filterName === 'Emboss') return;
-	const filterObject: IFilterObject = {
-		name: filterName,
-		attrs: filterHasAttrs[filterName] || null,
-	};
+const filters = Object.keys(Konva.Filters)
+	.filter((e) => {
+		return ![
+			'HSL',
+			'HSV',
+			'RGB',
+			'RGBA',
+			'Mask',
+			'Posterize',
+			'Threshold',
+		].includes(e);
+	})
+	.map((filterName) => {
+		// if (filterName === 'Emboss') return;
+		const filterObject: IFilterObject = {
+			name: filterName,
+			attrs: filterHasAttrs[filterName] || null,
+		};
 
-	return filterObject;
-});
+		return filterObject;
+	});
 
 function FilterValueSlider({
 	data,
@@ -84,6 +94,7 @@ function FilterValueSlider({
 	}, [value]);
 	return (
 		<Slider
+			aria-label='dd'
 			step={data.attrs?.step || 0.5}
 			maxValue={data.attrs?.maxValue || 100}
 			minValue={data.attrs?.minValue || 1}
@@ -102,7 +113,9 @@ export default function ImageEditFilter({ elements }: IProps) {
 		return flattenedArray.concat(curr?.filters);
 	}, []);
 
-	const [value, setValue] = useState<Selection>(new Set(elementsFilters));
+	const [value, setValue] = useState<Set<string | number> | 'all'>(
+		new Set(elementsFilters)
+	);
 
 	const handleChangeFilter = (args?: object) => {
 		const filters = [...value];

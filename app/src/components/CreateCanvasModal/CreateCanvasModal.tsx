@@ -9,7 +9,7 @@ import {
 	Input,
 	Dropdown, DropdownTrigger, DropdownMenu, DropdownItem
 } from '@nextui-org/react';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import { useAppDispatch } from '../../hooks/redux';
 import { fetchCreateCanvas } from '../../redux/slices/canvases/canvases-slice.service';
 
