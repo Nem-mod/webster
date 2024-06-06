@@ -42,13 +42,13 @@ export default function CanvasPage() {
 		<div className={'flex flex-col h-screen max-h-screen min-h-screen'}>
 			<CustomNavBar />
 			<div
-				className={'w-screen max-w-full flex flex-row max-h-[839px] h-[839px]'}
+				className={'w-screen max-w-full flex flex-row grow'}
 			>
 				<div className='h-full flex justify-center items-center bg-secondary/30'>
 					<CanvasSidebar />
 				</div>
 
-				<div className={'flex flex-col grow'}>
+				<div className={'flex flex-col grow overflow-hidden'}>
 					{/* min-w-32 max-w-20 */}
 					<div className={`overflow-hidden flex-none bg-secondary/30 `}>
 						{' '}
@@ -57,7 +57,7 @@ export default function CanvasPage() {
 					</div>
 
 					<div
-						className={`grow flex justify-center items-center overflow-hidden bg-gray-400/20 pt-10`}
+						className={`grow flex justify-center items-center bg-gray-400/20 pt-10`}
 						ref={stageWrapperRef}
 					>
 						{canvas.data && (

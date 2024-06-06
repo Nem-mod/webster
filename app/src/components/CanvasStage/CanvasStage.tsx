@@ -1,5 +1,5 @@
 import Konva from 'konva';
-import {useCallback, useRef, useState } from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import { Layer, Line, Rect, Stage, Transformer } from 'react-konva';
 import useCanvasTransition from '../../hooks/canvas/useTransition';
 import { useAppDispatch } from '../../hooks/redux';
@@ -21,6 +21,7 @@ interface Props {
 		height: number;
 	};
 	stageRef: any;
+	stageWrapperRef: any;
 }
 
 /**
@@ -47,9 +48,14 @@ interface Props {
  */
 
 	// TODO: Refactor code, use custom hooks to short code
-export const CanvasStage = ({ canvasState, dimensions, stageRef }: Props) => {
+export const CanvasStage = ({ canvasState, dimensions, stageRef, stageWrapperRef }: Props) => {
 		const defaultScale = Math.min(624.9857 * Math.pow(Math.max(dimensions.height, dimensions.width), -0.993), 0.9);
-		
+
+		useEffect(() => {
+			stageWrapperRef.current.style.height = `${stageWrapperRef.current.style.height * defaultScale}px`
+			// stageWrapperRef.current.style.width = `${stageWrapperRef.current.style.width * defaultScale}px`
+		}, [stageRef]);
+
 		const shapes = canvasState.data?.elements;
 		const dispatch = useAppDispatch();
 		const divRef = useRef<HTMLInputElement>(null);
