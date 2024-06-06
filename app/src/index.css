@@ -6,6 +6,27 @@
 /*    outline: green 1px solid*/
 /*}*/
 
+/* width */
+::-webkit-scrollbar {
+	width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #EEEEEE;
+	border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #C73659;
+	border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #A91D3A;
+}
 /*#container {*/
 /*    width: 500px; !* Desired display width *!*/
 /*    height: 500px; !* Desired display height *!*/

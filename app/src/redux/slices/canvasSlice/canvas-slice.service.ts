@@ -13,7 +13,8 @@ export const fetchCanvasById = createAsyncThunk<ICanvasData, string>(
 			const data = {
 				id: response.data._id,
 				title: response.data.canvasName,
-				elements: response.data.canvas.elements
+				elements: response.data.canvas.elements || [],
+				resolution: response.data.resolution
 			}
 			return data
 		} catch {

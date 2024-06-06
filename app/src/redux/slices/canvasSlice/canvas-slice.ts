@@ -3,6 +3,7 @@ import { EStateStatus } from '../../../constants/stateStatus.enum';
 import { ICanvasElement } from '../../../services/canvas/canvas.types';
 import { fetchCanvasById } from './canvas-slice.service';
 import { ICanvasData, ICanvasSelectedElement, ISelectedElements, IUpdateElement, ToolOperationType } from './canvas-slice.types';
+import axios from '../../../axios/instance';
 
 export interface ICanvasState {
 	status: EStateStatus;
@@ -37,13 +38,27 @@ const addHistory = (state: ICanvasState) => {
 	}
 };
 
+const patchCanvas = (state: ICanvasState) => {
+	axios.patch(`/canvas/${state.data?.id}`, {
+		canvas: {
+			elements: state.data?.elements,
+		},
+	});
+}
+
+const updateOperations = (state: ICanvasState) => {
+	addHistory(state),
+	patchCanvas(state)
+}
+
+
 const canvasSlice = createSlice({
 	initialState,
 	name: 'canvas',
 	reducers: {
 		addElement(state: ICanvasState, { payload: element }: PayloadAction<ICanvasElement>) {
 			state.data?.elements.push(element);
-			addHistory(state);
+			updateOperations(state);
 		},
 
 		updateElement(state, { payload }: PayloadAction<IUpdateElement>) {
@@ -53,7 +68,7 @@ const canvasSlice = createSlice({
 			temp[payload.index] = { ...temp[payload.index], ...payload.element };
 			state.data.elements = temp;
 			if (state.data.selected) {
-				const selectedData =  current(state.data.selected);
+				const selectedData = current(state.data.selected);
 				const selectedIndex = selectedData.findIndex(element => {
 					return +element.index === +payload.index;
 				});
@@ -62,7 +77,7 @@ const canvasSlice = createSlice({
 					state.data.selected[selectedIndex] = { ...selectedData[selectedIndex], ...payload.element };
 				}
 			}
-			addHistory(state);
+			updateOperations(state);
 		},
 
 		deleteElement(state: ICanvasState) {
@@ -77,7 +92,7 @@ const canvasSlice = createSlice({
 				elements.splice(index - i, 1);
 			}
 			state.data.selected = [];
-			addHistory(state);
+			updateOperations(state);
 		},
 
 		moveElements(state: ICanvasState, { payload }: PayloadAction<{ to: boolean; }>) {
@@ -105,7 +120,7 @@ const canvasSlice = createSlice({
 					};
 				} // Insert at the beginning
 			}
-			addHistory(state);
+			updateOperations(state);
 		},
 
 		moveElementsOneStep(state: ICanvasState, { payload }: PayloadAction<{ to: boolean; }>) {
@@ -136,7 +151,7 @@ const canvasSlice = createSlice({
 					...tempElement,
 				};
 			}
-			addHistory(state);
+			updateOperations(state);
 		},
 
 		setSelectedElements(state: ICanvasState, { payload }: PayloadAction<ISelectedElements>) {
@@ -164,6 +179,14 @@ const canvasSlice = createSlice({
 			}
 		},
 
+		reviewByIndex(state: ICanvasState, { payload }: PayloadAction<{ index: number; }>) {
+			if (!state.data || !state.data.history) return;
+			const history = state.data.history;
+			const { index } = payload;
+			history.currentPos = index;
+			state.data.elements = history.stack[history.currentPos];
+		},
+
 		setTool(state: ICanvasState, { payload }: PayloadAction<{ tool: ToolOperationType; }>) {
 			if (!state.data) return;
 			state.data.activeTool = payload.tool;
@@ -184,4 +207,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasReducer = canvasSlice.reducer;
-export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory, moveElements, moveElementsOneStep, setTool } = canvasSlice.actions;
+export const { addElement, updateElement, deleteElement, setSelectedElements, reviewHistory, moveElements, moveElementsOneStep, setTool, reviewByIndex } = canvasSlice.actions;
