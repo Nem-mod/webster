@@ -53,8 +53,6 @@ export default function useWheel(stageScale: TStageScale, setStageScale: TSetSta
 			newStageX = borderCollision(newStageX, newScale);
 			newStageY = borderCollision(newStageY, newScale);
 
-			console.log(newScale);
-
 			setStageScale({
 				scale: newScale,
 				stageX: newStageX,
@@ -66,7 +64,6 @@ export default function useWheel(stageScale: TStageScale, setStageScale: TSetSta
 			let newStageX = e.evt.deltaY > 0 ? stageScale.stageX - scrollDist : stageScale.stageX + scrollDist
 
 			newStageX = borderCollision(newStageX, stageScale.scale)
-			console.log(newStageX)
 
 			setStageScale({
 				...stageScale,
@@ -78,7 +75,6 @@ export default function useWheel(stageScale: TStageScale, setStageScale: TSetSta
 			let newStageY = e.evt.deltaY > 0 ? stageScale.stageY - scrollDist : stageScale.stageY + scrollDist
 
 			newStageY = borderCollision(newStageY, stageScale.scale)
-			console.log(newStageY)
 
 			setStageScale({
 				...stageScale,

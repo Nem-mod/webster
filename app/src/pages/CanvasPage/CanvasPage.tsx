@@ -6,18 +6,19 @@ import { fetchCanvasById } from '../../redux/slices/canvasSlice/canvas-slice.ser
 import { RootState } from '../../redux/store';
 import { useParams } from 'react-router-dom';
 import axios from '../../axios/instance';
-import CanvasEditBar from "../../components/CanvasEditBar/CanvasEditBar.tsx";
+import CanvasEditBar from '../../components/CanvasEditBar/CanvasEditBar.tsx';
 import { CanvasSidebar } from '../../components/CanvasSidebar/CanvasSidebar.tsx';
-import {CustomNavBar} from "../../components/NavBar/CustomNavBar.tsx";
+import { CustomNavBar } from '../../components/NavBar/CustomNavBar.tsx';
+import { EStateStatus } from '../../constants/stateStatus.enum.ts';
 
 export default function CanvasPage() {
-	const border = false
+	const border = false;
 
 	const dispatch = useAppDispatch();
 	const { id: canvasId } = useParams();
 	const divRef = useRef<HTMLInputElement>(null);
 	const stageRef = useRef<any>();
-	const stageWrapperRef = useRef<any>(null)
+	const stageWrapperRef = useRef<any>(null);
 	const [dimensions, setDimensions] = useState({
 		width: 1000,
 		height: 1000,
@@ -37,35 +38,35 @@ export default function CanvasPage() {
 	}, []);
 
 	const canvas = useAppSelector((state: RootState) => state.canvas);
-
-	// TODO: Refactor
-	useEffect(() => {
-		if (!canvas.data) return;
-		axios
-			.patch(`/canvas/${canvasId}`, {
-				canvas: {
-					elements: canvas.data.elements,
-				},
-			})
-	}, [canvas.data?.elements]);
-
 	return (
 		<div className={'flex flex-col h-screen max-h-screen min-h-screen'}>
-			<CustomNavBar/>
-			<div className={'w-screen max-w-full flex flex-row max-h-[839px] h-[839px]'}>
+			<CustomNavBar />
+			<div
+				className={'w-screen max-w-full flex flex-row max-h-[839px] h-[839px]'}
+			>
 				<div className='h-full flex justify-center items-center bg-secondary/30'>
-					<CanvasSidebar/>
+					<CanvasSidebar />
 				</div>
 
 				<div className={'flex flex-col grow'}>
 					{/* min-w-32 max-w-20 */}
-					<div className={`overflow-hidden flex-none bg-secondary/30 `}> {/* TODO: if set absolute, then width problem. fix canvas dragging */}
+					<div className={`overflow-hidden flex-none bg-secondary/30 `}>
+						{' '}
+						{/* TODO: if set absolute, then width problem. fix canvas dragging */}
 						<CanvasEditBar stageRef={stageRef} />
 					</div>
 
-					<div className={`grow flex justify-center items-center overflow-hidden bg-gray-400/20 pt-10`} ref={stageWrapperRef}>
+					<div
+						className={`grow flex justify-center items-center overflow-hidden bg-gray-400/20 pt-10`}
+						ref={stageWrapperRef}
+					>
 						{canvas.data && (
-							<CanvasStage canvasState={canvas} dimensions={dimensions} stageRef={stageRef} stageWrapperRef={stageWrapperRef} />
+							<CanvasStage
+								canvasState={canvas}
+								dimensions={dimensions}
+								stageRef={stageRef}
+								stageWrapperRef={stageWrapperRef}
+							/>
 						)}
 					</div>
 				</div>

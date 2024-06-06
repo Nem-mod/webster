@@ -11,7 +11,7 @@ interface IProps {
 	index: number;
 	isSelected?: boolean;
 	onSelect?: () => void;
-	onChange: (index: number, element: Partial<ICanvasElement>) => void;
+	onChange?: (index: number, element: Partial<ICanvasElement>) => void;
 	getKey: number;
 }
 

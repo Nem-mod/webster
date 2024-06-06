@@ -48,7 +48,6 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	const handleExport = async () => {
 		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
 		await dispatch(setSelectedElements({ elementIndexes: [] }))
-		console.log('stageRef.curret', stageRef.current);
 		const uri = stageRef.current.getStage().toDataURL();
 		// we also can save uri as file
 		// but in the demo on Konva website it will not work

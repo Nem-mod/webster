@@ -13,6 +13,7 @@ export interface ICanvasData {
 		size: number;
 		currentPos: number;
 	} | null;
+	resolution: [number, number],
 	activeTool?: ToolOperationType 
 }
 
