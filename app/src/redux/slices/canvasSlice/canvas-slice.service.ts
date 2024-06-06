@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CANVASES } from '../../../data/canvases';
+import dummycanvas from "../../../data/dummycanvas";
 import { ICanvasData } from './canvas-slice.types';
 import axios from '../../../axios/instance';
 
@@ -18,8 +19,15 @@ export const fetchCanvasById = createAsyncThunk<ICanvasData, string>(
 			}
 			return data
 		} catch {
-			const response = CANVASES[0];
-			return response;
+			// const response = CANVASES[0];
+			
+			const data = {
+				id: dummycanvas._id,
+				title: dummycanvas.canvasName,
+				elements: dummycanvas.canvas.elements || [],
+				resolution: dummycanvas.resolution
+			}
+			return data
 		}
 	}
 );

@@ -208,7 +208,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 						</>
 					)}
 
-					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && selectedElements.length === 1 && selectedElements[0].image &&(
+					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && selectedElements.length === 1 &&(
 						<Popover>
 						<PopoverTrigger>
 							<Button>
@@ -224,6 +224,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 									minValue={0}
 									value={crop.x}
 									onChange={(value) => {
+										console.log(selectedElements)
 										setCrop({
 											...crop,
 											x: value as number
@@ -250,13 +251,13 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								<Slider
 									label='Width'
 									step={1}
-									maxValue={selectedElements[0].image?.naturalWidth}
+									maxValue={selectedElements[0].imageWidth}
 									minValue={1}
-									value={crop.width}
+									value={selectedElements[0].imageWidth - crop.width}
 									onChange={(value) => {
 										setCrop({
 											...crop,
-											width: selectedElements[0].image?.naturalWidth - (value as number)
+											width: selectedElements[0].imageWidth - (value as number)
 										})
 									}}
 									onChangeEnd={handleCropImage}
@@ -265,13 +266,13 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								<Slider
 									label='Height'
 									step={1}
-									maxValue={selectedElements[0].image?.naturalHeight}
+									maxValue={selectedElements[0].imageHeight}
 									minValue={1}
-									value={crop.height}
+									value={selectedElements[0].imageHeight - crop.height}
 									onChange={(value) => {
 										setCrop({
 											...crop,
-											height: selectedElements[0].image?.naturalHeight - (value as number)
+											height: selectedElements[0].imageHeight - (value as number)
 										})
 									}}
 									onChangeEnd={handleCropImage}

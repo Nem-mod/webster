@@ -87,7 +87,7 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 					case CanvasElementType.ELLIPSE:
 						return <Ellipse {...shapeDecorator} />;
 					case CanvasElementType.IMAGE:
-						return <ImageElement shape={shapeDecorator} />;
+						return <ImageElement index={index} shape={shapeDecorator} />;
 					// TODO: create settings of drawing. color - strW - tension
 					case CanvasElementType.LINE:
 						return (
