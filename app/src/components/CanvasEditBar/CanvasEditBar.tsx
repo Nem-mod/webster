@@ -37,6 +37,13 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	const [color, setColor] = useState<string>('#aabbcc');
 	const [colorTimeout, setColorTimeout] = useState<number>();
 	const [opacity, setOpacity] = useState<number | number[]>(1);
+	const [crop, setCrop] = useState<{x: number, y: number, width: number, height: number}>({
+		x: 0,
+		y: 0,
+		width: selectedElements ? selectedElements[0]?.image?.naturalWidth : 100,
+		height: selectedElements ? selectedElements[0]?.image?.naturalHeight : 100
+	});
+	const [zoom, setZoom] = useState(1);
 	// Save
 	const handleExport = async () => {
 		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
@@ -78,6 +85,13 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 		}, 500);
 		setColorTimeout(timeoutId);
 	};
+
+	const handleCropImage = () => {
+		handleUpdate({
+			crop: {...crop}
+		})
+		console.log(selectedElements)
+	}
 
 	const handleChangeOpacity = () => {
 		handleUpdate({
@@ -193,6 +207,104 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 						<>
 							<ImageEditFilter elements={selectedElements.filter(e => e.type === CanvasElementType.IMAGE)}/>
 						</>
+					)}
+
+					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && selectedElements.length === 1 && selectedElements[0].image &&(
+						<Popover>
+						<PopoverTrigger>
+							<Button>
+								Crop image
+							</Button>
+						</PopoverTrigger>
+						<PopoverContent>
+							<div className='flex flex-col gap-2'>
+								<Slider
+									label='X'
+									step={1}
+									maxValue={selectedElements[0].width}
+									minValue={0}
+									value={crop.x}
+									onChange={(value) => {
+										setCrop({
+											...crop,
+											x: value as number
+										})
+									}}
+									onChangeEnd={handleCropImage}
+									className='w-[200px]'
+								/>
+								<Slider
+									label='Y'
+									step={1}
+									maxValue={selectedElements[0].height}
+									minValue={0}
+									value={crop.y}
+									onChange={(value) => {
+										setCrop({
+											...crop,
+											y: value as number
+										})
+									}}
+									onChangeEnd={handleCropImage}
+									className='w-[200px]'
+								/>
+								<Slider
+									label='Width'
+									step={1}
+									maxValue={selectedElements[0].image?.naturalWidth}
+									minValue={1}
+									value={crop.width}
+									onChange={(value) => {
+										setCrop({
+											...crop,
+											width: selectedElements[0].image?.naturalWidth - (value as number)
+										})
+									}}
+									onChangeEnd={handleCropImage}
+									className='w-[200px]'
+								/>
+								<Slider
+									label='Height'
+									step={1}
+									maxValue={selectedElements[0].image?.naturalHeight}
+									minValue={1}
+									value={crop.height}
+									onChange={(value) => {
+										setCrop({
+											...crop,
+											height: selectedElements[0].image?.naturalHeight - (value as number)
+										})
+									}}
+									onChangeEnd={handleCropImage}
+									className='w-[200px]'
+								/>
+								<Slider
+									label='Zoom'
+									step={0.1}
+									maxValue={3}
+									minValue={1}
+									value={zoom}
+									onChange={(value) => {
+										setZoom(value as number)
+										setCrop({
+											...crop,
+											height: selectedElements[0].height * zoom,
+											width: selectedElements[0].width * zoom,
+										})
+									}}
+									onChangeEnd={handleCropImage}
+									className='w-[200px]'
+								/>
+								<Button 
+									onClick={() => {
+										handleUpdate({crop: null})
+									}}
+								>
+									Disable Crop
+								</Button>
+							</div>
+						</PopoverContent>
+					</Popover>
 					)}
 				</div>
 			)}
