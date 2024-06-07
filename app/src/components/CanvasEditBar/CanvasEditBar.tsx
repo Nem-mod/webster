@@ -15,6 +15,10 @@ import EditFontSizeInput from './EditText/EditFontSizeInput';
 import { Button, Slider } from '@nextui-org/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import ImageEditFilter from './ImageFilter/ImageEditFilter';
+import EditFontFamily from './EditText/EditFontFamily';
+import EditFontBold from './EditText/EditFontBold';
+import EditFontItalic from './EditText/EditFontItalic';
+import EditFontUnderlined from './EditText/EditFontUnderlined';
 
 function downloadURI(uri, name) {
 	const link = document.createElement('a');
@@ -203,6 +207,13 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 
 					{elementsTypes && elementsTypes.includes(CanvasElementType.TEXT) && (
 						<>
+							<EditFontFamily
+								fontFamily={
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.fontFamily
+								}
+								onChange={handleUpdate}
+							/>
 							<EditFontSizeInput
 								fontSize={
 									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
@@ -211,6 +222,27 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								onChange={handleUpdate}
 							/>
 							<EditFontColor onChange={handleUpdate} />
+							<EditFontBold
+								currentValue={Boolean(
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.fontStyle
+								)}
+								onChange={handleUpdate}
+							/>
+							<EditFontItalic
+								currentValue={Boolean(
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.fontVariant
+								)}
+								onChange={handleUpdate}
+							/>
+							<EditFontUnderlined
+								currentValue={Boolean(
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.textDecoration
+								)}
+								onChange={handleUpdate}
+							/>
 						</>
 					)}
 					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && (

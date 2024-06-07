@@ -2,6 +2,7 @@ import { Button, Popover, PopoverContent, PopoverTrigger } from '@nextui-org/rea
 import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import { ICanvasElement } from '../../../services/canvas/canvas.types';
+import fontColorIcon from '../../../../public/font-color.svg'
 import FontColorIcon from '../../SVGs/FontColorIcon';
 interface IProps {
 	onChange: (value: Partial<ICanvasElement>) => void;
@@ -24,8 +25,8 @@ export default function EditFontColor({ onChange }: IProps) {
 	};
 	return (
 		<Popover placement='bottom'>
-			<PopoverTrigger>
-				<Button className={'bg-transparent'} size={'sm'}>
+			<PopoverTrigger className={'w-8'}>
+				<Button size='sm' className={'bg-transparent p-0'}>
 					<FontColorIcon/>
 				</Button>
 			</PopoverTrigger>

@@ -33,6 +33,10 @@ export default function EditFontSizeInput({ onChange, fontSize }: IProps) {
 				radius={'none'}
 				value={value}
 				size={'md'}
+				className={'h-full'}
+				classNames={{
+					inputWrapper : 'h-full'
+				}}
 				onValueChange={handleChange}
 			/>
 			<button
