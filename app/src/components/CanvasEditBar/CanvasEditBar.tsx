@@ -40,10 +40,10 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	const [crop, setCrop] = useState<{x: number, y: number, width: number, height: number}>({
 		x: 0,
 		y: 0,
-		width: selectedElements ? selectedElements[0]?.image?.naturalWidth : 100,
-		height: selectedElements ? selectedElements[0]?.image?.naturalHeight : 100
+		width: 0,
+		height: 0
 	});
-	const [zoom, setZoom] = useState(1);
+	const [zoom, setZoom] = useState(0);
 	// Save
 	const handleExport = async () => {
 		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
@@ -220,7 +220,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								<Slider
 									label='X'
 									step={1}
-									maxValue={selectedElements[0].width}
+									maxValue={selectedElements[0].imageWidth}
 									minValue={0}
 									value={crop.x}
 									onChange={(value) => {
@@ -236,7 +236,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								<Slider
 									label='Y'
 									step={1}
-									maxValue={selectedElements[0].height}
+									maxValue={selectedElements[0].imageHeight}
 									minValue={0}
 									value={crop.y}
 									onChange={(value) => {
@@ -251,7 +251,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								<Slider
 									label='Width'
 									step={1}
-									maxValue={selectedElements[0].imageWidth}
+									maxValue={selectedElements[0].imageWidth - 1}
 									minValue={1}
 									value={selectedElements[0].imageWidth - crop.width}
 									onChange={(value) => {
@@ -266,7 +266,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								<Slider
 									label='Height'
 									step={1}
-									maxValue={selectedElements[0].imageHeight}
+									maxValue={selectedElements[0].imageHeight - 1}
 									minValue={1}
 									value={selectedElements[0].imageHeight - crop.height}
 									onChange={(value) => {
@@ -281,15 +281,21 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								<Slider
 									label='Zoom'
 									step={0.1}
-									maxValue={3}
-									minValue={1}
+									maxValue={100}
+									minValue={0}
 									value={zoom}
 									onChange={(value) => {
+										const zoomRatio = 1.05;
+										const oldZoom = zoom;
 										setZoom(value as number)
 										setCrop({
 											...crop,
-											height: selectedElements[0].height * zoom,
-											width: selectedElements[0].width * zoom,
+											height: selectedElements[0].imageHeight / zoomRatio ** zoom,
+											width: selectedElements[0].imageWidth / zoomRatio ** zoom,
+											// x: crop.x + (zoom > oldZoom ? 1 : -1) * (selectedElements[0].imageWidth - selectedElements[0].imageWidth / zoomRatio ** zoom) / 2,
+											// y: crop.y + (zoom > oldZoom ? 1 : -1) * (selectedElements[0].imageHeight - selectedElements[0].imageHeight / zoomRatio ** zoom) / 2
+											// x: crop.x / zoomRatio ** zoom,
+											// y: crop.y / zoomRatio ** zoom
 										})
 									}}
 									onChangeEnd={handleCropImage}
@@ -297,6 +303,8 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 								/>
 								<Button 
 									onClick={() => {
+										setCrop({x: 0, y: 0, width: 0, height: 0})
+										setZoom(1)
 										handleUpdate({crop: null})
 									}}
 								>
