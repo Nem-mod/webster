@@ -39,7 +39,15 @@ interface IEditableTextInput {
 const RETURN_KEY = 13;
 const ESCAPE_KEY = 27;
 
-function EditableTextInput({ x, y, width, height, value, setIsEditing, onChange }: IEditableTextInput) {
+function EditableTextInput({
+	x,
+	y,
+	width,
+	height,
+	value,
+	setIsEditing,
+	onChange,
+}: IEditableTextInput) {
 	const editTextRef = useRef<any>();
 
 	const handleClickOutside = (e) => {
@@ -63,7 +71,13 @@ function EditableTextInput({ x, y, width, height, value, setIsEditing, onChange 
 	const style = getStyle(width, height);
 	return (
 		<Html groupProps={{ x, y }} divProps={{ style: { opacity: 1 } }}>
-			<textarea ref={editTextRef} value={value} onChange={(e) => onChange({ text: e.target.value })} onKeyDown={handleEscapeKeys} style={style} />
+			<textarea
+				ref={editTextRef}
+				value={value}
+				onChange={(e) => onChange({ text: e.target.value })}
+				onKeyDown={handleEscapeKeys}
+				style={style}
+			/>
 		</Html>
 	);
 }
@@ -74,19 +88,36 @@ interface IProps {
 	onChange: (index: number, element: Partial<ICanvasElement>) => void;
 }
 
-export default function EditableText({ shape: { ref, ...shapeProps }, index, onChange }: IProps) {
+export default function EditableText({
+	shape: { ref, ...shapeProps },
+	index,
+	onChange,
+}: IProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const handleDoubleClick = () => {
 		setIsEditing(true);
 	};
-
 	const handleChangeText = (value: { text: string }) => {
 		onChange(index, value);
 	};
 
-	if (isEditing) {
-		return <EditableTextInput {...shapeProps} value={shapeProps?.text} setIsEditing={setIsEditing} onChange={handleChangeText} />;
-	}
-
-	return <Text onDblClick={handleDoubleClick} onDblTap={handleDoubleClick} ref={ref} {...shapeProps} />;
+	return (
+		<>
+			<Text
+				onDblClick={handleDoubleClick}
+				onDblTap={handleDoubleClick}
+				ref={ref}
+				opacity={isEditing ? 0: 1 }
+				{...shapeProps}
+			/>
+			{isEditing && (
+				<EditableTextInput
+					{...shapeProps}
+					value={shapeProps?.text}
+					setIsEditing={setIsEditing}
+					onChange={handleChangeText}
+				/>
+			)}
+		</>
+	);
 }

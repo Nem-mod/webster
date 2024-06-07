@@ -84,7 +84,7 @@ const canvasSlice = createSlice({
 					state.data.selected[selectedIndex] = { ...selectedData[selectedIndex], ...payload.element };
 				}
 			}
-			updateOperations(state);
+			// updateOperations(state);
 		},
 
 		deleteElement(state: ICanvasState) {

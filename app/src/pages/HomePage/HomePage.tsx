@@ -1,8 +1,8 @@
-import { Button, Input } from '@nextui-org/react';
+import { Input } from '@nextui-org/react';
 import { SearchIcon } from '../../components/Icons/SearchIcon';
 import CanvasCard from '../../components/CanvasCard/CanvasCard';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import { fetchCanvases } from '../../redux/slices/canvases/canvases-slice.service';
 import CreateCanvasModal from '../../components/CreateCanvasModal/CreateCanvasModal';
 import {CustomNavBar} from "../../components/NavBar/CustomNavBar.tsx";
@@ -13,6 +13,7 @@ export default function HomePage() {
 	useEffect(() => {
 		dispatch(fetchCanvases(null));
 	}, []);
+
 
 	return (
 		<div className={'flex flex-col h-screen'}>
@@ -40,7 +41,7 @@ export default function HomePage() {
 								canvases.map((canvas) => (
 									<CanvasCard
 										key={canvas._id}
-										canvasName={canvas.canvasName}
+										canvas={canvas}
 										to={`/workspace/${canvas._id}`}
 									/>
 								))}

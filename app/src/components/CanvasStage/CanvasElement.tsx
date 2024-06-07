@@ -1,6 +1,16 @@
 import Konva from 'konva';
 import { useRef } from 'react';
-import { Arc, Arrow, Circle, Ellipse, Image, Line, Rect, Ring, Star } from 'react-konva';
+import {
+	Arc,
+	Arrow,
+	Circle,
+	Ellipse,
+	Image,
+	Line,
+	Rect,
+	Ring,
+	Star,
+} from 'react-konva';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 import EditableText from './EditableText';
@@ -11,7 +21,7 @@ interface IProps {
 	index: number;
 	isSelected?: boolean;
 	onSelect?: () => void;
-	onChange?: (index: number, element: Partial<ICanvasElement>) => void;
+	onChange: (index: number, element: Partial<ICanvasElement>) => void;
 	getKey: number;
 }
 
@@ -35,12 +45,12 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 		node.scaleX(1);
 		node.scaleY(1);
 
-		if(shape.type === CanvasElementType.LINE) {
+		if (shape.type === CanvasElementType.LINE) {
 			const nodeAsLine: Konva.Line = node as Konva.Line;
 			const oldPoints: number[] = nodeAsLine.points();
 			const newPoints = oldPoints.map((point, index) => {
-				return index % 2 ? point * scaleY : point * scaleX
-			})
+				return index % 2 ? point * scaleY : point * scaleX;
+			});
 			nodeAsLine.points(newPoints);
 		}
 		const element = {
@@ -54,15 +64,16 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 			height: Math.max(node.height() * scaleY),
 		};
 
-		onChange(index, element);
+		if (onChange) onChange(index, element);
 		node.width(Math.max(5, node.width() * scaleX));
 	};
 
 	const handleDrag = (e: Konva.KonvaEventObject<DragEvent>) => {
-		onChange(index, {
-			x: e.target.x(),
-			y: e.target.y(),
-		});
+		if (onChange)
+			onChange(index, {
+				x: e.target.x(),
+				y: e.target.y(),
+			});
 	};
 
 	const shapeDecorator = {
@@ -98,7 +109,9 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 								tension={0.5}
 								lineCap='round'
 								lineJoin='round'
-								globalCompositeOperation={shape.tool === 'eraser' ? 'destination-out' : 'source-over'}
+								globalCompositeOperation={
+									shape.tool === 'eraser' ? 'destination-out' : 'source-over'
+								}
 							/>
 						);
 					case CanvasElementType.RECT:
@@ -108,7 +121,13 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 					case CanvasElementType.STAR:
 						return <Star {...shapeDecorator} />;
 					case CanvasElementType.TEXT:
-						return <EditableText index={index} onChange={onChange} shape={shapeDecorator} />;
+						return (
+							<EditableText
+								index={index}
+								onChange={onChange}
+								shape={shapeDecorator}
+							/>
+						);
 				}
 			})()}
 		</>
