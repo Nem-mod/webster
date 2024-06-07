@@ -15,6 +15,10 @@ import EditFontSizeInput from './EditText/EditFontSizeInput';
 import { Button, Slider } from '@nextui-org/react';
 import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/react';
 import ImageEditFilter from './ImageFilter/ImageEditFilter';
+import EditFontFamily from './EditText/EditFontFamily';
+import EditFontBold from './EditText/EditFontBold';
+import EditFontItalic from './EditText/EditFontItalic';
+import EditFontUnderlined from './EditText/EditFontUnderlined';
 
 function downloadURI(uri, name) {
 	const link = document.createElement('a');
@@ -37,7 +41,12 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	const [color, setColor] = useState<string>('#aabbcc');
 	const [colorTimeout, setColorTimeout] = useState<number>();
 	const [opacity, setOpacity] = useState<number | number[]>(1);
-	const [crop, setCrop] = useState<{x: number, y: number, width: number, height: number}>({
+	const [crop, setCrop] = useState<{
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+	}>({
 		x: 0,
 		y: 0,
 		width: 0,
@@ -47,7 +56,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	// Save
 	const handleExport = async () => {
 		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
-		await dispatch(setSelectedElements({ elementIndexes: [] }))
+		await dispatch(setSelectedElements({ elementIndexes: [] }));
 		const uri = stageRef.current.getStage().toDataURL();
 		// we also can save uri as file
 		// but in the demo on Konva website it will not work
@@ -87,10 +96,10 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 
 	const handleCropImage = () => {
 		handleUpdate({
-			crop: {...crop}
-		})
-		console.log(selectedElements)
-	}
+			crop: { ...crop },
+		});
+		console.log(selectedElements);
+	};
 
 	const handleChangeOpacity = () => {
 		handleUpdate({
@@ -198,13 +207,51 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 
 					{elementsTypes && elementsTypes.includes(CanvasElementType.TEXT) && (
 						<>
-							<EditFontSizeInput onChange={handleUpdate} />
+							<EditFontFamily
+								fontFamily={
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.fontFamily
+								}
+								onChange={handleUpdate}
+							/>
+							<EditFontSizeInput
+								fontSize={
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.fontSize || 16
+								}
+								onChange={handleUpdate}
+							/>
 							<EditFontColor onChange={handleUpdate} />
+							<EditFontBold
+								currentValue={Boolean(
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.fontStyle
+								)}
+								onChange={handleUpdate}
+							/>
+							<EditFontItalic
+								currentValue={Boolean(
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.fontVariant
+								)}
+								onChange={handleUpdate}
+							/>
+							<EditFontUnderlined
+								currentValue={Boolean(
+									selectedElements.find((e) => e.type == CanvasElementType.TEXT)
+										?.textDecoration
+								)}
+								onChange={handleUpdate}
+							/>
 						</>
 					)}
 					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && (
 						<>
-							<ImageEditFilter elements={selectedElements.filter(e => e.type === CanvasElementType.IMAGE)}/>
+							<ImageEditFilter
+								elements={selectedElements.filter(
+									(e) => e.type === CanvasElementType.IMAGE
+								)}
+							/>
 						</>
 					)}
 
@@ -316,7 +363,9 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 					)}
 				</div>
 			)}
-			<Button onClick={handleExport}>Save as image (Работает только если в канвасе нет картинки)</Button>
+			<Button onClick={handleExport}>
+				Save as image (Работает только если в канвасе нет картинки)
+			</Button>
 		</>
 	);
 }

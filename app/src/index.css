@@ -27,6 +27,15 @@
 ::-webkit-scrollbar-thumb:hover {
 	background: #A91D3A;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  text-align: center;
+}
 /*#container {*/
 /*    width: 500px; !* Desired display width *!*/
 /*    height: 500px; !* Desired display height *!*/

@@ -104,11 +104,12 @@ export default function EditableText({
 	return (
 		<>
 			<Text
+				ref={ref}
+				{...shapeProps}
 				onDblClick={handleDoubleClick}
 				onDblTap={handleDoubleClick}
-				ref={ref}
 				opacity={isEditing ? 0: 1 }
-				{...shapeProps}
+				fill={shapeProps.textColor || shapeProps.fill}
 			/>
 			{isEditing && (
 				<EditableTextInput
