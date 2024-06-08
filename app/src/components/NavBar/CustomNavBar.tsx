@@ -7,12 +7,18 @@ import {
 	NavbarMenuToggle,
 } from '@nextui-org/react';
 import { Button } from '@nextui-org/button';
-import { useState } from 'react';
-import { useAppSelector } from '../../hooks/redux';
+import { useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { fetchAuthMe } from '../../redux/slices/auth/auth-slice.service';
 
 export function CustomNavBar() {
+	const dispatch = useAppDispatch();
 	const [_, setIsMenuOpen] = useState(false);
 	const user = useAppSelector((state) => state.auth.data);
+	useEffect(() => {
+		dispatch(fetchAuthMe(null))
+	}, [])
+	
 	return (
 		<Navbar
 			className={'bg-accent'}
@@ -32,7 +38,7 @@ export function CustomNavBar() {
 					{user && (
 						<NavbarItem isActive>
 							<Link
-								href={'/events'}
+								href={'/home'}
 								aria-current='page'
 								className={'text-white'}
 							>
