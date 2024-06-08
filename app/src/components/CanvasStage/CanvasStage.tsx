@@ -67,6 +67,9 @@ export const CanvasStage = ({
 		stageWrapperRef.current.style.height = `${
 			stageWrapperRef.current.style.height * defaultScale
 		}px`;
+		// stageWrapperRef.current.style.maxHeight = `${
+		// 	stageWrapperRef.current.style.height * defaultScale
+		// }px`;
 		// stageWrapperRef.current.style.width = `${stageWrapperRef.current.style.width * defaultScale}px`
 	}, [stageRef]);
 

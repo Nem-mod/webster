@@ -11,7 +11,7 @@ export const CanvasSidebar = () => {
 	};
 
 	return (
-		<div className={'flex flex-row h-full justify-center'}>
+		<div className={'flex flex-row justify-center h-[calc(100vh_-_64px)]'}>
 			<Tabs
 				selectedKey={selected}
 				onSelectionChange={setSelected}
@@ -20,8 +20,8 @@ export const CanvasSidebar = () => {
 					tabList: 'rounded-none bg-transparent m-2',
 					tab: 'text-white-500',
 					base: 'items-center border-r-1 border-primary/20',
-					wrapper: 'h-full',
-					panel: 'flex grow justify-center m-2',
+					wrapper: 'max-w-inherit',
+					panel: 'flex  justify-center m-2 overflow-auto max-h-full',
 				}}
 			>
 				<Tab key={'null'} title={'Null'} className={'hidden'}></Tab>
@@ -37,12 +37,85 @@ export const CanvasSidebar = () => {
 					<div className='max-w-inherit'></div>
 				</Tab>
 				<Tab key={'history'} title={'History'}>
-					<ScrollShadow className={'overflow-x-hidden'} >
+					<ScrollShadow >
 						<HistoryList />
 					</ScrollShadow>
 				</Tab>
 				<Tab key={'shortcuts'} title={'Shortcuts'}>
-					<div className='max-w-inherit'></div>
+					<div className='max-w-inherit'>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+						<p>a</p>
+					</div>
 				</Tab>
 			</Tabs>
 		</div>
