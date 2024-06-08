@@ -25,6 +25,5 @@ export interface IUserRegisterAndAuthRes {
 }
 
 export interface IUserUpdate {
-	email: string,
 	username: string;
 }

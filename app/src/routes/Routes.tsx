@@ -7,6 +7,8 @@ import VerificationPage from '../pages/VerificationPage/VerificationPage';
 import SubmitVerificationPage from '../pages/SubmitVerificationPage/SubmitVerificationPage';
 import HomePage from '../pages/HomePage/HomePage';
 import CanvasPage from '../pages/CanvasPage/CanvasPage';
+import UserProfilePage from '../pages/UserProfilePage/UserProfilePage';
+import EditProfilePage from '../pages/EditProfilePage/EditProfile';
 
 export const router = createBrowserRouter([
 	{
@@ -38,5 +40,13 @@ export const router = createBrowserRouter([
 	{
 		path: '/workspace/:id',
 		element: <CanvasPage/>
+	},
+	{
+		path: '/profile',
+		element: <UserProfilePage/>
+	},
+	{
+		path: '/profile/edit',
+		element: <EditProfilePage/>
 	},
 ]);

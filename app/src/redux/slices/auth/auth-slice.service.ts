@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../../axios/instance';
-import { IUserAuthForm, IUserRegisterAndAuthRes, IUserRegisterForm, User } from './auth-slice.types';
+import { IUserAuthForm, IUserRegisterAndAuthRes, IUserRegisterForm, IUserUpdate, User } from './auth-slice.types';
 
 
 export const sendVerificationLink = async (email: string) => {
@@ -67,17 +67,30 @@ export const fetchAuthMe = createAsyncThunk<IUserRegisterAndAuthRes, null, { rej
     },
 );
 
-// export const fetchUpdateProfile = createAsyncThunk<Client, Client, { rejectValue: string }>(
-//     'auth/update',
-//     async (params: any, { rejectWithValue }) => {
-//         try {
-//             const response = await axios.patch('/auth/profile', params);
-//             return response.data;
-//         } catch (error: any) {
-//             return rejectWithValue(error.message);
-//         }
-//     },
-// );
+export const fetchLogout = createAsyncThunk<IUserRegisterAndAuthRes, null, { rejectValue: string; }>(
+	'auth/logout',
+	async (_, {rejectWithValue}) => {
+			try {
+				const response = await axios.post('/auth/logout');
+					return response.data;
+			} catch (error: any) {
+					return rejectWithValue(error.message);
+			}
+	},
+);
+
+
+export const fetchUpdateProfile = createAsyncThunk<IUserRegisterAndAuthRes, IUserUpdate, { rejectValue: string }>(
+    'auth/update',
+    async (params: any, { rejectWithValue }) => {
+        try {
+            const response = await axios.patch('/auth/profile', params);
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    },
+);
 
 
 // export const fetchVerify = createAsyncThunk(
