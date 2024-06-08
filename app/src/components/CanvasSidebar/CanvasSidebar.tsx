@@ -1,7 +1,12 @@
-import { Tabs, Tab, ScrollShadow } from '@nextui-org/react';
+import {Tabs, Tab, ScrollShadow, Button} from '@nextui-org/react';
 import { useState } from 'react';
 import CanvasMenu from '../CanvasMenuGroup/CanvasMenu/CanvasMenu.tsx';
 import HistoryList from '../HistoryList/HistoryList.tsx';
+import { Image } from "@nextui-org/react"
+
+const icons = {
+	minmize: '../../../../public/minimize_icon.png'
+}
 
 export const CanvasSidebar = () => {
 	const [selected, setSelected] = useState(null);
@@ -12,6 +17,12 @@ export const CanvasSidebar = () => {
 
 	return (
 		<div className={'flex flex-row justify-center h-[calc(100vh_-_64px)]'}>
+			{selected !== 'null' &&
+				<div className={'absolute left-0 ml-[4.7rem]'}>
+					<Button isIconOnly className={'bg-secondary/70 rounded-r-none rounded-t-none'} size={'sm'} onClick={unselectTab}>
+						<Image src={icons.minmize} width={20} height={20} radius={'none'} />
+					</Button>
+				</div>}
 			<Tabs
 				selectedKey={selected}
 				onSelectionChange={setSelected}
@@ -27,13 +38,17 @@ export const CanvasSidebar = () => {
 				<Tab key={'null'} title={'Null'} className={'hidden'}></Tab>
 				<Tab key={'tools'} title={'Tools'}>
 					<div className={'flex flex-col'}>
-						<span className={'ml-auto'} onClick={unselectTab}>
-							X
-						</span>
+						{/*<Button isIconOnly className={'bg-secondary/70'} size={'sm'}>*/}
+						{/*	X*/}
+						{/*</Button>*/}
+						{/*<span className={'ml-auto  rounded-xl rounded-r-none rounded-t-none aspect-square text-center'} onClick={unselectTab}>*/}
+						{/*	X*/}
+						{/*</span>*/}
 						<CanvasMenu />
 					</div>
 				</Tab>
 				<Tab key={'images'} title={'Images'}>
+
 					<div className='max-w-inherit'></div>
 				</Tab>
 				<Tab key={'history'} title={'History'}>
