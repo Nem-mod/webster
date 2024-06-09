@@ -1,8 +1,9 @@
-import { Card, CardHeader, CardBody, Image, Button } from '@nextui-org/react';
+import {Card, CardHeader, CardBody, Image, Button, useDisclosure} from '@nextui-org/react';
 import { Link } from 'react-router-dom';
 import PreviewCanvasStage from '../PreviewCanvas/PreviewCanvasStage/PreviewCanvasStage';
 import { ICanvas } from '../../redux/slices/canvases/canvases-slice.types';
 import { useEffect, useRef, useState } from 'react';
+import DeleteCanvasModal from "../DeleteCanvasModal/DeleteCanvasModal.tsx";
 
 interface IProps {
 	canvas: ICanvas;
@@ -11,6 +12,7 @@ interface IProps {
 
 export default function CanvasCard({ canvas, to }: IProps) {
 	const [isPopoverActive, setIsPopoverActive] = useState<boolean>(false);
+	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const ref = useRef();
 
 	// useEffect(() => {
@@ -70,11 +72,12 @@ export default function CanvasCard({ canvas, to }: IProps) {
 						className='overflow-visible py-2 rounded flex flex-col bg-light'
 						gap-2
 					>
-						<div className={'px-5 hover:bg-accent-light'}>Edit</div>
-						<div className={'px-5 hover:bg-accent-light'}>Delete</div>
+						<Button className={'hover:bg-accent-light bg-transparent rounded-none'}>Edit</Button>
+						<Button className={'hover:bg-accent-light bg-transparent rounded-none'} onPress={onOpen}>Delete</Button>
 					</div>
 				</div>
 			)}
+			<DeleteCanvasModal canvasId={canvas._id} isOpen={isOpen} onOpenChange={onOpenChange}/>
 		</Card>
 	);
 }
