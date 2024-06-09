@@ -13,21 +13,26 @@ export default function CanvasCard({ canvas, to }: IProps) {
 	const [isPopoverActive, setIsPopoverActive] = useState<boolean>(false);
 	const ref = useRef();
 
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (ref.current && !ref.current.contains(event.target)) {
-				setIsPopoverActive(false);
-			}
-		};
-		document.addEventListener('click', handleClickOutside, true);
-		return () => {
-			document.removeEventListener('click', handleClickOutside, true);
-		};
-	}, []);
+	// useEffect(() => {
+	// 	const handleClickOutside = (event) => {
+	// 		if (ref.current && !ref.current.contains(event.target)) {
+	// 			setIsPopoverActive(false);
+	// 		}
+	// 	};
+	// 	document.addEventListener('click', handleClickOutside, true);
+	// 	return () => {
+	// 		document.removeEventListener('click', handleClickOutside, true);
+	// 	};
+	// }, []);
 
 	const handleOpenPopover = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 		setIsPopoverActive(true);
+	};
+
+	const handleClosePopover = (e: React.MouseEvent<HTMLElement>) => {
+		e.preventDefault()
+		setIsPopoverActive(false);
 	};
 
 	return (
@@ -35,6 +40,7 @@ export default function CanvasCard({ canvas, to }: IProps) {
 			ref={ref}
 			onContextMenu={handleOpenPopover}
 			className='py-4 bg-secondary/30 shadow-xl relative overflow-visible'
+			onMouseLeave={handleClosePopover}
 		>
 			<CardBody className='overflow-visible py-2 hover:bg-light'>
 				<Link to={to}>
