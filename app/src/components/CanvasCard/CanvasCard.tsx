@@ -12,7 +12,8 @@ interface IProps {
 
 export default function CanvasCard({ canvas, to }: IProps) {
 	const [isPopoverActive, setIsPopoverActive] = useState<boolean>(false);
-	const { isOpen, onOpen, onOpenChange } = useDisclosure()
+	const { isOpen: isOpenDelete, onOpen: onOpenDelete, onOpenChange: onOpenDeleteChange } = useDisclosure()
+	const { isOpen: isOpenEdit, onOpen: onOpenEdit, onOpenChange: onOpenEditChange } = useDisclosure()
 	const ref = useRef();
 
 	// useEffect(() => {
@@ -27,15 +28,20 @@ export default function CanvasCard({ canvas, to }: IProps) {
 	// 	};
 	// }, []);
 
-	const handleOpenPopover = (e: React.MouseEvent<HTMLElement>) => {
-		e.preventDefault();
+	const handleOpenPopover = (e: React.MouseEvent<HTMLElement> | null) => {
+		e?.preventDefault();
 		setIsPopoverActive(true);
 	};
 
-	const handleClosePopover = (e: React.MouseEvent<HTMLElement>) => {
-		e.preventDefault()
+	const handleClosePopover = (e: React.MouseEvent<HTMLElement> | null) => {
+		e?.preventDefault()
 		setIsPopoverActive(false);
 	};
+
+	const handleCloseDeleteModal = () => {
+		handleClosePopover(null)
+		onOpenDeleteChange()
+	}
 
 	return (
 		<Card
@@ -72,12 +78,13 @@ export default function CanvasCard({ canvas, to }: IProps) {
 						className='overflow-visible py-2 rounded flex flex-col bg-light'
 						gap-2
 					>
-						<Button className={'hover:bg-accent-light bg-transparent rounded-none'}>Edit</Button>
-						<Button className={'hover:bg-accent-light bg-transparent rounded-none'} onPress={onOpen}>Delete</Button>
+						<Button className={'hover:bg-accent-light bg-transparent rounded-none'} onPress={onOpenEditChange}>Edit</Button>
+						<Button className={'hover:bg-accent-light bg-transparent rounded-none'} onPress={onOpenDeleteChange}>Delete</Button>
 					</div>
 				</div>
 			)}
-			<DeleteCanvasModal canvasId={canvas._id} isOpen={isOpen} onOpenChange={onOpenChange}/>
+			<DeleteCanvasModal canvasId={canvas._id} isOpen={isOpenDelete} onOpenChange={handleCloseDeleteModal}/>
+			{/*TODO: create and add EditCanvasModal, search + filter canvases on backend, add public canvases that will be copied as non-public to the user. should be easy*/}
 		</Card>
 	);
 }
