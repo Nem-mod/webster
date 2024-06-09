@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {
 	moveElements,
 	moveElementsOneStep,
-	setSelectedElements,
 	updateElement,
 } from '../../redux/slices/canvasSlice/canvas-slice';
 import { CanvasElementType } from '../../services/canvas/canvas-element-types.enum';
@@ -19,15 +18,7 @@ import EditFontFamily from './EditText/EditFontFamily';
 import EditFontBold from './EditText/EditFontBold';
 import EditFontItalic from './EditText/EditFontItalic';
 import EditFontUnderlined from './EditText/EditFontUnderlined';
-
-function downloadURI(uri, name) {
-	const link = document.createElement('a');
-	link.download = name;
-	link.href = uri;
-	document.body.appendChild(link);
-	link.click();
-	document.body.removeChild(link);
-}
+import SaveCanvasMenu from './SaveCanvasMenu/SaveCanvasMenu';
 
 interface IProps {
 	stageRef: any; // LegacyRef<Konva.Stage>
@@ -53,17 +44,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 		height: 0
 	});
 	const [zoom, setZoom] = useState(0);
-	// Save
-	const handleExport = async () => {
-		if (!stageRef?.current) return; // TODO: Set default scale and position before saving
-		await dispatch(setSelectedElements({ elementIndexes: [] }));
-		const uri = stageRef.current.getStage().toDataURL();
-		// we also can save uri as file
-		// but in the demo on Konva website it will not work
-		// because of iframe restrictions
-		// but feel free to use it in your apps:
-		downloadURI(uri, 'stage.png');
-	};
+	
 	// EDIT
 	const elementsTypes = selectedElements?.map((e) => e.type);
 	const handleUpdate = (value: Partial<ICanvasElement>) => {
@@ -363,9 +344,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 					)}
 				</div>
 			)}
-			<Button onClick={handleExport}>
-				Save as image (Работает только если в канвасе нет картинки)
-			</Button>
+			<SaveCanvasMenu stageRef={stageRef}/>
 		</>
 	);
 }
