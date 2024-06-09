@@ -1,8 +1,11 @@
 import { Popover, PopoverTrigger, Button, PopoverContent, Slider } from '@nextui-org/react'
 import { useState } from 'react';
-import handleUpdate from '../CanvasEditBar'
 
-export const EditOpacity = () => {
+interface Props {
+    handleUpdate: any
+}
+
+export const EditOpacity = ({handleUpdate} : Props) => {
 
     const [opacity, setOpacity] = useState<number | number[]>(1);
 

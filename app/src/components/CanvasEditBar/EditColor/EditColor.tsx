@@ -1,13 +1,13 @@
 import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/react';
 import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import handleUpdate from '../CanvasEditBar.tsx'
 
 interface Props {
     selectedElements: any
+    handleUpdate: any
 }
 
-export const EditColor = ({ selectedElements } : Props) => {
+export const EditColor = ({ selectedElements, handleUpdate } : Props) => {
 
     const [color, setColor] = useState<string>('#aabbcc');
 	const [colorTimeout, setColorTimeout] = useState<number>();

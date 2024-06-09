@@ -1,12 +1,12 @@
 import { Button, Popover, PopoverContent, PopoverTrigger, Slider } from '@nextui-org/react'
-import handleUpdate from '../CanvasEditBar'
 import { useState } from 'react';
 
 interface Props{
     selectedElements: any
+    handleUpdate: any
 }
 
-export const ImageCrop = ({ selectedElements } : Props) => {
+export const ImageCrop = ({ selectedElements, handleUpdate } : Props) => {
 
     const handleCropImage = () => {
 		handleUpdate({

@@ -44,14 +44,14 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 				<div
 					className={'flex flex-row px-4 gap-4 border border-black rounded-md'}
 				>
-					<EditColor selectedElements={selectedElements}/>
+					<EditColor selectedElements={selectedElements} handleUpdate={handleUpdate}/>
 
 					<EditLayer/>
 
-					<EditOpacity/>
+					<EditOpacity handleUpdate={handleUpdate}/>
 					
 					{elementsTypes && elementsTypes.includes(CanvasElementType.TEXT) && (
-						<EditText selectedElements={selectedElements}/>
+						<EditText selectedElements={selectedElements} handleUpdate={handleUpdate}/>
 					)}
 
 					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && (
@@ -66,7 +66,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 
 					{elementsTypes && selectedElements.length === 1 && 
 					elementsTypes.includes(CanvasElementType.IMAGE) && (
-						<ImageCrop selectedElements={selectedElements}/>
+						<ImageCrop selectedElements={selectedElements} handleUpdate={handleUpdate}/>
 					)}
 				</div>
 			)}

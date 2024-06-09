@@ -5,13 +5,13 @@ import EditFontFamily from './EditFontFamily'
 import EditFontItalic from './EditFontItalic'
 import EditFontSizeInput from './EditFontSizeInput'
 import EditFontUnderlined from './EditFontUnderlined'
-import handleUpdate from '../CanvasEditBar.tsx'
 
 interface Props {
     selectedElements: any
+    handleUpdate: any
 }
 
-export const EditText = ({selectedElements} : Props) => {
+export const EditText = ({selectedElements, handleUpdate} : Props) => {
     return (
         <>
             <EditFontFamily
