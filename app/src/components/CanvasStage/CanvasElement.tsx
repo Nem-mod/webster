@@ -104,7 +104,6 @@ export default function CanvasElement({ shape, index, onChange }: IProps) {
 						return (
 							<Line
 								{...shapeDecorator}
-								stroke='#df4b26'
 								strokeWidth={5}
 								tension={0.5}
 								lineCap='round'

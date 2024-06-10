@@ -9,6 +9,7 @@ import { EditLayer } from './EditLayer/EditLayer';
 import { EditText } from './EditText/EditText';
 import { EditOpacity } from './EditOpacity/EditOpacity';
 import { EditColor } from './EditColor/EditColor';
+import { EditPenColor } from './EditPenColor/EditPenColor';
 
 interface IProps {
 	stageRef: any; // LegacyRef<Konva.Stage>
@@ -19,9 +20,9 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	const selectedElements = useAppSelector(
 		(state) => state.canvas.data?.selected
 	);
-	
-	
-	
+
+	const activeTool = useAppSelector((state) => state.canvas.data?.activeTool);
+
 	// EDIT
 	const elementsTypes = selectedElements?.map((e) => e.type);
 	const handleUpdate = (value: Partial<ICanvasElement>) => {
@@ -40,37 +41,52 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 
 	return (
 		<>
-			{selectedElements?.length > 0 && (
-				<div
-					className={'flex flex-row px-4 gap-4 border border-black rounded-md'}
-				>
-					<EditColor selectedElements={selectedElements} handleUpdate={handleUpdate}/>
+			<div
+				className={'flex flex-row px-4 gap-4 border border-black rounded-md'}
+			>
+				{selectedElements?.length > 0 && (
+					<>
+						<EditColor
+							selectedElements={selectedElements}
+							handleUpdate={handleUpdate}
+						/>
 
-					<EditLayer/>
+						<EditLayer />
 
-					<EditOpacity handleUpdate={handleUpdate}/>
-					
-					{elementsTypes && elementsTypes.includes(CanvasElementType.TEXT) && (
-						<EditText selectedElements={selectedElements} handleUpdate={handleUpdate}/>
-					)}
+						<EditOpacity handleUpdate={handleUpdate} />
 
-					{elementsTypes && elementsTypes.includes(CanvasElementType.IMAGE) && (
-						<>
-							<ImageEditFilter
-								elements={selectedElements.filter(
-									(e) => e.type === CanvasElementType.IMAGE
-								)}
-							/>
-						</>
-					)}
+						{elementsTypes &&
+							elementsTypes.includes(CanvasElementType.TEXT) && (
+								<EditText
+									selectedElements={selectedElements}
+									handleUpdate={handleUpdate}
+								/>
+							)}
 
-					{elementsTypes && selectedElements.length === 1 && 
-					elementsTypes.includes(CanvasElementType.IMAGE) && (
-						<ImageCrop selectedElements={selectedElements} handleUpdate={handleUpdate}/>
-					)}
-				</div>
-			)}
-			<SaveCanvasMenu stageRef={stageRef}/>
+						{elementsTypes &&
+							elementsTypes.includes(CanvasElementType.IMAGE) && (
+								<>
+									<ImageEditFilter
+										elements={selectedElements.filter(
+											(e) => e.type === CanvasElementType.IMAGE
+										)}
+									/>
+								</>
+							)}
+
+						{elementsTypes &&
+							selectedElements.length === 1 &&
+							elementsTypes.includes(CanvasElementType.IMAGE) && (
+								<ImageCrop
+									selectedElements={selectedElements}
+									handleUpdate={handleUpdate}
+								/>
+							)}
+					</>
+				)}
+				{activeTool && <EditPenColor activeTool={activeTool} />}
+				<SaveCanvasMenu stageRef={stageRef} />
+			</div>
 		</>
 	);
 }

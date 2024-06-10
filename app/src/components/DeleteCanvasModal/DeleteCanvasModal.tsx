@@ -1,8 +1,11 @@
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
+import { useAppDispatch } from "../../hooks/redux";
+import { fetchDeleteCanvas } from "../../redux/slices/canvases/canvases-slice.service";
 
 export default function DeleteCanvasModal({ canvasId, isOpen, onOpenChange }) {
+  const dispatch = useAppDispatch()
   const handleDeleteCanvas = () => {
-    console.log('delete canvas ' + canvasId) // TODO: request server to delete canvas
+    dispatch(fetchDeleteCanvas(canvasId))
     onOpenChange()
   }
 

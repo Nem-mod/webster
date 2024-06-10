@@ -2,6 +2,8 @@ import { ICanvasElement } from '../../../services/canvas/canvas.types';
 
 export type ToolOperationType = '' | 'pen';
 
+
+
 export interface ICanvasData {
 	id: number;
 	title: string;
@@ -14,7 +16,10 @@ export interface ICanvasData {
 		currentPos: number;
 	} | null;
 	resolution: [number, number],
-	activeTool?: ToolOperationType 
+	activeTool?: {
+		tool: ToolOperationType,
+		color: string
+	} 
 }
 
 export interface IUpdateElement {

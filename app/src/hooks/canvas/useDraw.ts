@@ -7,36 +7,36 @@ import { ToolOperationType } from "../../redux/slices/canvasSlice/canvas-slice.t
 
 
 export function useDraw() {
-  const dispatch = useAppDispatch()
-  const tool = useAppSelector(state => state.canvas.data?.activeTool); 
-  const [line, setLine] = useState<{ tool: ToolOperationType,  points: number[]}>({
+  const dispatch = useAppDispatch();
+  const tool = useAppSelector(state => state.canvas.data?.activeTool);
+  const [line, setLine] = useState<{ tool: ToolOperationType, points: number[]; }>({
     tool: '',
     points: []
   });
-	const isDrawing = useRef(false);
+  const isDrawing = useRef(false);
 
-	const drawingHandleMouseDown = (e) => {
+  const drawingHandleMouseDown = (e) => {
     if (!tool) return;
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
-    setLine({ tool, points: [pos.x, pos.y]});
+    setLine({ tool, points: [pos.x, pos.y] });
   };
 
-	const drawingHandleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
+  const drawingHandleMouseMove = (e: KonvaEventObject<MouseEvent>) => {
     // no drawing - skipping
     if (!isDrawing.current || !line) {
       return;
     }
     const stage = e.target.getStage();
     if (!stage) return;
-		const point = stage.getPointerPosition();
-    if(!point?.x || !point.y) return;
+    const point = stage.getPointerPosition();
+    if (!point?.x || !point.y) return;
     // add point
     setLine((prevState) => {
       return {
         ...prevState,
         points: prevState?.points.concat([point.x, point.y])
-      }
+      };
     });
   };
 
@@ -46,13 +46,14 @@ export function useDraw() {
       return {
         ...prevState,
         points: []
-      }
-    })
+      };
+    });
     dispatch(addElement({
       type: CanvasElementType.LINE,
-      points: line.points
-    }))
+      points: line.points,
+      stroke: tool?.color
+    }));
   };
 
-	return {line, tool, drawingHandleMouseDown, drawingHandleMouseMove, drawingHandleMouseUp}
+  return { line, tool, drawingHandleMouseDown, drawingHandleMouseMove, drawingHandleMouseUp };
 }
