@@ -1,5 +1,4 @@
 import {Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader} from "@nextui-org/react";
-import {useEffect} from "react";
 
 export default function DeleteCanvasModal({ canvasId, isOpen, onOpenChange }) {
   const handleDeleteCanvas = () => {

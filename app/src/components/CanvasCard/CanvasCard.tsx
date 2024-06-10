@@ -4,6 +4,7 @@ import PreviewCanvasStage from '../PreviewCanvas/PreviewCanvasStage/PreviewCanva
 import { ICanvas } from '../../redux/slices/canvases/canvases-slice.types';
 import { useEffect, useRef, useState } from 'react';
 import DeleteCanvasModal from "../DeleteCanvasModal/DeleteCanvasModal.tsx";
+import CreateEditCanvasModal from "../CreateEditCanvasModal/CreateEditCanvasModal.tsx";
 
 interface IProps {
 	canvas: ICanvas;
@@ -83,8 +84,8 @@ export default function CanvasCard({ canvas, to }: IProps) {
 					</div>
 				</div>
 			)}
-			<DeleteCanvasModal canvasId={canvas._id} isOpen={isOpenDelete} onOpenChange={handleCloseDeleteModal}/>
-			{/*TODO: create and add EditCanvasModal, search + filter canvases on backend, add public canvases that will be copied as non-public to the user. should be easy*/}
+			<DeleteCanvasModal canvasId={canvas._id} isOpen={isOpenDelete} onOpenChange={() => { handleClosePopover(null); onOpenDeleteChange() }}/>
+			<CreateEditCanvasModal canvas={canvas} isOpen={isOpenEdit} onOpenChange={() => { handleClosePopover(null); onOpenEditChange() }}/>
 		</Card>
 	);
 }
