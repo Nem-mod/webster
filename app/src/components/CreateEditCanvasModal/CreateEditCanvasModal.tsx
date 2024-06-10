@@ -7,12 +7,21 @@ import {
 	Button,
 	useDisclosure,
 	Input,
-	Dropdown, DropdownTrigger, DropdownMenu, DropdownItem
+	Dropdown,
+	DropdownTrigger,
+	DropdownMenu,
+	DropdownItem,
 } from '@nextui-org/react';
-import {useState} from 'react';
+import { useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
-import { fetchCreateCanvas } from '../../redux/slices/canvases/canvases-slice.service';
-import {ICanvas} from "../../redux/slices/canvases/canvases-slice.types.ts";
+import {
+	fetchCreateCanvas,
+	fetchUpdateCanvas,
+} from '../../redux/slices/canvases/canvases-slice.service';
+import {
+	ICanvas,
+	IUpdateCanvas,
+} from '../../redux/slices/canvases/canvases-slice.types.ts';
 
 interface IProps {
 	canvas: ICanvas;
@@ -20,11 +29,21 @@ interface IProps {
 	onOpenChange: () => void;
 }
 
-export default function CreateEditCanvasModal({ canvas, isOpen, onOpenChange }: IProps) {
-	const [canvasName, setCanvasName] = useState<string>(canvas ? canvas.canvasName : 'My new Canvas');
-	const [canvasWidth, setCanvasWidth] = useState<string>(canvas && canvas.resolution[0].toString());
-	const [canvasHeight, setCanvasHeight] = useState<string>(canvas && canvas.resolution[1].toString());
+export default function CreateEditCanvasModal({
+	canvas,
+	isOpen,
+	onOpenChange,
+}: IProps) {
 	const dispatch = useAppDispatch();
+	const [canvasName, setCanvasName] = useState<string>(
+		canvas ? canvas.canvasName : 'My new Canvas'
+	);
+	const [canvasWidth, setCanvasWidth] = useState<string>(
+		canvas && canvas.resolution[0].toString()
+	);
+	const [canvasHeight, setCanvasHeight] = useState<string>(
+		canvas && canvas.resolution[1].toString()
+	);
 
 	const handleCreateNewCanvas = async () => {
 		if (!canvasName) return;
@@ -33,8 +52,8 @@ export default function CreateEditCanvasModal({ canvas, isOpen, onOpenChange }: 
 				canvasName: canvasName,
 				resolution: [1000, 1000], // TODO: set resolution here
 				canvas: {
-					elements: []
-				}
+					elements: [],
+				},
 			})
 		);
 		if (!error) {
@@ -43,28 +62,42 @@ export default function CreateEditCanvasModal({ canvas, isOpen, onOpenChange }: 
 	};
 
 	const handleUpdateCanvas = async () => {
-		// TODO: update canvas info
-	}
-
+		const updateData: IUpdateCanvas = {
+			_id: canvas._id,
+		};
+		
+		if (canvasWidth && canvasHeight) {
+			updateData.resolution = [+canvasWidth, +canvasHeight];
+		}
+		if (canvasName) {
+			updateData.canvasName = canvasName;
+		}
+		dispatch(fetchUpdateCanvas(updateData));
+	};
 
 	//TODO: create canvas with given resolutions
 	// TODO: get resolution presets from server
 	const setResolution = (key) => {
-		const [width, height] = key.split('x')
+		const [width, height] = key.split('x');
 
-		setCanvasHeight(height)
-		setCanvasWidth(width)
-	}
+		setCanvasHeight(height);
+		setCanvasWidth(width);
+	};
 
 	return (
-		<Modal backdrop={`blur`} isOpen={isOpen} onOpenChange={onOpenChange} >
+		<Modal backdrop={`blur`} isOpen={isOpen} onOpenChange={onOpenChange}>
 			<ModalContent>
 				{(onClose) => (
 					<>
-						{canvas ?
-							<ModalHeader className='flex flex-col gap-1 text-center'>Update Canvas</ModalHeader> :
-							<ModalHeader className='flex flex-col gap-1 text-center'>New Canvas</ModalHeader>
-						}
+						{canvas ? (
+							<ModalHeader className='flex flex-col gap-1 text-center'>
+								Update Canvas
+							</ModalHeader>
+						) : (
+							<ModalHeader className='flex flex-col gap-1 text-center'>
+								New Canvas
+							</ModalHeader>
+						)}
 
 						<ModalBody>
 							<Input
@@ -87,15 +120,17 @@ export default function CreateEditCanvasModal({ canvas, isOpen, onOpenChange }: 
 								/>
 								<Dropdown>
 									<DropdownTrigger>
-										<Button
-											variant="bordered"
-										>
-											Presets
-										</Button>
+										<Button variant='bordered'>Presets</Button>
 									</DropdownTrigger>
-									<DropdownMenu aria-label="Static Actions" className={'overflow-auto max-h-80'} onAction={setResolution}>
-										<DropdownItem key="1280x720">HD (1280x720)</DropdownItem>
-										<DropdownItem key="1920x1080">FullHD (1920x1080)</DropdownItem>
+									<DropdownMenu
+										aria-label='Static Actions'
+										className={'overflow-auto max-h-80'}
+										onAction={setResolution}
+									>
+										<DropdownItem key='1280x720'>HD (1280x720)</DropdownItem>
+										<DropdownItem key='1920x1080'>
+											FullHD (1920x1080)
+										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
 							</div>
@@ -104,14 +139,15 @@ export default function CreateEditCanvasModal({ canvas, isOpen, onOpenChange }: 
 							<Button color='danger' variant='light' onPress={onClose}>
 								Cancel
 							</Button>
-							{canvas ?
+							{canvas ? (
 								<Button color='primary' onPress={handleUpdateCanvas}>
 									Update
-								</Button> :
+								</Button>
+							) : (
 								<Button color='primary' onPress={handleCreateNewCanvas}>
 									Create
 								</Button>
-							}
+							)}
 						</ModalFooter>
 					</>
 				)}

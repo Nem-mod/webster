@@ -1,12 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../../axios/instance";
-import { ICanvas, ICreateCanvas } from "./canvases-slice.types";
+import { ICanvas, ICreateCanvas, IUpdateCanvas } from "./canvases-slice.types";
 
 export const fetchCreateCanvas = createAsyncThunk<ICanvas, ICreateCanvas, { rejectValue: string; }>(
 	'canvases/create-canvas',
 	async (params, { rejectWithValue }) => {
 		try {
 			const response = await axios.post(`/canvas`, params);
+			return response.data;
+		} catch (error: any) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+export const fetchUpdateCanvas = createAsyncThunk<ICanvas, IUpdateCanvas, { rejectValue: string; }>(
+	'canvases/update-canvas',
+	async (params, { rejectWithValue }) => {
+		try {
+			const response = await axios.patch(`/canvas/${params._id}`, params);
 			return response.data;
 		} catch (error: any) {
 			return rejectWithValue(error.message);

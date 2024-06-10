@@ -18,3 +18,10 @@ export interface ICreateCanvas {
 		elements: []
 	};
 }
+
+
+export interface IUpdateCanvas {
+	_id: string
+	canvasName?: string;
+	resolution?: [number, number];
+}
