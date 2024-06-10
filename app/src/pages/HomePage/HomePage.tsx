@@ -45,7 +45,7 @@ export default function HomePage() {
 							</Button>
 							<CreateEditCanvasModal isOpen={isOpen} onOpenChange={onOpenChange}/>
 						</div>
-						<div className={'flex mt-10 gap-10'}>
+						<div className={'flex mt-10 gap-10 flex-wrap justify-center'}>
 							{canvases &&
 								canvases.map((canvas) => (
 									<CanvasCard
