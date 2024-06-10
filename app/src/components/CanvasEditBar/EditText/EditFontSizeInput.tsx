@@ -23,7 +23,7 @@ export default function EditFontSizeInput({ onChange, fontSize }: IProps) {
 	return (
 		<div className={'w-full flex max-w-[90px]'}>
 			<button
-				className={'bg-white w-8 rounded-l-md'}
+				className={'bg-transparent/10 hover:bg-transparent/20 duration-0 w-8 rounded-l-md'}
 				onClick={() => handleClick(1)}
 			>
 				+
@@ -33,14 +33,17 @@ export default function EditFontSizeInput({ onChange, fontSize }: IProps) {
 				radius={'none'}
 				value={value}
 				size={'md'}
-				className={'h-full'}
+				className={'h-full bg-transparent/10 data-[hover=true]:bg-transparent/20 duration-0'}
 				classNames={{
-					inputWrapper : 'h-full'
+					inputWrapper : 'h-full bg-transparent data-[hover=true]:bg-transparent',
+					mainWrapper: 'bg-transparent/5 data-[hover=true]:bg-transparent/10 duration-0',
+					base: 'bg-transparent',
+					input: 'text-md'
 				}}
 				onValueChange={handleChange}
 			/>
 			<button
-				className={'bg-white w-8 rounded-r-md'}
+				className={'bg-transparent/10 hover:bg-transparent/20 duration-0 w-8 rounded-r-md'}
 				onClick={() => handleClick(-1)}
 			>
 				-

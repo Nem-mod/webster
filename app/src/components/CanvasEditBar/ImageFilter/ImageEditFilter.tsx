@@ -141,6 +141,12 @@ export default function ImageEditFilter({ elements }: IProps) {
 			selectedKeys={value}
 			onSelectionChange={setValue}
 			className='max-w-xs'
+			size='sm'
+			classNames={{
+				trigger: 'bg-transparent/10 data-[hover=true]:bg-transparent/15',
+				helperWrapper: 'hover:bg-secondary',
+				label: 'text-md text-black'
+			}}
 		>
 			{filters.map((filter) => (
 				<SelectItem key={filter.name}>

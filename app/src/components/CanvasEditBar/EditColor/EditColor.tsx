@@ -36,12 +36,20 @@ export const EditColor = ({ selectedElements, handleUpdate } : Props) => {
                                 .filter((element) => element.fill)
                                 .map((element, index, array) => {
                                     const flexBasis = 100 / array.length;
+                                    const borderRadius = '10px'
                                     return (
                                         <div
                                             key={element.index}
                                             style={{
                                                 backgroundColor: `${element.fill}`,
                                                 flexBasis: `${flexBasis}%`,
+                                                borderRadius: `${
+                                                    array.length === 1 ? 
+                                                        `${borderRadius}` :
+                                                        index === 0 ?
+                                                            `${borderRadius} 0 0 ${borderRadius}` : 
+                                                            index === array.length - 1 ? `0 ${borderRadius} ${borderRadius} 0` : '0px'
+                                                }`
                                             }}
                                         ></div>
                                     );

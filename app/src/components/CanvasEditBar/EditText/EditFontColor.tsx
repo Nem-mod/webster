@@ -26,8 +26,8 @@ export default function EditFontColor({ onChange }: IProps) {
 	return (
 		<Popover placement='bottom'>
 			<PopoverTrigger className={'w-8'}>
-				<Button size='sm' className={'bg-transparent p-0'}>
-					<FontColorIcon/>
+				<Button isIconOnly size='lg' className={'bg-transparent/10 p-0 rounded-lg hover:bg-transparent/20'}>
+					<FontColorIcon color={color}/>
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent>

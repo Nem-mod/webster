@@ -20,7 +20,12 @@ export const EditLayer = () => {
         <>
             <Popover>
                 <PopoverTrigger>
-                    <Button>Layers</Button>
+                    <Button
+                        className="bg-transparent/10 h-12 hover:bg-transparent/20 duration-0"
+                        size='lg'
+                    >
+                        Layers
+                    </Button>
                 </PopoverTrigger>
                 <PopoverContent className={'p-4 flex flex-col items-stretch'}>
                     <Button

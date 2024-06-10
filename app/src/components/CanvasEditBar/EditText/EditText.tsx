@@ -17,14 +17,14 @@ export const EditText = ({selectedElements, handleUpdate} : Props) => {
             <EditFontFamily
                 fontFamily={
                     selectedElements.find((e) => e.type == CanvasElementType.TEXT)
-                        ?.fontFamily
+                        ?.fontFamily || 'Arial'
                 }
                 onChange={handleUpdate}
             />
             <EditFontSizeInput
                 fontSize={
                     selectedElements.find((e) => e.type == CanvasElementType.TEXT)
-                        ?.fontSize || 16
+                        ?.fontSize || 30
                 }
                 onChange={handleUpdate}
             />

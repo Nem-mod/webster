@@ -31,12 +31,20 @@ export default function EditFontFamily({ fontFamily, onChange }: IProps) {
 	return (
 		<div className='flex w-full max-w-xs flex-col gap-2'>
 			<Select
-				variant='flat'
+				label='Font'
+				// variant='flat'
 				placeholder='Select an animal'
 				radius='none'
 				selectedKeys={[value]}
 				className='max-w-xs'
 				onChange={(e) => setValue(e.target.value)}
+				size='sm'
+				classNames={{
+					trigger: 'bg-transparent/10 data-[hover=true]:bg-transparent/15 rounded-lg',
+					helperWrapper: 'hover:bg-secondary',
+					label: 'text-md text-black',
+					// base: 'rounded-xl'
+				}}
 			>
 				{fonts.map((font) => (
 					<SelectItem key={font}>{font}</SelectItem>

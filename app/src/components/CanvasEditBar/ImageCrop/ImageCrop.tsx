@@ -32,7 +32,10 @@ export const ImageCrop = ({ selectedElements, handleUpdate } : Props) => {
         <>
             <Popover>
                 <PopoverTrigger>
-                    <Button>
+                    <Button
+                        className='bg-transparent/10 h-12 hover:bg-transparent/20 duration-0'
+                        size='lg'
+                    >
                         Crop image
                     </Button>
                 </PopoverTrigger>

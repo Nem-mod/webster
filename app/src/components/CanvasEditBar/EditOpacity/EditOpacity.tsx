@@ -20,7 +20,12 @@ export const EditOpacity = ({handleUpdate} : Props) => {
         <>
             <Popover>
                 <PopoverTrigger>
-                    <Button>Opacity</Button>
+                    <Button
+                        className='bg-transparent/10 h-12 hover:bg-transparent/20 duration-0'
+                        size='lg'
+                    >
+                        Opacity
+                    </Button>
                 </PopoverTrigger>
                 <PopoverContent className='w-[240px] py-2'>
                     <div className={''}>

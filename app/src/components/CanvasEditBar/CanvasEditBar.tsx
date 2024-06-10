@@ -42,7 +42,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 	return (
 		<>
 			<div
-				className={'flex flex-row px-4 gap-4 border border-secondary rounded-md rounded-t-none border-t-0 overflow-hidden'}
+				className={'flex flex-row px-4 py-2 gap-4 border border-secondary rounded-md rounded-t-none border-t-0 h-16 '}
 			>
 				{selectedElements?.length > 0 && (
 					<>
@@ -85,7 +85,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 					</>
 				)}
 				{activeTool && <EditPenColor activeTool={activeTool} />}
-				<SaveCanvasMenu stageRef={stageRef} />
+				<SaveCanvasMenu stageRef={stageRef} className='ml-auto mr-5'/>
 			</div>
 		</>
 	);

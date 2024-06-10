@@ -21,9 +21,10 @@ function downloadURI(uri: string, name: string) {
 
 interface IProps {
 	stageRef: any;
+	className?: string
 }
 
-export default function SaveCanvasMenu({ stageRef }: IProps) {
+export default function SaveCanvasMenu({ stageRef, className }: IProps) {
 	const dispatch = useAppDispatch();
 	const stageName = useAppSelector((state) => state.canvas.data?.title);
 	// Save
@@ -75,15 +76,22 @@ export default function SaveCanvasMenu({ stageRef }: IProps) {
 		pdf.save(`${stageName}.pdf`);
 	};
 	return (
-		<Dropdown>
-			<DropdownTrigger>
-				<Button>Save canvas</Button>
-			</DropdownTrigger>
-			<DropdownMenu aria-label='Static Actions'>
-				<DropdownItem key='png' onClick={handleExportAsPNG}>Save as image</DropdownItem>
-				<DropdownItem key='svg' onClick={handleExportAsSVG}>Save as SVG</DropdownItem>
-				<DropdownItem key='pdf' onClick={handleExportAsPDF}>Save as PDF</DropdownItem>
-			</DropdownMenu>
-		</Dropdown>
+		<div className={className || ''}>
+			<Dropdown>
+				<DropdownTrigger>
+					<Button
+						className='bg-transparent/10 h-12 hover:bg-transparent/20 duration-0'
+						size='lg'
+					>
+						Save canvas
+					</Button>
+				</DropdownTrigger>
+				<DropdownMenu aria-label='Static Actions'>
+					<DropdownItem key='png' onClick={handleExportAsPNG}>Save as image</DropdownItem>
+					<DropdownItem key='svg' onClick={handleExportAsSVG}>Save as SVG</DropdownItem>
+					<DropdownItem key='pdf' onClick={handleExportAsPDF}>Save as PDF</DropdownItem>
+				</DropdownMenu>
+			</Dropdown>
+		</div>
 	);
 }

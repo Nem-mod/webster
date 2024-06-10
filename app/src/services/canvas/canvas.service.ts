@@ -21,11 +21,12 @@ CanvasElementFactory.register(CanvasElementType.IMAGE, () => ({ type: CanvasElem
 CanvasElementFactory.register(CanvasElementType.TEXT, () => ({
 	type: CanvasElementType.TEXT,
 	text: 'Hello, world!',
-	fill: 'red',
-	x: 300,
-	y: 400,
-	width: 600,
-	height: 100,
+
+	fill: 'black',
+	x: 30,
+	y: 40,
+	width: 200,
+	height: 80,
 }));
 CanvasElementFactory.register(CanvasElementType.CIRCLE, () => ({
 	type: CanvasElementType.CIRCLE,
