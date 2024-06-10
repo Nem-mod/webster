@@ -58,7 +58,7 @@ export const fetchAuthMe = createAsyncThunk<IUserRegisterAndAuthRes, null, { rej
     'auth/me',
     async (_, {rejectWithValue}) => {
         try {
-					await axios.post('/auth/refresh');
+					// await axios.post('/auth/refresh');
 					const response = await axios.get('/auth/profile');
             return response.data;
         } catch (error: any) {
