@@ -12,7 +12,7 @@ import {
 	DropdownMenu,
 	DropdownItem,
 } from '@nextui-org/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../hooks/redux';
 import {
 	fetchCreateCanvas,
@@ -38,12 +38,39 @@ export default function CreateEditCanvasModal({
 	const [canvasName, setCanvasName] = useState<string>(
 		canvas ? canvas.canvasName : 'My new Canvas'
 	);
+	const [canvasNameError, setCanvasNameError] = useState<string | null>();
+
+	useEffect(() => {
+		if (canvasName.length > 40) {
+			setCanvasNameError('Canvas name is too long');
+		} else if (canvasName.length <= 2) {
+			setCanvasNameError('Canvas name is too short');
+		} else {
+			setCanvasNameError(null);
+		}
+	}, [canvasName]);
+
 	const [canvasWidth, setCanvasWidth] = useState<string>(
 		canvas && canvas.resolution[0].toString()
 	);
 	const [canvasHeight, setCanvasHeight] = useState<string>(
 		canvas && canvas.resolution[1].toString()
 	);
+	const [widthIsInvalid, setWidthIsInvalid] = useState(false);
+	const [heightIsInvalid, setHeightIsInvalid] = useState(false);
+
+	useEffect(() => {
+		const width = Number(canvasWidth);
+		const height = Number(canvasHeight);
+		const isValidCheck = (
+			value: number | unknown,
+			callback: (val: boolean) => void
+		) => {
+			callback(!(Number.isInteger(value) && value > 100 && value < 3000));
+		};
+		isValidCheck(width, setWidthIsInvalid);
+		isValidCheck(height, setHeightIsInvalid);
+	}, [canvasWidth, canvasHeight]);
 
 	const handleCreateNewCanvas = async () => {
 		if (!canvasName) return;
@@ -65,7 +92,7 @@ export default function CreateEditCanvasModal({
 		const updateData: IUpdateCanvas = {
 			_id: canvas._id,
 		};
-		
+
 		if (canvasWidth && canvasHeight) {
 			updateData.resolution = [+canvasWidth, +canvasHeight];
 		}
@@ -103,18 +130,25 @@ export default function CreateEditCanvasModal({
 							<Input
 								label={'Name'}
 								value={canvasName}
-								errorMessage={'hui'}
+								isInvalid={Boolean(canvasNameError)}
+								errorMessage={canvasNameError}
 								onChange={(e) => setCanvasName(e.target.value)}
 								required
 							/>
 							<div className={'flex gap-3 items-center'}>
 								<Input
+									type={'number'}
 									label={'Width'}
+									isInvalid={widthIsInvalid}
+									errorMessage={'Incorrect value'}
 									value={canvasWidth}
 									onChange={(e) => setCanvasWidth(e.target.value)}
 									required
 								/>
 								<Input
+									type={'number'}
+									isInvalid={heightIsInvalid}
+									errorMessage={'Incorrect value'}
 									label={'Height'}
 									value={canvasHeight}
 									onChange={(e) => setCanvasHeight(e.target.value)}
