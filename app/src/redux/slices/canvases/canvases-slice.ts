@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { EStateStatus } from '../../../constants/stateStatus.enum';
 import { ICanvasesData } from './canvases-slice.types';
-import { fetchCanvases, fetchCreateCanvas } from './canvases-slice.service';
+import { fetchCanvases, fetchCreateCanvas, fetchDeleteCanvas } from './canvases-slice.service';
 
 export interface ICanvasState {
 	status: EStateStatus;
@@ -35,6 +35,14 @@ const canvasSlice = createSlice({
 
 		builder.addCase(fetchCanvases.fulfilled, (state, action) => {
 			state.data = { canvases: action.payload };
+			state.status = EStateStatus.LOADED;
+			state.error = null;
+		});
+
+		builder.addCase(fetchDeleteCanvas.fulfilled, (state, action) => {
+			if (!state.data?.canvases) return;
+
+			state.data.canvases = state.data?.canvases.filter(e => e._id != action.payload.id);
 			state.status = EStateStatus.LOADED;
 			state.error = null;
 		});

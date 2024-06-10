@@ -26,3 +26,15 @@ export const fetchCanvases = createAsyncThunk<ICanvas[], null, { rejectValue: st
 		}
 	}
 );
+
+export const fetchDeleteCanvas = createAsyncThunk<{ id: string; }, string, { rejectValue: string; }>(
+	'canvases/delete',
+	async (id, { rejectWithValue }) => {
+		try {
+			const response = await axios.delete(`/canvas/${id}`);
+			return { id: id };
+		} catch (error: any) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
