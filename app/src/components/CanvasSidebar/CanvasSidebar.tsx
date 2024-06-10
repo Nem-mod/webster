@@ -16,7 +16,7 @@ export const CanvasSidebar = () => {
 		<div className={'relative flex flex-row justify-center h-[calc(100vh_-_64px)]'}>
 			{selected !== 'null' &&
 					<div
-						className='absolute -right-3 top-[25rem] rounded-r rounded-l-none '
+						className='absolute -right-3 top-[25.3rem] rounded-r rounded-l-none '
 						onClick={() => setSelected('null')}
 					>
 						{/* <div className='bg-red-900 w-2 h-5'>

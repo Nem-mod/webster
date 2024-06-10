@@ -142,7 +142,7 @@ export const CanvasStage = ({
 		<div
 			ref={divRef}
 			className={'border-2 border-accent-dark'}
-			style={{ transform: `scale(${defaultScale})` }}
+			style={{ transform: `scale(${defaultScale})`, transformOrigin: 'center' }}
 		>
 			<div {...getRootProps()}>
 				<Stage

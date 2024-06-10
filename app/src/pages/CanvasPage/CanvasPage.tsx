@@ -39,7 +39,7 @@ export default function CanvasPage() {
 
 	const canvas = useAppSelector((state: RootState) => state.canvas);
 	return (
-		<div className={'flex flex-col h-screen max-h-screen min-h-screen'}>
+		<div className={'flex flex-col h-screen max-h-screen min-h-screen overflow-hidden'}>
 			<CustomNavBar />
 			<div
 				className={'w-screen max-w-full flex flex-row grow'}
