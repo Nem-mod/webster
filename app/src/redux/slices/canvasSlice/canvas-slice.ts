@@ -4,6 +4,7 @@ import { ICanvasElement } from '../../../services/canvas/canvas.types';
 import { fetchCanvasById } from './canvas-slice.service';
 import { ICanvasData, ICanvasSelectedElement, ISelectedElements, IUpdateElement, ToolOperationType } from './canvas-slice.types';
 import axios from '../../../axios/instance';
+import { color } from 'framer-motion';
 
 export interface ICanvasState {
 	status: EStateStatus;
@@ -194,9 +195,12 @@ const canvasSlice = createSlice({
 			state.data.elements = history.stack[history.currentPos];
 		},
 
-		setTool(state: ICanvasState, { payload }: PayloadAction<{ tool: ToolOperationType; }>) {
+		setTool(state: ICanvasState, { payload }: PayloadAction<{ tool: ToolOperationType; color: string }>) {
 			if (!state.data) return;
-			state.data.activeTool = payload.tool;
+			state.data.activeTool = {
+				tool: payload.tool,
+				color: payload.color
+			};
 		}
 	},
 

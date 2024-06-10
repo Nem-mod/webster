@@ -181,7 +181,7 @@ export const CanvasStage = ({
 						{line && (
 							<Line
 								points={line.points}
-								stroke='#df4b26'
+								stroke={canvasState.data?.activeTool?.color || '#df4b26'}
 								strokeWidth={5}
 								tension={0.5}
 								lineCap='round'
