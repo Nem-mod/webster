@@ -19,6 +19,7 @@ export default function PreviewCanvasStage({canvas, scaleParam, shapes}: IProps)
 		y={0}
 		scaleX={1 / scaleParam}
 		scaleY={1 / scaleParam}
+		// className={'object-contain'}
 	>
 		<Layer>
 			{shapes && shapes?.map((shape: ICanvasElement, index: number) => {

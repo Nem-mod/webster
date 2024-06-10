@@ -44,6 +44,7 @@ export default function CanvasCard({ canvas, to }: IProps) {
 		onOpenDeleteChange()
 	}
 
+	// TODO: canvas card aspect ratio
 	return (
 		<Card
 			ref={ref}
@@ -51,13 +52,13 @@ export default function CanvasCard({ canvas, to }: IProps) {
 			className='py-4 bg-secondary/30 shadow-xl relative overflow-visible'
 			onMouseLeave={handleClosePopover}
 		>
-			<CardBody className='overflow-visible py-2 hover:bg-light'>
+			<CardBody className='overflow-visible py-2 hover:bg-light flex items-center'>
 				<Link to={to}>
 					{canvas.canvas && (
-						<div className={'bg-white rounded'}>
+						<div className={`bg-white rounded`} style={{width: `${canvas.resolution[0]}px`, height: `${canvas.resolution[1]}px`}}>
 							<PreviewCanvasStage
 								canvas={canvas}
-								scaleParam={8}
+								scaleParam={1}
 								shapes={canvas.canvas.elements || []}
 							/>
 						</div>

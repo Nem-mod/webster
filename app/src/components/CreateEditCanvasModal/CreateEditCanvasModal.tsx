@@ -31,7 +31,7 @@ export default function CreateEditCanvasModal({ canvas, isOpen, onOpenChange }: 
 		const { error } = await dispatch(
 			fetchCreateCanvas({
 				canvasName: canvasName,
-				resolution: [1000, 1000], // TODO: set resolution here
+				resolution: [parseInt(canvasWidth), parseInt(canvasHeight)], // TODO: set resolution here
 				canvas: {
 					elements: []
 				}
@@ -70,13 +70,15 @@ export default function CreateEditCanvasModal({ canvas, isOpen, onOpenChange }: 
 							<Input
 								label={'Name'}
 								value={canvasName}
+								errorMessage={'hui'}
 								onChange={(e) => setCanvasName(e.target.value)}
+								required
 							/>
 							<div className={'flex gap-3 items-center'}>
 								<Input
 									label={'Width'}
 									value={canvasWidth}
-									onChange={(e) => setCanvasHeight(e.target.value)}
+									onChange={(e) => setCanvasWidth(e.target.value)}
 									required
 								/>
 								<Input
