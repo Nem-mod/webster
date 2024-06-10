@@ -18,14 +18,14 @@ export default function HistoryList() {
 
 	return (
 		<div>
-			<div className={'flex flex-col-reverse gap-2 px-4'}>
+			<div className={'flex flex-col-reverse gap-2 px-4 items-center'}>
 				{history?.stack &&
 					history.stack.map((shapes, index) => {
 						return (
-							<div key={index}>
+							<div key={index} className={'flex flex-col items-center'}>
 								{history.currentPos === index && <div className={'font-bold my-2'}> Current </div>}
 								<div
-									className={`bg-white rounded `}
+									className={`bg-white rounded overflow-hidden ${history.currentPos === index && 'border-2 border-primary-light'}`}
 									onClick={() => handleClick(index)}
 									style={{
 										width: divWidth,
