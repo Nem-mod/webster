@@ -9,6 +9,7 @@ export interface ICanvas {
 
 export interface ICanvasesData {
 	canvases: ICanvas[];
+	search?: ICanvas[] | null;
 }
 
 export interface ICreateCanvas {
