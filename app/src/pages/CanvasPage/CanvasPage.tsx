@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import CanvasMenu from '../../components/CanvasMenuGroup/CanvasMenu/CanvasMenu';
 import { CanvasStage } from '../../components/CanvasStage/CanvasStage';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCanvasById } from '../../redux/slices/canvasSlice/canvas-slice.service';
 import { RootState } from '../../redux/store';
 import { useParams } from 'react-router-dom';
-import axios from '../../axios/instance';
 import CanvasEditBar from '../../components/CanvasEditBar/CanvasEditBar.tsx';
 import { CanvasSidebar } from '../../components/CanvasSidebar/CanvasSidebar.tsx';
 import { CustomNavBar } from '../../components/NavBar/CustomNavBar.tsx';
-import { EStateStatus } from '../../constants/stateStatus.enum.ts';
 
 export default function CanvasPage() {
 	const border = false;
@@ -19,6 +16,7 @@ export default function CanvasPage() {
 	const divRef = useRef<HTMLInputElement>(null);
 	const stageRef = useRef<any>();
 	const stageWrapperRef = useRef<any>(null);
+	const canvas = useAppSelector((state: RootState) => state.canvas);
 	const [dimensions, setDimensions] = useState({
 		width: 1000,
 		height: 1000,
@@ -27,17 +25,33 @@ export default function CanvasPage() {
 	// We cant set the h & w on Stage to 100% it only takes px values so we have to
 	// find the parent container's w and h and then manually set those !
 	useEffect(() => {
-		if (divRef.current?.offsetHeight && divRef.current?.offsetWidth) {
-			setDimensions({
-				width: divRef.current.offsetWidth,
-				height: divRef.current.offsetHeight,
-			});
+		if (!canvasId) {
+			dispatch(fetchCanvasById('0'));
+		} else {
+			dispatch(fetchCanvasById(canvasId));
 		}
-		if (!canvasId) dispatch(fetchCanvasById('0'));
-		if (canvasId) dispatch(fetchCanvasById(canvasId));
+	}, [canvasId, dispatch]);
+
+	useEffect(() => {
+		const updateDimensions = () => {
+			if (stageWrapperRef.current) {
+				const { clientWidth, clientHeight } = stageWrapperRef.current;
+				setDimensions({
+					width: clientWidth,
+					height: clientHeight,
+				});
+			}
+		};
+
+		updateDimensions(); // Update dimensions initially
+
+		window.addEventListener('resize', updateDimensions);
+		return () => {
+			window.removeEventListener('resize', updateDimensions);
+		};
 	}, []);
 
-	const canvas = useAppSelector((state: RootState) => state.canvas);
+
 	return (
 		<div className={'flex flex-col h-screen max-h-screen min-h-screen overflow-hidden'}>
 			<CustomNavBar />
@@ -59,7 +73,7 @@ export default function CanvasPage() {
 						className={`grow flex justify-center items-center bg-gray-400/20 pt-10`}
 						ref={stageWrapperRef}
 					>
-						{canvas.data && (
+						{canvas?.data && (
 							<CanvasStage
 								canvasState={canvas}
 								dimensions={dimensions}

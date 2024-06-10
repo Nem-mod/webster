@@ -13,7 +13,6 @@ interface IProps {
 export default function ImageElement({
 	shape: { src, filters, ref: imageRef, ...shapeProps }, index
 }: IProps) {
-	// FIXME: Image do not loads with anonymous flag
 	const dispatch = useAppDispatch();
 	const [image, status] = useImage(src, 'anonymous'); // 'anonymous'
 	const konvaFilters =

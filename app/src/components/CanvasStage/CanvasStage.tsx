@@ -17,6 +17,7 @@ import { useDraw } from '../../hooks/canvas/useDraw';
 import CanvasEditBar from '../CanvasEditBar/CanvasEditBar';
 import useCanvasKeyboard from '../../hooks/canvas/useCanvasKeyboard';
 import useWheel from '../../hooks/canvas/useWheel';
+import useWindowDimensions from "../../hooks/UseWindowDimensions.tsx";
 
 interface Props {
 	canvasState: ICanvasState;
@@ -54,24 +55,46 @@ interface Props {
 // TODO: Refactor code, use custom hooks to short code
 export const CanvasStage = ({
 	canvasState,
-	dimensions,
 	stageRef,
 	stageWrapperRef,
 }: Props) => {
-	const defaultScale = Math.min(
-		624.9857 * Math.pow(Math.max(dimensions.height, dimensions.width), -0.993),
-		0.9
-	);
+	const [defaultScale, setDefaultScale] = useState(1);
+	const { height, width } = useWindowDimensions()
 
 	useEffect(() => {
+		const stageWrapperBounds = stageWrapperRef.current.getBoundingClientRect()
+		const divRefBounds = divRef.current.getBoundingClientRect()
+		const minHeightDelta = 120
+		const minWidthDelta = 300
+
+		// console.log('start')
+		// console.log(`outer: ${stageWrapperBounds.height} | inner: ${divRefBounds.height}`);
+
+		// const newScale = 1
+		// const newScale = Math.abs(120 / (stageWrapperBounds.height - divRefBounds.height))
+		const newScaleY = (stageWrapperBounds.height - minHeightDelta) / divRefBounds.height * defaultScale;
+		const newScaleX = (stageWrapperBounds.width - minWidthDelta) / divRefBounds.width * defaultScale;
+		const newScale = Math.min(newScaleX, newScaleY)
+
+		// console.log(`old scale: ${defaultScale} | new scale: ${newScale}`);
+		// console.log(`new outer: ${stageWrapperBounds.height / defaultScale * newScale} | new inner: ${divRefBounds.height / defaultScale * newScale}`);
+		// console.log('end')
+
+		// setDefaultScale(Math.min(
+		// 	624.9857 * Math.pow(Math.max(dimensions.height, dimensions.width), -0.993),
+		// 	0.9
+		// ))
+
 		stageWrapperRef.current.style.height = `${
-			stageWrapperRef.current.style.height * defaultScale
+			stageWrapperRef.current.style.height / defaultScale * newScale
 		}px`;
+
+		setDefaultScale(newScale)
 		// stageWrapperRef.current.style.maxHeight = `${
 		// 	stageWrapperRef.current.style.height * defaultScale
 		// }px`;
 		// stageWrapperRef.current.style.width = `${stageWrapperRef.current.style.width * defaultScale}px`
-	}, [stageRef]);
+	}, [stageRef, height]);
 
 	const shapes = canvasState.data?.elements;
 	const dispatch = useAppDispatch();
@@ -152,8 +175,8 @@ export const CanvasStage = ({
 					scaleY={stageScale.scale}
 					x={stageScale.stageX}
 					y={stageScale.stageY}
-					width={dimensions.width}
-					height={dimensions.height}
+					width={canvasState.data?.resolution[0]}
+					height={canvasState.data?.resolution[1]}
 					onMouseDown={tool ? drawingHandleMouseDown : onMouseDown}
 					onMouseUp={tool ? drawingHandleMouseUp : onMouseUp}
 					onMouseMove={tool ? drawingHandleMouseMove : onMouseMove}
