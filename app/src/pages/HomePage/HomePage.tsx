@@ -24,12 +24,12 @@ export default function HomePage() {
 	return (
 		<div className={'flex flex-col h-screen'}>
 			<CustomNavBar/>
-			<div className={`flex justify-center grow w-screen bg-gradient-to-bl from-accent/20 to-light/20 overflow-x-hidden`}>
-				<div className='pt-20 max-w-6xl'>
+			<div className={`flex basis-1 justify-center grow w-screen bg-gradient-to-bl from-accent/20 to-light/20 overflow-x-hidden`}>
+				<div className='pt-20 max-w-6xl w-3/4'>
 						<div className={'flex gap-10'}>
 							<Input
 								classNames={{
-									base: 'w-full h-10',
+									base: 'h-10',
 									mainWrapper: 'h-full',
 									input: 'text-large',
 									inputWrapper:
