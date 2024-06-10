@@ -1,13 +1,14 @@
-import { Input } from '@nextui-org/react';
+import {Button, Input, useDisclosure} from '@nextui-org/react';
 import { SearchIcon } from '../../components/Icons/SearchIcon';
 import CanvasCard from '../../components/CanvasCard/CanvasCard';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import {useEffect} from 'react';
 import { fetchCanvases } from '../../redux/slices/canvases/canvases-slice.service';
-import CreateCanvasModal from '../../components/CreateCanvasModal/CreateCanvasModal';
 import {CustomNavBar} from "../../components/NavBar/CustomNavBar.tsx";
+import CreateEditCanvasModal from "../../components/CreateEditCanvasModal/CreateEditCanvasModal.tsx";
 
 export default function HomePage() {
+	const { isOpen, onOpen, onOpenChange } = useDisclosure();
 	const dispatch = useAppDispatch();
 	const canvases = useAppSelector((state) => state.canvases.data?.canvases);
 	useEffect(() => {
@@ -34,7 +35,15 @@ export default function HomePage() {
 								startContent={<SearchIcon size={18} />}
 								type='search'
 							/>
-							<CreateCanvasModal/>
+							<Button
+								className={'text-xl bg-primary/90'}
+								size={'lg'}
+								color={'primary'}
+								onPress={onOpen}
+							>
+								Create new
+							</Button>
+							<CreateEditCanvasModal isOpen={isOpen} onOpenChange={onOpenChange}/>
 						</div>
 						<div className={'flex mt-10 gap-10'}>
 							{canvases &&

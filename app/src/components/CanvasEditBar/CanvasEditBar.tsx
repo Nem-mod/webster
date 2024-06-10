@@ -40,7 +40,7 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 
 	return (
 		<>
-			{selectedElements?.length && (
+			{selectedElements?.length > 0 && (
 				<div
 					className={'flex flex-row px-4 gap-4 border border-black rounded-md'}
 				>
