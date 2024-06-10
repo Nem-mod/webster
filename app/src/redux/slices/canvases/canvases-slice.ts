@@ -19,7 +19,12 @@ const initialState: ICanvasState = {
 const canvasSlice = createSlice({
 	initialState,
 	name: 'canvases',
-	reducers: {},
+	reducers: {
+		searchCanvas(state, action) {
+			if (!state.data) return;
+			state.data.search = state.data.canvases.filter(e => !e.canvasName.search(action.payload));
+		}
+	},
 	extraReducers(builder) {
 		// TODO: Add loading + rejected cases
 		builder.addCase(fetchCreateCanvas.fulfilled, (state, action) => {
@@ -63,3 +68,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasesReducer = canvasSlice.reducer;
+export const {searchCanvas} = canvasSlice.actions
