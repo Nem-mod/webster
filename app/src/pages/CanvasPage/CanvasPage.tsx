@@ -65,7 +65,6 @@ export default function CanvasPage() {
 				<div className={'flex flex-col grow overflow-hidden'}>
 					{/* min-w-32 max-w-20 */}
 					<div className={`overflow-hidden flex-none bg-secondary/30 `}>
-						{/* TODO: if set absolute, then width problem. fix canvas dragging */}
 						<CanvasEditBar stageRef={stageRef} />
 					</div>
 

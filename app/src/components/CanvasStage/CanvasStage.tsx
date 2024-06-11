@@ -74,7 +74,7 @@ export const CanvasStage = ({
 		// const newScale = Math.abs(120 / (stageWrapperBounds.height - divRefBounds.height))
 		const newScaleY = (stageWrapperBounds.height - minHeightDelta) / divRefBounds.height * defaultScale;
 		const newScaleX = (stageWrapperBounds.width - minWidthDelta) / divRefBounds.width * defaultScale;
-		const newScale = Math.min(newScaleX, newScaleY)
+		const newScale = Math.abs(Math.min(newScaleX, newScaleY))
 
 		// console.log(`old scale: ${defaultScale} | new scale: ${newScale}`);
 		// console.log(`new outer: ${stageWrapperBounds.height / defaultScale * newScale} | new inner: ${divRefBounds.height / defaultScale * newScale}`);

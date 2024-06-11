@@ -7,7 +7,7 @@ import {Button, image} from "@nextui-org/react";
 import {useEffect, useRef, useState} from "react";
 import axios from "../../axios/instance";
 
-interface IImage {
+export interface IImage {
   _id: string
   url: string
   user: string
@@ -21,23 +21,24 @@ interface IProps {
   };
 }
 
-export default function ImagesList({ dimensions }: IProps) {
-  const [images, setImages] = useState<IImage[]>([])
+export default function UsedImagesList({ dimensions }: IProps) {
   const dispatch = useAppDispatch();
-  const wrapperRef = useRef<HTMLElement>();
-  const buttonRefs = {};
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState<IImage[]>([])
 
   useEffect(() => {
     const fetchImages = async () => {
+      setLoading(true)
       const images = await axios.get('uploader/url')
 
       setImages(images.data)
+      setLoading(false)
     }
 
     fetchImages()
   }, []);
 
-  const handleClick = async (url: string, id: string) => {
+  const handleImageSelect = async (url: string, id: string) => {
     const imageSize = await getImageSize(url)
 
     const scaleX = dimensions.width / imageSize.width;
@@ -57,22 +58,20 @@ export default function ImagesList({ dimensions }: IProps) {
     }).sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
 
     setImages(sortedImages)
-
-    // TODO: sort array
   }
 
   return (
-    <div className={'flex'}>
+    <div className={'flex flex-col h-full'}>
+      { images.length === 0 && !loading &&
+          <div className={'flex flex-grow justify-center items-center'}>There is no images</div>
+      }
       <Masonry
-        // columns={3}
-        // gap={16}
         columnsCount={2}
         gutter={5}
-        ref={wrapperRef}
       >
         {images.map((image) => {
           return (
-            <Button key={image._id} className={'p-0 m-0 rounded-lg flex h-auto'} onPress={() => {handleClick(image.url, image._id)}}>
+            <Button key={image._id} className={'p-0 m-0 rounded-lg flex h-auto'} onPress={() => {handleImageSelect(image.url, image._id)}}>
               <img src={image.url} />
             </Button>
           )

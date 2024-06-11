@@ -2,8 +2,9 @@ import {Tabs, Tab, ScrollShadow, Button} from '@nextui-org/react';
 import { useState } from 'react';
 import CanvasMenu from '../CanvasMenuGroup/CanvasMenu/CanvasMenu.tsx';
 import HistoryList from '../HistoryList/HistoryList.tsx';
-import ImagesList from "../ImageList/ImagesList.tsx";
+import UsedImagesList from "../ImageList/UsedImagesList.tsx";
 import {ICanvasState} from "../../redux/slices/canvasSlice/canvas-slice.ts";
+import UnsplashImagesList from "../ImageList/UnsplashImagesList.tsx";
 
 interface IProps {
 	canvas: ICanvasState
@@ -11,6 +12,7 @@ interface IProps {
 
 export const CanvasSidebar = ({ canvas }: IProps) => {
 	const [selected, setSelected] = useState(null);
+	const [selectedImageType, setSelectedImageType] = useState(null);
 	const dimensions = {
 		width: canvas.data?.resolution[0],
 		height: canvas.data?.resolution[1]
@@ -75,7 +77,17 @@ export const CanvasSidebar = ({ canvas }: IProps) => {
 				</Tab>
 				<Tab key={'images'} title={'Images'}>
 					<div className='max-w-[500px] w-[500px]'>
-						<ImagesList dimensions={dimensions}/>
+						<Tabs
+							selectedKey={selectedImageType}
+							onSelectionChange={setSelectedImageType}
+						>
+							<Tab key={'saved'} title={'Saved'} className={'h-[calc(100%_-_36px)]'}>
+								<UsedImagesList dimensions={dimensions}/>
+							</Tab>
+							<Tab key={'search'} title={'Search'} className={'h-[calc(100%_-_36px)]'}>
+								<UnsplashImagesList dimensions={dimensions}/>
+							</Tab>
+						</Tabs>
 					</div>
 				</Tab>
 				<Tab key={'history'} title={'History'}>
