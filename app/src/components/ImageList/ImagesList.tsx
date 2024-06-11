@@ -3,65 +3,16 @@ import {useAppDispatch} from "../../hooks/redux.ts";
 import {addElement} from "../../redux/slices/canvasSlice/canvas-slice.ts";
 import {CanvasElementType} from "../../services/canvas/canvas-element-types.enum.ts";
 import {getImageSize} from "react-image-size";
-import {image} from "@nextui-org/react";
+import {Button, image} from "@nextui-org/react";
+import {useEffect, useRef, useState} from "react";
+import axios from "../../axios/instance";
 
-
-const images = [
-  {
-    "_id": "665879350a248043599332f1",
-    "url": "https://storage.googleapis.com/webster_images/1b9d9da6-3b45-4452-8cc8-e3c4e5813c41.Screenshot_11.png",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-30T13:04:38.559Z"
-  },
-  {
-    "_id": "665879430a248043599332f6",
-    "url": "https://plus.unsplash.com/premium_photo-1689703068047-7a5cc93a8faa?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-30T13:04:03.353Z"
-  },
-  {
-    "_id": "665748ab792816bde9ceca47",
-    "url": "https://storage.googleapis.com/webster_images/a2eab2e4-8064-4050-bb6f-9ffccb1f5ee8.F66a2QrXkAAig-z.jpeg",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-29T16:07:00.752Z"
-  },
-  {
-    "_id": "665746f3792816bde9ceca3f",
-    "url": "https://plus.unsplash.com/premium_photo-1689703068047-7a5cc93a8faa?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-29T15:17:07.826Z"
-  },
-  {
-    "_id": "66574678d8da221610d085e3",
-    "url": "https://plus.unsplash.com/premium_photo-1689703068047-7a5cc93a8faa?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-29T15:15:04.077Z"
-  },
-  {
-    "_id": "665745e22006670f0d0fde3d",
-    "url": "https://storage.googleapis.com/webster_images/d0ee0fde-a58d-42ba-a74d-b0a1da433cb7.F66a2QrXkAAig-z.jpeg",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-29T15:12:34.639Z"
-  },
-  {
-    "_id": "665745dc2006670f0d0fde38",
-    "url": "https://plus.unsplash.com/premium_photo-1689703068047-7a5cc93a8faa?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-29T15:12:28.229Z"
-  },
-  {
-    "_id": "665742c6b8c84d93ce0dad3d",
-    "url": "https://plus.unsplash.com/premium_photo-1689703068047-7a5cc93a8faa?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-29T14:59:18.918Z"
-  },
-  {
-    "_id": "6657426f24cfab148da3f7fd",
-    "url": "https://plus.unsplash.com/premium_photo-1689703068047-7a5cc93a8faa?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "user": "6654a04e8fde70df01a68f6b",
-    "updatedAt": "2024-05-29T14:57:51.633Z"
-  }
-]
+interface IImage {
+  _id: string
+  url: string
+  user: string
+  updatedAt: string
+}
 
 interface IProps {
   dimensions: {
@@ -71,9 +22,22 @@ interface IProps {
 }
 
 export default function ImagesList({ dimensions }: IProps) {
+  const [images, setImages] = useState<IImage[]>([])
   const dispatch = useAppDispatch();
+  const wrapperRef = useRef<HTMLElement>();
+  const buttonRefs = {};
 
-  const handleClick = async (url: string) => {
+  useEffect(() => {
+    const fetchImages = async () => {
+      const images = await axios.get('uploader/url')
+
+      setImages(images.data)
+    }
+
+    fetchImages()
+  }, []);
+
+  const handleClick = async (url: string, id: string) => {
     const imageSize = await getImageSize(url)
 
     const scaleX = dimensions.width / imageSize.width;
@@ -81,6 +45,20 @@ export default function ImagesList({ dimensions }: IProps) {
     const minScale = Math.min(scaleX, scaleY);
 
     dispatch(addElement({type: CanvasElementType.IMAGE, src: url, scaleX: minScale, scaleY: minScale}))
+
+    axios.patch(`uploader/url/${id}`)
+
+    const sortedImages: IImage[] = images.map(image => {
+      if (image._id === id)
+        image.updatedAt = new Date().toISOString()
+
+      console.log(image.updatedAt)
+      return image
+    }).sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+
+    setImages(sortedImages)
+
+    // TODO: sort array
   }
 
   return (
@@ -90,9 +68,14 @@ export default function ImagesList({ dimensions }: IProps) {
         // gap={16}
         columnsCount={2}
         gutter={5}
+        ref={wrapperRef}
       >
         {images.map((image) => {
-          return <img src={image.url} key={image._id} onClick={() => {handleClick(image.url)}} />;
+          return (
+            <Button key={image._id} className={'p-0 m-0 rounded-lg flex h-auto'} onPress={() => {handleClick(image.url, image._id)}}>
+              <img src={image.url} />
+            </Button>
+          )
         })}
       </Masonry>
     </div>
