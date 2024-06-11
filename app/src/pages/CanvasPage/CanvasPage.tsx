@@ -59,7 +59,7 @@ export default function CanvasPage() {
 				className={'w-screen max-w-full flex flex-row grow'}
 			>
 				<div className='h-full flex justify-center items-center bg-secondary/30'>
-					<CanvasSidebar />
+					<CanvasSidebar canvas={canvas}/>
 				</div>
 
 				<div className={'flex flex-col grow overflow-hidden'}>

@@ -2,11 +2,19 @@ import {Tabs, Tab, ScrollShadow, Button} from '@nextui-org/react';
 import { useState } from 'react';
 import CanvasMenu from '../CanvasMenuGroup/CanvasMenu/CanvasMenu.tsx';
 import HistoryList from '../HistoryList/HistoryList.tsx';
+import ImagesList from "../ImageList/ImagesList.tsx";
+import {ICanvasState} from "../../redux/slices/canvasSlice/canvas-slice.ts";
 
+interface IProps {
+	canvas: ICanvasState
+}
 
-
-export const CanvasSidebar = () => {
+export const CanvasSidebar = ({ canvas }: IProps) => {
 	const [selected, setSelected] = useState(null);
+	const dimensions = {
+		width: canvas.data?.resolution[0],
+		height: canvas.data?.resolution[1]
+	}
 
 	const unselectTab = () => {
 		setSelected(null);
@@ -16,7 +24,7 @@ export const CanvasSidebar = () => {
 		<div className={'relative flex flex-row justify-center h-[calc(100vh_-_64px)]'}>
 			{selected !== 'null' &&
 					<div
-						className='absolute -right-3 top-[25.3rem] rounded-r rounded-l-none '
+						className='absolute -right-3 top-[25.3rem] rounded-r rounded-l-none'
 						onClick={() => setSelected('null')}
 					>
 						{/* <div className='bg-red-900 w-2 h-5'>
@@ -46,7 +54,7 @@ export const CanvasSidebar = () => {
 					tab: 'text-white-500',
 					base: 'items-center border-r-1 border-primary/20',
 					wrapper: 'max-w-inherit',
-					panel: 'flex  justify-center m-2 overflow-auto max-h-full',
+					panel: 'flex justify-center m-2 overflow-auto max-h-full',
 				}}
 			>
 				
@@ -66,8 +74,9 @@ export const CanvasSidebar = () => {
 					{/* </SidebarSelectedWrapper> */}
 				</Tab>
 				<Tab key={'images'} title={'Images'}>
-
-					<div className='max-w-inherit'></div>
+					<div className='max-w-[500px] w-[500px]'>
+						<ImagesList dimensions={dimensions}/>
+					</div>
 				</Tab>
 				<Tab key={'history'} title={'History'}>
 					<ScrollShadow >

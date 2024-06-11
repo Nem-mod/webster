@@ -55,7 +55,8 @@ const patchCanvas = (state: ICanvasState) => {
 };
 
 const updateOperations = (state: ICanvasState) => {
-	addHistory(state),
+
+	addHistory(state);
 		patchCanvas(state);
 };
 

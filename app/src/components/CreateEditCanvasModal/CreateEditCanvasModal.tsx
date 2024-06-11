@@ -66,7 +66,7 @@ export default function CreateEditCanvasModal({
 			value: number | unknown,
 			callback: (val: boolean) => void
 		) => {
-			callback(!(Number.isInteger(value) && value > 100 && value < 3000));
+			callback(!(Number.isInteger(value) && value > 99 && value < 10000));
 		};
 		isValidCheck(width, setWidthIsInvalid);
 		isValidCheck(height, setHeightIsInvalid);

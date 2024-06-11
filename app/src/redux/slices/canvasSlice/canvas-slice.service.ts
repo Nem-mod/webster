@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CANVASES } from '../../../data/canvases';
 import dummycanvas from "../../../data/dummycanvas";
 import { ICanvasData } from './canvas-slice.types';
 import axios from '../../../axios/instance';
