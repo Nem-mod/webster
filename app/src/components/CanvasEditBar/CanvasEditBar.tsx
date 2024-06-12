@@ -46,10 +46,12 @@ export default function CanvasEditBar({ stageRef }: IProps) {
 			>
 				{selectedElements?.length > 0 && (
 					<>
-						<EditColor
-							selectedElements={selectedElements}
-							handleUpdate={handleUpdate}
-						/>
+						{ elementsTypes && !elementsTypes.includes(CanvasElementType.TEXT) && (
+							<EditColor
+								selectedElements={selectedElements}
+								handleUpdate={handleUpdate}
+							/>
+						)}
 
 						<EditLayer />
 
