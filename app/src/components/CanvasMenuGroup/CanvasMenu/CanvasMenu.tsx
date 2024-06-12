@@ -8,7 +8,7 @@ export default function CanvasMenu() {
 	return (
 		<div className='flex gap-4 flex-col'>
 			{Object.values(CanvasElementType).map((key, index) => {
-				if(key === CanvasElementType.LINE) return;
+				if(key === CanvasElementType.LINE || key === CanvasElementType.IMAGE) return;
 				return <CanvasMenuButton key={index} type={key} />;
 			})}
 			<CanvasMenuTool tool={'pen'} />
