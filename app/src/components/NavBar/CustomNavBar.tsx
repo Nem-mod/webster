@@ -15,7 +15,7 @@ export function CustomNavBar() {
 	const dispatch = useAppDispatch();
 	const [_, setIsMenuOpen] = useState(false);
 	const user = useAppSelector((state) => state.auth.data);
-	const [hover, setHover] = useState(false);
+	const [hover, setHover] = useState(true);
 	useEffect(() => {
 		dispatch(fetchAuthMe(null))
 	}, [])
@@ -40,7 +40,7 @@ export function CustomNavBar() {
 				<NavbarBrand className={'flex gap-12'}>
 					<NavbarItem>
 						<Link 
-							href={'/'} onMouseEnter={() => {setHover(true)}} onMouseLeave={() => {setHover(false)}}
+							href={'/'} onMouseEnter={() => {setHover(true)}} onMouseLeave={() => {setHover(true)}}
 							className='font-bold text-inherit text-white my-auto'
 						>
 							<div className='flex gap-0.5 h-full items-center'>
