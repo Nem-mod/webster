@@ -5,6 +5,7 @@ import HistoryList from '../HistoryList/HistoryList.tsx';
 import UsedImagesList from "../ImageList/UsedImagesList.tsx";
 import {ICanvasState} from "../../redux/slices/canvasSlice/canvas-slice.ts";
 import UnsplashImagesList from "../ImageList/UnsplashImagesList.tsx";
+import CanvasShortcuts from "../CanvasShortcuts/CanvasShortcuts.tsx";
 
 interface IProps {
 	canvas: ICanvasState
@@ -53,7 +54,7 @@ export const CanvasSidebar = ({ canvas }: IProps) => {
 				isVertical
 				classNames={{
 					tabList: 'rounded-none bg-transparent m-2',
-					tab: 'text-white-500',
+					tab: 'rounded-lg shadow-md p-2 mb-2 text-white-500 bg-gray-200',
 					base: 'items-center border-r-1 border-primary/20',
 					wrapper: 'max-w-inherit',
 					panel: 'flex justify-center m-2 overflow-auto max-h-full',
@@ -96,80 +97,7 @@ export const CanvasSidebar = ({ canvas }: IProps) => {
 					</ScrollShadow>
 				</Tab>
 				<Tab key={'shortcuts'} title={'Shortcuts'}>
-					<div className='max-w-inherit'>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-						<p>a</p>
-					</div>
+					<CanvasShortcuts />
 				</Tab>
 			</Tabs>
 		</div>
