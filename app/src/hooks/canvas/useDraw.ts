@@ -16,7 +16,7 @@ export function useDraw() {
   const isDrawing = useRef(false);
 
   const drawingHandleMouseDown = (e) => {
-    if (!tool) return;
+    if (!tool.tool) return;
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
     setLine({ tool, points: [pos.x, pos.y] });

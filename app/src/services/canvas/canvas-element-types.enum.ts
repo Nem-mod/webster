@@ -12,6 +12,6 @@ export enum CanvasElementType {
 
 	// Lines
 	LINE = 'line',
-	ARROW = 'arrow',
-	ARC = 'arc',
+	// ARROW = 'arrow',
+	// ARC = 'arc',
 }

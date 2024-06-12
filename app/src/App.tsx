@@ -19,7 +19,7 @@ function App() {
 	// }
 
 	return (
-		<div>
+		<div className={'overflow-hidden max-h-screen'}>
 
 		<CustomNavBar/>
       <section className="bg-gray-100 py-20">
