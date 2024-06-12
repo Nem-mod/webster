@@ -14,8 +14,8 @@ export default function SignInPage() {
                     {/*<div className={'absolute -inset-1  rounded-s-xl blur-sm z-10 '}></div>*/}
                 </div>
                 <div className={'py-6 pr-6 flex-grow flex flex-col gap-6 basis-1/2 border-2 border-l-0 border-primary/30 rounded-e-xl text-justify'}>
-                    <h1 className={'text-4xl font-semibold text-black'}>Welcome to Multiverse!</h1>
-                    <p className={'text-2xl text-black'}>Please log in to access exclusive deals, manage your bookings, and enjoy a seamless ticket purchasing experience. Your entertainment journey starts here. Let's get started!</p>
+                    <h1 className={'text-4xl font-semibold text-black'}>Welcome Back to MetaGraphics!</h1>
+                    <p className={'text-2xl text-black'}>Dive back into your creative projects with MetaGraphics, the premier online canvas editor. Whether you're a professional designer or exploring your creative potential, MetaGraphics equips you with the tools to bring your ideas to life.</p>
                 </div>
             </div>
           </div>
