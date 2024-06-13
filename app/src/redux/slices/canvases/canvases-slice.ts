@@ -22,7 +22,8 @@ const canvasSlice = createSlice({
 	reducers: {
 		searchCanvas(state, action) {
 			if (!state.data) return;
-			state.data.search = state.data.canvases.filter(e => !e.canvasName.search(action.payload));
+			// state.data.search = state.data.canvases.filter(e => !e.canvasName.search(action.payload));
+			state.data.search = state.data.canvases.filter(e => e.canvasName.split(' ').filter(value => action.payload.split(' ').includes(value)))
 		}
 	},
 	extraReducers(builder) {

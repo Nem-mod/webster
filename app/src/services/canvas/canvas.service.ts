@@ -86,9 +86,12 @@ CanvasElementFactory.register(CanvasElementType.ARC, () => ({
 	x: 100,
 	y: 100,
 	innerRadius: 50,
-	outerRadius: 50,
+	outerRadius: 80,
 	angle: 30,
-	fill: 'black',
+	fill: 'red',
+	stroke: 'black',
+	strokeWidth: 5,
+	rotationDeg: -120,
 }));
 
 export default CanvasElementFactory;
