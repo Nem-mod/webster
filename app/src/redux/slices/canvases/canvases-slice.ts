@@ -22,8 +22,29 @@ const canvasSlice = createSlice({
 	reducers: {
 		searchCanvas(state, action) {
 			if (!state.data) return;
-			// state.data.search = state.data.canvases.filter(e => !e.canvasName.search(action.payload));
-			state.data.search = state.data.canvases.filter(e => e.canvasName.split(' ').filter(value => action.payload.split(' ').includes(value)))
+
+			if (action.payload === '') {
+				state.data.search = null;
+				return;
+			}
+
+			state.data.search = state.data.canvases.filter(e => {
+				const splitName = e.canvasName.toLocaleLowerCase().split(' ');
+				const splitSearch: string[] = action.payload.toLocaleLowerCase().split(' ');
+				let res = false;
+				for (const key of splitName) {
+					if (res) break;
+					res = splitSearch.includes(key);
+					for (let i = 0; i < splitSearch.at(-1).length; i++) {
+						if (res) {
+							break;
+						}
+						res = key.includes(splitSearch.at(-1)?.slice(0, ++i));
+					}
+				}
+
+				return res;
+			});
 		}
 	},
 	extraReducers(builder) {
@@ -69,4 +90,4 @@ const canvasSlice = createSlice({
 });
 
 export const canvasesReducer = canvasSlice.reducer;
-export const {searchCanvas} = canvasSlice.actions
+export const { searchCanvas } = canvasSlice.actions;
