@@ -3,7 +3,12 @@ import { Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { ICanvasElement } from '../../services/canvas/canvas.types';
 
-function getStyle(width, height) {
+function getStyle(
+	width: number,
+	height: number,
+	fontSize: number,
+	textColor: string
+) {
 	const isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 	const baseStyle = {
 		width: `${width}px`,
@@ -13,8 +18,8 @@ function getStyle(width, height) {
 		margin: '0px',
 		background: 'none',
 		outline: 'none',
-		color: 'white',
-		fontSize: '16px',
+		color: textColor || 'black',
+		fontSize: `${fontSize}px`,
 		fontFamily: 'sans-serif',
 	};
 	if (isFirefox) {
@@ -32,6 +37,8 @@ interface IEditableTextInput {
 	width?: number;
 	height?: number;
 	value?: string;
+	fontSize: number;
+	fill?: string;
 	onChange: (value: { text: string }) => void;
 	setIsEditing: (value: boolean) => void;
 }
@@ -45,6 +52,8 @@ function EditableTextInput({
 	width,
 	height,
 	value,
+	fontSize,
+	fill,
 	setIsEditing,
 	onChange,
 }: IEditableTextInput) {
@@ -68,7 +77,8 @@ function EditableTextInput({
 		};
 	}, []);
 
-	const style = getStyle(width, height);
+	const style = getStyle(width, height, fontSize, fill);
+	
 	return (
 		<Html groupProps={{ x, y }} divProps={{ style: { opacity: 1 } }}>
 			<textarea
@@ -108,7 +118,7 @@ export default function EditableText({
 				{...shapeProps}
 				onDblClick={handleDoubleClick}
 				onDblTap={handleDoubleClick}
-				opacity={isEditing ? 0: 1 }
+				opacity={isEditing ? 0 : 1}
 				fill={shapeProps.textColor || shapeProps.fill}
 			/>
 			{isEditing && (

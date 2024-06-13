@@ -41,13 +41,13 @@ CanvasElementFactory.register(CanvasElementType.RECT, () => ({
 	y: 100,
 	width: 100,
 	height: 100,
-	fill: 'red',
+	fill: 'black',
 }));
 CanvasElementFactory.register(CanvasElementType.ELLIPSE, () => ({
 	type: CanvasElementType.ELLIPSE,
 	x: 100,
 	y: 100,
-	fill: 'red',
+	fill: 'black',
 	radiusX: 50,
 	radiusY: 50,
 }));
@@ -58,7 +58,7 @@ CanvasElementFactory.register(CanvasElementType.STAR, () => ({
 	numPoints: 5,
 	innerRadius: 20,
 	outerRadius: 50,
-	fill: 'red',
+	fill: 'black',
 }));
 CanvasElementFactory.register(CanvasElementType.RING, () => ({
 	type: CanvasElementType.RING,
@@ -66,19 +66,19 @@ CanvasElementFactory.register(CanvasElementType.RING, () => ({
 	y: 100,
 	innerRadius: 40,
 	outerRadius: 50,
-	fill: 'red',
+	fill: 'black',
 }));
 CanvasElementFactory.register(CanvasElementType.LINE, () => ({
 	type: CanvasElementType.LINE,
 	x: 100,
 	y: 100,
-	fill: 'red',
+	fill: 'black',
 }));
 CanvasElementFactory.register(CanvasElementType.ARROW, () => ({
 	type: CanvasElementType.ARROW,
 	x: 100,
 	y: 100,
-	fill: 'red',
+	fill: 'black',
 	points: [100, 100, 200, 200],
 }));
 CanvasElementFactory.register(CanvasElementType.ARC, () => ({
@@ -88,7 +88,7 @@ CanvasElementFactory.register(CanvasElementType.ARC, () => ({
 	innerRadius: 50,
 	outerRadius: 50,
 	angle: 30,
-	fill: 'red',
+	fill: 'black',
 }));
 
 export default CanvasElementFactory;
